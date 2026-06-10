@@ -9,13 +9,13 @@
 import type { Resena } from '@/types/resena';
 
 export const mockResenas: Resena[] = [
-  // ── Residencia Seniors (res-001) ──────────────────────────────────────────
+  // ── Residencia Seniors (res-002) ──────────────────────────────────────────
   {
     id: 'rev-001',
     autorId: 'user-001',
     autorNombre: 'María González',
     autorEmail: 'maria.gonzalez@email.com',
-    entidadId: 'res-001',
+    entidadId: 'res-002',
     entidadTipo: 'residencia',
     calificacion: 5,
     titulo: 'Excelente atención y calidez humana',
@@ -29,7 +29,7 @@ export const mockResenas: Resena[] = [
     autorId: 'user-002',
     autorNombre: 'Carlos Fernández',
     autorEmail: 'carlos.fernandez@email.com',
-    entidadId: 'res-001',
+    entidadId: 'res-002',
     entidadTipo: 'residencia',
     calificacion: 4,
     titulo: 'Muy buena residencia, algo cara',
@@ -43,7 +43,7 @@ export const mockResenas: Resena[] = [
     autorId: 'user-003',
     autorNombre: 'Ana Laura Martínez',
     autorEmail: 'analaura.martinez@email.com',
-    entidadId: 'res-001',
+    entidadId: 'res-002',
     entidadTipo: 'residencia',
     calificacion: 5,
     titulo: 'Le cambiaron la vida a mi papá',
@@ -83,13 +83,13 @@ export const mockResenas: Resena[] = [
     aprobada: true,
   },
 
-  // ── Nuestros Sabios (res-008) ─────────────────────────────────────────────
+  // ── Nuestros Sabios (res-003) ─────────────────────────────────────────────
   {
     id: 'rev-006',
     autorId: 'user-006',
     autorNombre: 'Laura Pereyra',
     autorEmail: 'laura.pereyra@email.com',
-    entidadId: 'res-008',
+    entidadId: 'res-003',
     entidadTipo: 'residencia',
     calificacion: 5,
     titulo: 'Las actividades son increíbles',
@@ -103,7 +103,7 @@ export const mockResenas: Resena[] = [
     autorId: 'user-007',
     autorNombre: 'Gustavo Méndez',
     autorEmail: 'gustavo.mendez@email.com',
-    entidadId: 'res-008',
+    entidadId: 'res-003',
     entidadTipo: 'residencia',
     calificacion: 5,
     titulo: 'Un lugar con alma',
@@ -143,13 +143,13 @@ export const mockResenas: Resena[] = [
     aprobada: true,
   },
 
-  // ── GAMA – Centro Integral de la Memoria (cd-003) ────────────────────────
+  // ── GAMA – Centro Integral de la Memoria (res-004) ────────────────────────
   {
     id: 'rev-010',
     autorId: 'user-010',
     autorNombre: 'Claudia Ruiz',
     autorEmail: 'claudia.ruiz@email.com',
-    entidadId: 'cd-003',
+    entidadId: 'res-004',
     entidadTipo: 'residencia',
     calificacion: 5,
     titulo: 'Referentes en Alzheimer en Mar del Plata',
@@ -163,7 +163,7 @@ export const mockResenas: Resena[] = [
     autorId: 'user-011',
     autorNombre: 'Fernando Aguirre',
     autorEmail: 'fernando.aguirre@email.com',
-    entidadId: 'cd-003',
+    entidadId: 'res-004',
     entidadTipo: 'residencia',
     calificacion: 5,
     titulo: 'Profesionalismo de primer nivel',
@@ -173,13 +173,13 @@ export const mockResenas: Resena[] = [
     aprobada: true,
   },
 
-  // ── Hogares MdP – Jose Ignacio (res-013) ─────────────────────────────────
+  // ── Hogares MdP – Jose Ignacio (res-017) ─────────────────────────────────
   {
     id: 'rev-012',
     autorId: 'user-012',
     autorNombre: 'Marcela Vidal',
     autorEmail: 'marcela.vidal@email.com',
-    entidadId: 'res-013',
+    entidadId: 'res-017',
     entidadTipo: 'residencia',
     calificacion: 4,
     titulo: 'Especializados en cuidados intensivos',
@@ -189,15 +189,15 @@ export const mockResenas: Resena[] = [
     aprobada: true,
   },
 
-  // ── Los Alerces Hogar (res-016) ──────────────────────────────────────────
+  // ── Los Alerces Hogar (res-001) ──────────────────────────────────────────
   {
     id: 'rev-013',
     autorId: 'user-013',
     autorNombre: 'Alejandra Campos',
     autorEmail: 'alejandra.campos@email.com',
-    entidadId: 'res-016',
+    entidadId: 'res-001',
     entidadTipo: 'residencia',
-    calificacion: 4,
+    calificacion: 5,
     titulo: 'El enfoque cultural es único',
     comentario:
       'Lo que más nos gustó de Los Alerces es su propuesta cultural. Mi abuela participa de talleres de literatura y danza terapéutica, y dice que se siente como en su propia casa. El equipo interdisciplinario es muy completo y atento.',
@@ -205,13 +205,13 @@ export const mockResenas: Resena[] = [
     aprobada: true,
   },
 
-  // ── Mamá Sara – Sede Edison (res-009) ────────────────────────────────────
+  // ── Mamá Sara – Sede Edison (res-012) ────────────────────────────────────
   {
     id: 'rev-014',
     autorId: 'user-014',
     autorNombre: 'Jorge Castillo',
     autorEmail: 'jorge.castillo@email.com',
-    entidadId: 'res-009',
+    entidadId: 'res-012',
     entidadTipo: 'residencia',
     calificacion: 3,
     titulo: 'Correcto pero mejorable',

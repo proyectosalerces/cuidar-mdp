@@ -17,8 +17,8 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cuidarmdp.c
 // ─── Contact ─────────────────────────────────────────────────────────────────
 
 export const CONTACT_EMAIL = 'info@cuidarmdp.com.ar';
-export const CONTACT_PHONE = '+54 9 223 555-0100';
-export const WHATSAPP_NUMBER = '5492235550100';
+export const CONTACT_PHONE = '+54 9 223 540-9226';
+export const WHATSAPP_NUMBER = '5492235409226';
 
 // ─── Social Links ────────────────────────────────────────────────────────────
 

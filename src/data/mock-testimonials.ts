@@ -6,6 +6,16 @@ import type { Testimonial } from '@/types/common';
 
 export const mockTestimonials: Testimonial[] = [
   {
+    id: 'test-000',
+    nombre: 'Graciela Vázquez',
+    parentesco: 'Hija',
+    residencia: 'Los Alerces Hogar',
+    texto:
+      'Recorrimos muchos lugares hasta que conocimos Los Alerces. Desde el primer momento nos sentimos en casa. Mamá vive en la sede de Güemes, tiene su jardín, participa de talleres de arte y música, y el equipo de más de 70 profesionales nos da una tranquilidad enorme. Es otro concepto: no es un geriátrico, es un hogar de verdad.',
+    calificacion: 5,
+    fecha: '2026-02-15T10:00:00Z',
+  },
+  {
     id: 'test-001',
     nombre: 'María Laura González',
     parentesco: 'Hija',
