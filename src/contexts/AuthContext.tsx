@@ -5,6 +5,7 @@
  *
  * Usa Firebase Auth para login/register/logout real.
  * Escucha cambios de estado con onAuthStateChanged.
+ * Incluye detección de rol administrador via Firestore 'admins' collection.
  */
 
 import {
@@ -15,6 +16,8 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/services/firebase/config';
 import type { AppUser } from '@/services/firebase/auth';
 import {
   signInWithEmail,
@@ -32,6 +35,8 @@ interface AuthContextValue {
   loading: boolean;
   /** Convenience flag */
   isAuthenticated: boolean;
+  /** True if the current user is an admin */
+  isAdmin: boolean;
   /** Log in with email + password */
   login: (email: string, password: string) => Promise<{ error?: string }>;
   /** Register a new user */
@@ -44,16 +49,45 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+/* ── Helpers ───────────────────────────────────────────────────────────── */
+
+async function checkIsAdmin(email: string | null): Promise<boolean> {
+  if (!email) return false;
+
+  try {
+    // Check Firestore 'admins' collection
+    const adminDoc = await getDoc(doc(db, 'admins', email));
+    if (adminDoc.exists()) return true;
+  } catch {
+    // Firestore check failed — fall through to env var fallback
+  }
+
+  // Fallback: check env variable
+  const envAdmin = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+  if (envAdmin && email === envAdmin) return true;
+
+  return false;
+}
+
 /* ── Provider ──────────────────────────────────────────────────────────── */
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   /* Listen to Firebase auth state changes */
   useEffect(() => {
-    const unsubscribe = onAuthStateChange((firebaseUser) => {
+    const unsubscribe = onAuthStateChange(async (firebaseUser) => {
       setUser(firebaseUser);
+
+      if (firebaseUser?.email) {
+        const adminStatus = await checkIsAdmin(firebaseUser.email);
+        setIsAdmin(adminStatus);
+      } else {
+        setIsAdmin(false);
+      }
+
       setLoading(false);
     });
     return unsubscribe;
@@ -98,11 +132,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user,
       loading,
       isAuthenticated: !!user,
+      isAdmin,
       login,
       register,
       logout,
     }),
-    [user, loading, login, register, logout],
+    [user, loading, isAdmin, login, register, logout],
   );
 
   return (

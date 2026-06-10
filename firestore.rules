@@ -3,34 +3,35 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Helper: check if the authenticated user is an admin
+    function isAdmin() {
+      return request.auth != null &&
+        request.auth.token.email == 'proyectos@residencialosalerces.com';
+    }
+
+    // ── Admins collection ────────────────────────────────────────────
+    match /admins/{email} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
     // ── Residencias ──────────────────────────────────────────────────
     match /residencias/{residenciaId} {
-      // Anyone can read residencias (they are public data)
       allow read: if true;
-
-      // Only admin SDK can write (import script, admin panel)
-      allow write: if false;
+      allow create, update, delete: if isAdmin();
     }
 
     // ── Profesionales ────────────────────────────────────────────────
     match /profesionales/{profesionalId} {
-      // Anyone can read profesionales (public data)
       allow read: if true;
-
-      // Only admin SDK can write
-      allow write: if false;
+      allow create, update, delete: if isAdmin();
     }
 
     // ── Reseñas ──────────────────────────────────────────────────────
     match /resenas/{resenaId} {
-      // Anyone can read approved reviews
       allow read: if true;
-
-      // Authenticated users can create reviews
       allow create: if request.auth != null;
-
-      // No one can update or delete via client
-      allow update, delete: if false;
+      allow update, delete: if isAdmin();
     }
 
     // Block all other collections by default

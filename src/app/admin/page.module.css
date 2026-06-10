@@ -1,0 +1,143 @@
+/* ==========================================================================
+   Admin Dashboard — CSS Module
+   ========================================================================== */
+
+.page {
+  max-width: 1100px;
+}
+
+.welcome {
+  margin-bottom: var(--space-8);
+}
+
+.welcomeTitle {
+  font-size: var(--font-3xl);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  margin-bottom: var(--space-2);
+}
+
+.welcomeSub {
+  font-size: var(--font-base);
+  color: var(--color-neutral-600);
+}
+
+/* ── Stats Grid ───────────────────────────────────────────────────────── */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+}
+
+.statCard {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #e8e8ec;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.statIcon {
+  font-size: var(--font-3xl);
+  margin-bottom: var(--space-3);
+}
+
+.statValue {
+  font-size: var(--font-4xl);
+  font-weight: 800;
+  font-family: var(--font-family-heading);
+  color: var(--color-neutral-900);
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.statLabel {
+  font-size: var(--font-sm);
+  color: var(--color-neutral-600);
+  font-weight: 500;
+}
+
+/* ── Quick Actions ────────────────────────────────────────────────────── */
+
+.actionsTitle {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  margin-bottom: var(--space-4);
+}
+
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.actionCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid #e8e8ec;
+  text-decoration: none;
+  color: var(--color-neutral-900);
+  transition: all var(--transition-fast);
+}
+
+.actionCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+  color: var(--color-neutral-900);
+}
+
+.actionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-2xl);
+  flex-shrink: 0;
+}
+
+.actionIconGreen {
+  background: rgba(27, 107, 90, 0.1);
+}
+
+.actionIconBlue {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.actionLabel {
+  font-weight: 600;
+  font-size: var(--font-base);
+}
+
+.actionDesc {
+  font-size: var(--font-sm);
+  color: var(--color-neutral-600);
+  margin-top: 2px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionsGrid {
+    grid-template-columns: 1fr;
+  }
+}
