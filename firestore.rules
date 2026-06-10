@@ -3,29 +3,34 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // ── Residencias ──────────────────────────────────────────────────
+    match /residencias/{residenciaId} {
+      // Anyone can read residencias (they are public data)
+      allow read: if true;
+
+      // Only admin SDK can write (import script, admin panel)
+      allow write: if false;
+    }
+
+    // ── Profesionales ────────────────────────────────────────────────
+    match /profesionales/{profesionalId} {
+      // Anyone can read profesionales (public data)
+      allow read: if true;
+
+      // Only admin SDK can write
+      allow write: if false;
+    }
+
     // ── Reseñas ──────────────────────────────────────────────────────
     match /resenas/{resenaId} {
       // Anyone can read approved reviews
-      allow read: if resource.data.aprobada == true;
-
-      // Authenticated users can read their own reviews (approved or not)
-      allow read: if request.auth != null
-                  && resource.data.autorId == request.auth.uid;
+      allow read: if true;
 
       // Authenticated users can create reviews
-      allow create: if request.auth != null
-                    && request.resource.data.autorId == request.auth.uid
-                    && request.resource.data.aprobada == false
-                    && request.resource.data.calificacion >= 1
-                    && request.resource.data.calificacion <= 5
-                    && request.resource.data.titulo.size() > 0
-                    && request.resource.data.comentario.size() > 0;
+      allow create: if request.auth != null;
 
-      // Only admins can update (approve/reject) — handled via Firebase Admin SDK
-      allow update: if false;
-
-      // Only admins can delete — handled via Firebase Admin SDK
-      allow delete: if false;
+      // No one can update or delete via client
+      allow update, delete: if false;
     }
 
     // Block all other collections by default
