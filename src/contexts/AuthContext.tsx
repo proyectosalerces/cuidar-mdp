@@ -16,8 +16,6 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/services/firebase/config';
 import type { AppUser } from '@/services/firebase/auth';
 import {
   signInWithEmail,
@@ -49,22 +47,22 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-/* ── Helpers ───────────────────────────────────────────────────────────── */
+/* ── Admin emails ─────────────────────────────────────────────────────── */
 
-async function checkIsAdmin(email: string | null): Promise<boolean> {
+const ADMIN_EMAILS: string[] = [
+  'proyectos@residencialosalerces.com',
+];
+
+function checkIsAdmin(email: string | null): boolean {
   if (!email) return false;
+  const normalizedEmail = email.toLowerCase().trim();
 
-  try {
-    // Check Firestore 'admins' collection
-    const adminDoc = await getDoc(doc(db, 'admins', email));
-    if (adminDoc.exists()) return true;
-  } catch {
-    // Firestore check failed — fall through to env var fallback
-  }
+  // Check hardcoded list
+  if (ADMIN_EMAILS.includes(normalizedEmail)) return true;
 
   // Fallback: check env variable
-  const envAdmin = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
-  if (envAdmin && email === envAdmin) return true;
+  const envAdmin = process.env.NEXT_PUBLIC_ADMIN_EMAIL?.toLowerCase().trim();
+  if (envAdmin && normalizedEmail === envAdmin) return true;
 
   return false;
 }
@@ -78,16 +76,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   /* Listen to Firebase auth state changes */
   useEffect(() => {
-    const unsubscribe = onAuthStateChange(async (firebaseUser) => {
+    const unsubscribe = onAuthStateChange((firebaseUser) => {
       setUser(firebaseUser);
-
-      if (firebaseUser?.email) {
-        const adminStatus = await checkIsAdmin(firebaseUser.email);
-        setIsAdmin(adminStatus);
-      } else {
-        setIsAdmin(false);
-      }
-
+      setIsAdmin(checkIsAdmin(firebaseUser?.email ?? null));
       setLoading(false);
     });
     return unsubscribe;
