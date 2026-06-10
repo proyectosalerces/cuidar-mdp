@@ -1,12 +1,107 @@
 /**
  * Service layer for blog posts
  *
- * Currently uses mock data. Will be replaced with Firebase Firestore
- * queries once the backend is connected.
+ * Reads from the Firestore 'blog' collection with a 5-minute
+ * in-memory cache. Falls back to mock data when Firestore is unavailable.
  */
 
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  type Timestamp,
+} from 'firebase/firestore';
+import { db } from '@/services/firebase/config';
 import type { BlogPost, CategoriasBlog } from '@/types/blog';
 import { mockBlogPosts } from '@/data/mock';
+
+/* ── Constants ──────────────────────────────────────────────────────────── */
+
+const COLLECTION = 'blog';
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+/* ── In-memory cache ────────────────────────────────────────────────────── */
+
+let cache: { data: BlogPost[]; timestamp: number } | null = null;
+
+/* ── Helpers ─────────────────────────────────────────────────────────────── */
+
+/** Map a Firestore document to a BlogPost object. */
+function mapDoc(doc: { id: string; data: () => Record<string, unknown> }): BlogPost {
+  const d = doc.data();
+
+  const toISO = (val: unknown): string => {
+    if (val instanceof Object && 'toDate' in val) {
+      return (val as Timestamp).toDate().toISOString();
+    }
+    return (val as string) ?? new Date().toISOString();
+  };
+
+  const autor = (d.autor as Record<string, unknown>) ?? {};
+
+  return {
+    id: doc.id,
+    titulo: (d.titulo as string) ?? '',
+    slug: (d.slug as string) ?? '',
+    extracto: (d.extracto as string) ?? '',
+    contenido: (d.contenido as string) ?? '',
+    imagenPortada: (d.imagenPortada as string) ?? '',
+    autor: {
+      nombre: (autor.nombre as string) ?? '',
+      avatar: autor.avatar as string | undefined,
+      bio: autor.bio as string | undefined,
+    },
+    categoria: (d.categoria as CategoriasBlog) ?? 'noticias',
+    tags: (d.tags as string[]) ?? [],
+    fechaPublicacion: toISO(d.fechaPublicacion),
+    tiempoLectura: (d.tiempoLectura as number) ?? 5,
+    publicado: (d.publicado as boolean) ?? false,
+  };
+}
+
+/* ── Data fetching with cache ───────────────────────────────────────────── */
+
+/**
+ * Fetch all blog posts from Firestore, using the in-memory cache when fresh.
+ * Falls back to mock data if Firestore is unavailable.
+ */
+async function fetchAllBlogPosts(): Promise<BlogPost[]> {
+  // Return cached data if still fresh
+  if (cache && Date.now() - cache.timestamp < CACHE_TTL) {
+    return cache.data;
+  }
+
+  try {
+    const q = query(
+      collection(db, COLLECTION),
+      where('publicado', '==', true),
+      orderBy('fechaPublicacion', 'desc'),
+    );
+    const snapshot = await getDocs(q);
+    const posts = snapshot.docs.map(mapDoc);
+
+    // Update cache
+    cache = { data: posts, timestamp: Date.now() };
+
+    return posts;
+  } catch (err) {
+    console.warn(
+      '[Blog] Firestore query failed, falling back to mock data:',
+      err,
+    );
+    return mockBlogPosts
+      .filter((p) => p.publicado)
+      .sort(
+        (a, b) =>
+          new Date(b.fechaPublicacion).getTime() -
+          new Date(a.fechaPublicacion).getTime(),
+      );
+  }
+}
+
+/* ── Public API ──────────────────────────────────────────────────────────── */
 
 /**
  * Get all published blog posts, optionally filtered by category.
@@ -15,17 +110,13 @@ import { mockBlogPosts } from '@/data/mock';
 export async function getBlogPosts(
   categoria?: CategoriasBlog | string
 ): Promise<BlogPost[]> {
-  let posts = mockBlogPosts.filter((p) => p.publicado);
+  const posts = await fetchAllBlogPosts();
 
-  if (categoria) {
-    posts = posts.filter((p) => p.categoria === categoria);
+  if (!categoria) {
+    return posts;
   }
 
-  return posts.sort(
-    (a, b) =>
-      new Date(b.fechaPublicacion).getTime() -
-      new Date(a.fechaPublicacion).getTime()
-  );
+  return posts.filter((p) => p.categoria === categoria);
 }
 
 /**
@@ -34,9 +125,8 @@ export async function getBlogPosts(
 export async function getBlogPostBySlug(
   slug: string
 ): Promise<BlogPost | null> {
-  return (
-    mockBlogPosts.find((p) => p.slug === slug && p.publicado) ?? null
-  );
+  const all = await fetchAllBlogPosts();
+  return all.find((p) => p.slug === slug) ?? null;
 }
 
 /**
@@ -46,6 +136,6 @@ export async function getBlogPostBySlug(
 export async function getRecentPosts(
   limit: number = 3
 ): Promise<BlogPost[]> {
-  const allPosts = await getBlogPosts();
+  const allPosts = await fetchAllBlogPosts();
   return allPosts.slice(0, limit);
 }
