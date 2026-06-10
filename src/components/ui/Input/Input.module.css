@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Input — CSS Module
+   ========================================================================== */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* Label */
+.label {
+  font-family: var(--font-family-body);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+
+.required {
+  color: var(--color-error);
+  margin-left: 2px;
+}
+
+/* Input container (holds icon + input) */
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* The actual input */
+.input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-family-body);
+  font-size: var(--font-base);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-neutral-400);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.input::placeholder {
+  color: var(--color-neutral-500);
+}
+
+.input:hover:not(:disabled):not(:focus) {
+  border-color: var(--color-neutral-600);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(43, 143, 122, 0.15);
+}
+
+/* With icon — add left padding */
+.hasIcon {
+  padding-left: calc(var(--space-4) + 1.5rem + var(--space-2));
+}
+
+/* Icon */
+.icon {
+  position: absolute;
+  left: var(--space-4);
+  display: flex;
+  align-items: center;
+  color: var(--color-neutral-500);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.inputContainer:focus-within .icon {
+  color: var(--color-accent);
+}
+
+/* Error state */
+.inputError {
+  border-color: var(--color-error);
+}
+
+.inputError:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+/* Error & helper text */
+.errorText {
+  font-size: var(--font-xs);
+  color: var(--color-error);
+  margin-top: var(--space-1);
+}
+
+.helperText {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+/* Disabled */
+.input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: var(--color-neutral-100);
+}

@@ -1,0 +1,151 @@
+/* ==========================================================================
+   BlogCard — Blog post card with gradient image, hover lift, meta info
+   ========================================================================== */
+
+/* ── Card container ──────────────────────────────────────────────────── */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-neutral-200);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(27, 107, 90, 0.2);
+}
+
+/* ── Image area ──────────────────────────────────────────────────────── */
+
+.imageLink {
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+
+.imagePlaceholder {
+  aspect-ratio: 16 / 9;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: filter var(--transition-normal);
+}
+
+.card:hover .imagePlaceholder {
+  filter: brightness(1.06);
+}
+
+.imagePattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+
+.imageIcon {
+  position: relative;
+  z-index: 1;
+  opacity: 0.25;
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
+}
+
+.card:hover .imageIcon {
+  opacity: 0.35;
+  transform: scale(1.05);
+}
+
+.categoryBadge {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 2;
+}
+
+/* ── Content area ────────────────────────────────────────────────────── */
+
+.content {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.titleLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-xl);
+  font-weight: 700;
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-3);
+  color: var(--color-neutral-900);
+  transition: color var(--transition-fast);
+}
+
+.card:hover .title {
+  color: var(--color-primary);
+}
+
+.excerpt {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-4);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Meta info ───────────────────────────────────────────────────────── */
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-xs);
+  color: var(--color-neutral-500);
+  margin-bottom: var(--space-4);
+}
+
+.separator {
+  opacity: 0.5;
+}
+
+/* ── Read more link ──────────────────────────────────────────────────── */
+
+.readMore {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  transition:
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.readMore:hover {
+  color: var(--color-primary-light);
+  transform: translateX(4px);
+}

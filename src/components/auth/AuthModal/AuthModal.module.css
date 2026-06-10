@@ -1,0 +1,312 @@
+/* ==========================================================================
+   AuthModal — Premium authentication modal with glassmorphism
+   ========================================================================== */
+
+/* ── Overlay ───────────────────────────────────────────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal, 1000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background-color: rgba(15, 26, 23, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.overlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Modal card ────────────────────────────────────────────────────────── */
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: 90dvh;
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-xl, 1rem);
+  box-shadow:
+    0 24px 80px rgba(15, 26, 23, 0.25),
+    0 8px 32px rgba(15, 26, 23, 0.12),
+    0 0 0 1px rgba(27, 107, 90, 0.08);
+  transform: scale(0.92) translateY(12px);
+  opacity: 0;
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.overlayOpen .modal {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+:global([data-theme="dark"]) .modal {
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.5),
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(27, 107, 90, 0.15);
+}
+
+/* ── Close button ──────────────────────────────────────────────────────── */
+
+.closeButton {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
+  color: var(--color-neutral-400);
+  font-size: var(--font-xl);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.closeButton:hover {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-700);
+}
+
+:global([data-theme="dark"]) .closeButton:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-neutral-300);
+}
+
+/* ── Header area ───────────────────────────────────────────────────────── */
+
+.header {
+  text-align: center;
+  padding: var(--space-8) var(--space-8) 0;
+}
+
+.logoMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-xl, 1rem);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent, #2AA08A) 100%);
+  color: #fff;
+  font-family: var(--font-family-heading);
+  font-weight: 800;
+  font-size: var(--font-2xl);
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--color-foreground);
+  margin: 0 0 var(--space-1);
+}
+
+.subtitle {
+  font-size: var(--font-sm);
+  color: var(--color-neutral-500);
+  margin: 0;
+}
+
+/* ── Tabs ──────────────────────────────────────────────────────────────── */
+
+.tabs {
+  display: flex;
+  margin: var(--space-6) var(--space-8) 0;
+  background-color: var(--color-neutral-100);
+  border-radius: var(--radius-lg);
+  padding: 4px;
+  gap: 4px;
+}
+
+:global([data-theme="dark"]) .tabs {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.tab {
+  flex: 1;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-family-body, sans-serif);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-neutral-500);
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--radius-lg) - 2px);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.tab:hover:not(.tabActive) {
+  color: var(--color-neutral-700);
+}
+
+:global([data-theme="dark"]) .tab:hover:not(.tabActive) {
+  color: var(--color-neutral-300);
+}
+
+.tabActive {
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+:global([data-theme="dark"]) .tabActive {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Form body ─────────────────────────────────────────────────────────── */
+
+.body {
+  padding: var(--space-6) var(--space-8) var(--space-8);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Error alert ───────────────────────────────────────────────────────── */
+
+.errorAlert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background-color: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  color: var(--color-error, #dc2626);
+  animation: errorShake 0.4s ease;
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  font-size: var(--font-base);
+  line-height: 1.4;
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+}
+
+/* ── Success message ───────────────────────────────────────────────────── */
+
+.successMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background-color: rgba(27, 107, 90, 0.08);
+  border: 1px solid rgba(27, 107, 90, 0.2);
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+/* ── Forgot password link ──────────────────────────────────────────────── */
+
+.forgotLink {
+  display: inline-block;
+  font-size: var(--font-xs, 0.75rem);
+  color: var(--color-neutral-500);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: calc(-1 * var(--space-2));
+  text-align: right;
+  transition: color var(--transition-fast);
+}
+
+.forgotLink:hover {
+  color: var(--color-primary);
+}
+
+/* ── Divider ───────────────────────────────────────────────────────────── */
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-xs, 0.75rem);
+  color: var(--color-neutral-400);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-neutral-200);
+}
+
+:global([data-theme="dark"]) .divider::before,
+:global([data-theme="dark"]) .divider::after {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal {
+    max-width: 100%;
+    max-height: 95dvh;
+    border-radius: var(--radius-xl, 1rem) var(--radius-xl, 1rem) 0 0;
+    transform: translateY(100%);
+  }
+
+  .overlayOpen .modal {
+    transform: translateY(0);
+  }
+
+  .header {
+    padding: var(--space-6) var(--space-6) 0;
+  }
+
+  .tabs {
+    margin-left: var(--space-6);
+    margin-right: var(--space-6);
+  }
+
+  .body {
+    padding: var(--space-5) var(--space-6) var(--space-6);
+  }
+}

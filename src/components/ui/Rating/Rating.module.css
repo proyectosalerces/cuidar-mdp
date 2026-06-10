@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Rating — CSS Module
+   ========================================================================== */
+
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+/* Individual star */
+.star {
+  color: var(--color-neutral-300);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.starFilled {
+  color: var(--color-secondary);
+}
+
+.starHalf {
+  position: relative;
+  color: var(--color-neutral-300);
+}
+
+/* Half-star clip trick: a filled overlay clipped to 50% width */
+.halfOverlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  width: 50%;
+  color: var(--color-secondary);
+}
+
+/* Review count */
+.count {
+  font-family: var(--font-family-body);
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ---- Sizes ---- */
+.sm .star,
+.sm .starFilled,
+.sm .starHalf {
+  font-size: var(--font-sm);
+}
+
+.sm .count {
+  font-size: 0.625rem;
+}
+
+.md .star,
+.md .starFilled,
+.md .starHalf {
+  font-size: var(--font-lg);
+}
+
+.lg .star,
+.lg .starFilled,
+.lg .starHalf {
+  font-size: var(--font-2xl);
+}
+
+.lg .count {
+  font-size: var(--font-sm);
+}

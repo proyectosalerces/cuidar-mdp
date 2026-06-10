@@ -1,0 +1,180 @@
+/* ==========================================================================
+   Button — CSS Module
+   ========================================================================== */
+
+/* Spinner keyframes */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Base button */
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-family-heading);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    opacity var(--transition-fast);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ---- Sizes ---- */
+.sm {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-sm);
+  border-radius: var(--radius-sm);
+}
+
+.md {
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--font-base);
+}
+
+.lg {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--font-lg);
+  border-radius: var(--radius-lg);
+}
+
+/* ---- Variants ---- */
+
+/* Primary */
+.primary {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-light) 100%
+  );
+  color: #ffffff;
+  box-shadow: var(--shadow-sm), 0 2px 8px rgba(27, 107, 90, 0.25);
+}
+
+.primary:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: var(--shadow-md), 0 4px 16px rgba(27, 107, 90, 0.35);
+}
+
+/* Secondary */
+.secondary {
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary) 0%,
+    var(--color-secondary-light) 100%
+  );
+  color: var(--color-neutral-900);
+  box-shadow: var(--shadow-sm), 0 2px 8px rgba(232, 168, 56, 0.25);
+}
+
+.secondary:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: var(--shadow-md), 0 4px 16px rgba(232, 168, 56, 0.35);
+}
+
+/* Outline */
+.outline {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.outline:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: #ffffff;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: var(--shadow-md);
+}
+
+/* Ghost */
+.ghost {
+  background: transparent;
+  color: var(--color-primary);
+}
+
+.ghost:hover:not(:disabled) {
+  background: rgba(27, 107, 90, 0.08);
+  transform: scale(1.02);
+}
+
+/* WhatsApp */
+.whatsapp {
+  background: linear-gradient(135deg, #25d366 0%, #20bd5a 100%);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm), 0 2px 8px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: var(--shadow-md), 0 4px 16px rgba(37, 211, 102, 0.4);
+}
+
+/* ---- States ---- */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.loading {
+  color: transparent;
+  pointer-events: none;
+}
+
+/* Icon wrapper */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Spinner overlay */
+.spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinnerCircle {
+  width: 1.15em;
+  height: 1.15em;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: currentColor;
+  border-radius: var(--radius-full);
+  animation: spin 0.6s linear infinite;
+  /* Inherit color from parent variant for correct spinner color */
+  color: inherit;
+}
+
+/* Ensure the spinner inherits the right contrast color per variant */
+.outline .spinnerCircle,
+.ghost .spinnerCircle {
+  border-color: rgba(27, 107, 90, 0.2);
+  border-top-color: var(--color-primary);
+}

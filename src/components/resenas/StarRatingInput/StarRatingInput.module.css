@@ -1,0 +1,94 @@
+/* ==========================================================================
+   StarRatingInput — interactive star selector
+   ========================================================================== */
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.stars {
+  display: flex;
+  gap: var(--space-1);
+}
+
+/* ── Star button ─────────────────────────────────────────────────────── */
+
+.star {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 2px;
+  color: var(--color-neutral-300);
+  transition:
+    color 200ms ease,
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  line-height: 1;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.star:active {
+  transform: scale(0.95);
+}
+
+.star.filled {
+  color: var(--color-secondary);
+}
+
+.star.hoverFill {
+  color: var(--color-secondary-light);
+}
+
+/* ── SVG sizes ───────────────────────────────────────────────────────── */
+
+.starSvg {
+  display: block;
+}
+
+.sm .starSvg {
+  width: 20px;
+  height: 20px;
+}
+
+.md .starSvg {
+  width: 32px;
+  height: 32px;
+}
+
+.lg .starSvg {
+  width: 40px;
+  height: 40px;
+}
+
+/* ── Label ────────────────────────────────────────────────────────────── */
+
+.label {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--color-secondary-dark);
+  min-width: 80px;
+  animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Disabled ────────────────────────────────────────────────────────── */
+
+.disabled .star {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.6;
+}

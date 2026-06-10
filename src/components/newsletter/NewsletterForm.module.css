@@ -1,0 +1,138 @@
+/* ==========================================================================
+   NewsletterForm — styled for the dark footer background
+   ========================================================================== */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.label {
+  font-size: var(--font-sm);
+  color: var(--color-neutral-400);
+  margin-bottom: 0;
+}
+
+/* ── Input group ───────────────────────────────────────────────────────── */
+
+.inputGroup {
+  display: flex;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: border-color var(--transition-fast);
+}
+
+.inputGroup:focus-within {
+  border-color: var(--color-accent);
+}
+
+.input {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-sm);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: var(--color-surface);
+  min-width: 0;
+}
+
+.input::placeholder {
+  color: var(--color-neutral-600);
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Submit button ─────────────────────────────────────────────────────── */
+
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary) 0%,
+    var(--color-secondary-light) 100%
+  );
+  color: var(--color-neutral-900);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: filter var(--transition-fast), opacity var(--transition-fast);
+  min-width: 100px;
+}
+
+.button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.button:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+/* ── Spinner ───────────────────────────────────────────────────────────── */
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(26, 35, 50, 0.25);
+  border-top-color: var(--color-neutral-900);
+  border-radius: var(--radius-full);
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Feedback messages ─────────────────────────────────────────────────── */
+
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-sm);
+  padding: var(--space-2) 0;
+  animation: fadeSlideIn 0.3s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.success {
+  color: var(--color-success);
+}
+
+.error {
+  color: #f87171;
+}
+
+/* ── Checkmark icon ────────────────────────────────────────────────────── */
+
+.checkIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}

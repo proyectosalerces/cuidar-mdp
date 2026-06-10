@@ -1,0 +1,135 @@
+/* ==========================================================================
+   HowItWorks — 3-step process with connecting line
+   ========================================================================== */
+
+.section {
+  padding: var(--space-16) 0;
+  background-color: var(--color-surface);
+}
+
+.container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+  text-align: center;
+}
+
+.sectionLabel {
+  display: inline-block;
+  font-family: var(--font-family-heading);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-weight: 800;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.subtitle {
+  font-size: var(--font-lg);
+  color: var(--color-text-muted);
+  max-width: 560px;
+  margin-inline: auto;
+  margin-bottom: var(--space-12);
+}
+
+/* ── Steps row ──────────────────────────────────────────────────────── */
+
+.stepsRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .stepsRow {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+  }
+}
+
+/* Connecting line (desktop only) */
+.stepsRow::before {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .stepsRow::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 48px;
+    left: calc(16.67% + 24px);
+    right: calc(16.67% + 24px);
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      var(--color-neutral-300) 0%,
+      var(--color-secondary) 50%,
+      var(--color-neutral-300) 100%
+    );
+    z-index: 0;
+  }
+}
+
+/* ── Individual step ────────────────────────────────────────────────── */
+
+.step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  color: #fff;
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+  font-size: var(--font-2xl);
+  box-shadow: 0 4px 20px rgba(27, 107, 90, 0.25);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.step:hover .stepNumber {
+  transform: scale(1.08);
+  box-shadow: 0 8px 28px rgba(27, 107, 90, 0.35);
+}
+
+.stepIcon {
+  font-size: var(--font-3xl);
+  line-height: 1;
+  margin-bottom: var(--space-1);
+}
+
+.stepTitle {
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+  font-size: var(--font-xl);
+  color: var(--color-text);
+}
+
+.stepDescription {
+  font-size: var(--font-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-muted);
+  max-width: 280px;
+  margin-bottom: 0;
+}

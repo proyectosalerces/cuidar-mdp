@@ -1,0 +1,176 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--font-sm);
+  margin-bottom: 2rem;
+}
+
+/* ── Empty State ──────────────────────────────────────────────────────── */
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 1.5rem;
+}
+
+.emptyIcon {
+  width: 64px;
+  height: 64px;
+  color: var(--color-text-muted);
+  opacity: 0.4;
+  margin-bottom: 1.5rem;
+}
+
+.emptyTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-xl);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.emptyText {
+  color: var(--color-text-muted);
+  font-size: var(--font-md);
+  margin-bottom: 1.5rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.emptyActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── Loading ──────────────────────────────────────────────────────────── */
+
+.loading {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--color-text-muted);
+  font-size: var(--font-lg);
+}
+
+/* ── Review List ──────────────────────────────────────────────────────── */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.starFilled,
+.starEmpty {
+  width: 18px;
+  height: 18px;
+}
+
+.starFilled {
+  color: var(--color-secondary);
+}
+
+.starEmpty {
+  color: var(--color-border);
+}
+
+.cardDate {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+}
+
+.cardTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.cardComment {
+  color: var(--color-text-secondary);
+  font-size: var(--font-sm);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.cardEntity {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+}
+
+.badgeApproved {
+  font-size: var(--font-xs);
+  color: var(--color-success);
+  background: hsla(var(--color-success-hsl, 160, 60%, 40%), 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+}
+
+.badgePending {
+  font-size: var(--font-xs);
+  color: var(--color-secondary);
+  background: hsla(36, 80%, 56%, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+}
+
+.cardLink {
+  font-size: var(--font-sm);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.cardLink:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}

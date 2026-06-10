@@ -1,0 +1,132 @@
+/* ==========================================================================
+   CTASection — Full-width gradient, dual call-to-action buttons
+   ========================================================================== */
+
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-16) 0;
+  background: linear-gradient(
+    155deg,
+    var(--color-primary-dark) 0%,
+    var(--color-primary) 40%,
+    var(--color-accent) 100%
+  );
+}
+
+/* Decorative accent shapes */
+.section::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: -200px;
+  left: -150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 168, 56, 0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.section::after {
+  content: '';
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  bottom: -120px;
+  right: -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+  text-align: center;
+}
+
+.heading {
+  font-family: var(--font-family-heading);
+  font-weight: 800;
+  font-size: clamp(1.5rem, 4.5vw, 2.5rem);
+  color: #fff;
+  margin-bottom: var(--space-5);
+}
+
+.subheading {
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  line-height: var(--line-height-relaxed);
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: var(--space-10);
+}
+
+/* ── Buttons row ────────────────────────────────────────────────────── */
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .buttons {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.buttonPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-base);
+  font-weight: 600;
+  color: var(--color-primary);
+  background-color: #fff;
+  border: none;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.buttonPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  color: var(--color-primary);
+}
+
+.buttonWhatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-base);
+  font-weight: 600;
+  color: #fff;
+  background-color: #25D366;
+  border: none;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast),
+              filter var(--transition-fast);
+}
+
+.buttonWhatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.4);
+  color: #fff;
+  filter: brightness(1.05);
+}

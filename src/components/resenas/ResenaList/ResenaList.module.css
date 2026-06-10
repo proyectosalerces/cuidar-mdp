@@ -1,0 +1,220 @@
+/* ==========================================================================
+   ResenaList — paginated review cards
+   ========================================================================== */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Sort bar ────────────────────────────────────────────────────────── */
+
+.sortBar {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.sortBtn {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background: var(--color-neutral-100);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.sortBtn:hover {
+  background: var(--color-neutral-200);
+  color: var(--color-text);
+}
+
+.sortBtnActive {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.sortBtnActive:hover {
+  background: var(--color-primary-dark);
+  color: #fff;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────── */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-lg);
+  transition:
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.cardPending {
+  border-color: rgba(255, 193, 7, 0.4);
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.04), rgba(255, 193, 7, 0.02));
+}
+
+/* ── Card header ─────────────────────────────────────────────────────── */
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarInitials {
+  color: #fff;
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+  font-size: var(--font-sm);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.cardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cardAuthorRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.authorName {
+  font-weight: 600;
+  font-size: var(--font-sm);
+  color: var(--color-text);
+}
+
+.cardMetaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.cardDate {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+}
+
+/* ── Card body ───────────────────────────────────────────────────────── */
+
+.cardTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-base);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+.cardComment {
+  font-size: var(--font-sm);
+  color: var(--color-neutral-700);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* ── Show more ───────────────────────────────────────────────────────── */
+
+.showMoreBtn {
+  align-self: center;
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+  background: transparent;
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.showMoreBtn:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* ── Empty state ─────────────────────────────────────────────────────── */
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-10) var(--space-6);
+  text-align: center;
+}
+
+.emptyIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--color-neutral-400);
+}
+
+.emptyTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.emptyText {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+
+@media (max-width: 639px) {
+  .card {
+    padding: var(--space-4);
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .avatarInitials {
+    font-size: var(--font-xs);
+  }
+}

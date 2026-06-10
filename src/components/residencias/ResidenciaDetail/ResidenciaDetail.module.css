@@ -1,0 +1,500 @@
+/* ==========================================================================
+   ResidenciaDetail — Full detail view for a single residencia
+   ========================================================================== */
+
+/* ── Breadcrumbs ────────────────────────────────────────────────────── */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  flex-wrap: wrap;
+}
+
+.breadcrumbLink {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumbLink:hover {
+  color: var(--color-primary-dark);
+}
+
+.breadcrumbSeparator {
+  color: var(--color-neutral-400);
+  font-size: var(--font-xs);
+}
+
+.breadcrumbCurrent {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-bottom: var(--space-8);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-dark) 0%,
+    var(--color-primary) 30%,
+    var(--color-accent) 60%,
+    var(--color-secondary) 100%
+  );
+  box-shadow: var(--shadow-lg);
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(26, 35, 50, 0.75) 0%,
+    rgba(26, 35, 50, 0.15) 50%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+.heroPlaceholderIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  color: rgba(255, 255, 255, 0.12);
+  z-index: 0;
+}
+
+.heroContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.heroBadges {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.heroTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-4xl);
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  line-height: var(--line-height-tight);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.heroMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.heroLocation {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--font-base);
+}
+
+.heroLocationIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.heroRating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.heroRatingValue {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--color-secondary-light);
+}
+
+.heroRatingCount {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--font-sm);
+}
+
+/* ── Two-column layout ──────────────────────────────────────────────── */
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+/* ── Left column ────────────────────────────────────────────────────── */
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.detailSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sectionTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sectionTitleIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-primary);
+}
+
+.description {
+  font-size: var(--font-base);
+  color: var(--color-neutral-700);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* ── Services grid ──────────────────────────────────────────────────── */
+
+.servicesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.servicePill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, rgba(27, 107, 90, 0.08), rgba(43, 143, 122, 0.08));
+  border: 1px solid rgba(27, 107, 90, 0.15);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-primary-dark);
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.servicePill:hover {
+  background: linear-gradient(135deg, rgba(27, 107, 90, 0.12), rgba(43, 143, 122, 0.12));
+  transform: translateY(-1px);
+}
+
+.servicePillIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--color-primary);
+}
+
+/* ── Care type badges ───────────────────────────────────────────────── */
+
+.careTypesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.careTypeBadge {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+  color: #fff;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(232, 168, 56, 0.25);
+}
+
+/* ── Info cards ──────────────────────────────────────────────────────── */
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-4);
+}
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  background: var(--color-neutral-100);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-neutral-200);
+}
+
+.infoCardLabel {
+  font-size: var(--font-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.infoCardValue {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ── Right column — Sticky sidebar ──────────────────────────────────── */
+
+.contactSidebar {
+  position: sticky;
+  top: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.priceCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.priceLabel {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin: 0;
+}
+
+.priceValue {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-3xl);
+  font-weight: 800;
+  color: var(--color-primary);
+  margin: 0;
+  line-height: 1;
+}
+
+.priceRange {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.ctaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.ctaDivider {
+  text-align: center;
+  font-size: var(--font-xs);
+  color: var(--color-neutral-500);
+  position: relative;
+}
+
+.ctaDivider::before,
+.ctaDivider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  width: calc(50% - 20px);
+  background: var(--color-neutral-300);
+}
+
+.ctaDivider::before { left: 0; }
+.ctaDivider::after { right: 0; }
+
+/* ── Contact info ───────────────────────────────────────────────────── */
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--color-neutral-100);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-neutral-200);
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-sm);
+  color: var(--color-text);
+}
+
+.contactIcon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.contactLink {
+  color: var(--color-primary);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  word-break: break-all;
+}
+
+.contactLink:hover {
+  color: var(--color-primary-dark);
+}
+
+/* ── Map placeholder ────────────────────────────────────────────────── */
+
+.mapPlaceholder {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--color-neutral-200);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid var(--color-neutral-300);
+}
+
+.mapIcon {
+  width: 36px;
+  height: 36px;
+  color: var(--color-neutral-500);
+}
+
+.mapText {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+}
+
+/* ── Not found ──────────────────────────────────────────────────────── */
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-6);
+  text-align: center;
+  gap: var(--space-6);
+  min-height: 50vh;
+}
+
+.notFoundIcon {
+  width: 100px;
+  height: 100px;
+  color: var(--color-neutral-400);
+}
+
+.notFoundTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-3xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.notFoundDescription {
+  font-size: var(--font-base);
+  color: var(--color-text-muted);
+  max-width: 450px;
+  margin: 0;
+}
+
+/* ── Container ──────────────────────────────────────────────────────── */
+
+.pageContainer {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding) var(--space-16);
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .contactSidebar {
+    position: static;
+  }
+
+  .hero {
+    aspect-ratio: 16 / 9;
+  }
+
+  .heroContent {
+    padding: var(--space-6);
+  }
+
+  .heroTitle {
+    font-size: var(--font-3xl);
+  }
+}
+
+@media (max-width: 639px) {
+  .hero {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+  }
+
+  .heroTitle {
+    font-size: var(--font-2xl);
+  }
+
+  .heroContent {
+    padding: var(--space-4);
+  }
+
+  .priceValue {
+    font-size: var(--font-2xl);
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

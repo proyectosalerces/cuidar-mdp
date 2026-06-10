@@ -1,0 +1,773 @@
+/* ==========================================================================
+   Nosotros Page — CSS Module
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/*  Animations                                                                */
+/* -------------------------------------------------------------------------- */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(27, 107, 90, 0.2); }
+  50% { box-shadow: 0 0 0 12px rgba(27, 107, 90, 0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Section shared                                                            */
+/* -------------------------------------------------------------------------- */
+
+.section {
+  padding: var(--space-16) 0;
+  position: relative;
+}
+
+.sectionAlt {
+  composes: section;
+  background-color: var(--color-neutral-100);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.sectionLabel {
+  display: inline-block;
+  font-family: var(--font-family-body);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+  position: relative;
+  padding-left: var(--space-6);
+}
+
+.sectionLabel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: 1px;
+}
+
+.sectionTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-3xl);
+  font-weight: 700;
+  line-height: var(--line-height-tight);
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.sectionSubtitle {
+  font-size: var(--font-lg);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  max-width: 640px;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  1. Hero Section                                                           */
+/* -------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-16) 0;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    #0D3B2E 0%,
+    #145546 25%,
+    var(--color-primary) 50%,
+    var(--color-accent) 75%,
+    #237A67 100%
+  );
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 80%, rgba(232, 168, 56, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 80% 20%, rgba(43, 143, 122, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.heroBreadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-sm);
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: var(--space-6);
+}
+
+.heroBreadcrumb a {
+  color: rgba(255, 255, 255, 0.7);
+  transition: color var(--transition-fast);
+}
+
+.heroBreadcrumb a:hover {
+  color: #fff;
+}
+
+.heroBreadcrumbSep {
+  font-size: var(--font-xs);
+}
+
+.heroTitle {
+  font-family: var(--font-family-heading);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-6);
+}
+
+.heroTitleAccent {
+  background: linear-gradient(90deg, var(--color-secondary-light), var(--color-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.heroSubtitle {
+  font-size: var(--font-lg);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: var(--line-height-relaxed);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.heroDecor {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 168, 56, 0.08), transparent 70%);
+  animation: float 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.heroDecorLeft {
+  composes: heroDecor;
+  left: -100px;
+  bottom: -80px;
+}
+
+.heroDecorRight {
+  composes: heroDecor;
+  right: -80px;
+  top: -60px;
+  animation-delay: -3s;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  2. Misión & Visión                                                        */
+/* -------------------------------------------------------------------------- */
+
+.missionSection {
+  composes: section;
+  padding: var(--space-16) 0;
+}
+
+.missionGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.missionContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.missionBlock {
+  position: relative;
+  padding-left: var(--space-6);
+  border-left: 3px solid transparent;
+  border-image: linear-gradient(180deg, var(--color-primary), var(--color-accent)) 1;
+}
+
+.missionBlockTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.missionBlockIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: #fff;
+  font-size: var(--font-lg);
+  flex-shrink: 0;
+}
+
+.missionBlockText {
+  font-size: var(--font-base);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: 0;
+}
+
+.missionDecor {
+  position: relative;
+  aspect-ratio: 1;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.missionDecorCircle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(27, 107, 90, 0.06) 0%,
+    rgba(43, 143, 122, 0.1) 50%,
+    rgba(232, 168, 56, 0.06) 100%
+  );
+  border: 2px solid rgba(27, 107, 90, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.missionDecorInner {
+  width: 65%;
+  height: 65%;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(27, 107, 90, 0.1),
+    rgba(43, 143, 122, 0.15)
+  );
+  border: 2px solid rgba(27, 107, 90, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  animation: float 5s ease-in-out infinite;
+}
+
+.missionDecorDot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  opacity: 0.6;
+}
+
+.missionDecorDot:nth-child(2) {
+  top: 10%;
+  right: 15%;
+  animation: float 4s ease-in-out infinite;
+}
+
+.missionDecorDot:nth-child(3) {
+  bottom: 15%;
+  left: 10%;
+  animation: float 4s ease-in-out infinite 1.5s;
+}
+
+.missionDecorDot:nth-child(4) {
+  top: 50%;
+  right: 5%;
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary-light);
+  animation: float 5s ease-in-out infinite 2s;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  3. Valores                                                                */
+/* -------------------------------------------------------------------------- */
+
+.valuesSection {
+  composes: section;
+  background-color: var(--color-neutral-100);
+}
+
+.valuesHeader {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+.valueCard {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  border: 1px solid var(--color-neutral-300);
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal),
+    border-color var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.valueCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.valueCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+}
+
+.valueCard:hover::before {
+  opacity: 1;
+}
+
+.valueIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(27, 107, 90, 0.08), rgba(43, 143, 122, 0.12));
+  font-size: 1.75rem;
+  margin-bottom: var(--space-4);
+  transition: transform var(--transition-normal);
+}
+
+.valueCard:hover .valueIcon {
+  transform: scale(1.1);
+}
+
+.valueTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.valueDescription {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  4. Cómo Trabajamos (Timeline)                                             */
+/* -------------------------------------------------------------------------- */
+
+.processSection {
+  composes: section;
+}
+
+.processHeader {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.processTimeline {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  position: relative;
+}
+
+/* Vertical connector line (mobile) */
+.processTimeline::before {
+  content: '';
+  position: absolute;
+  left: 27px;
+  top: 56px;
+  bottom: 56px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--color-primary), var(--color-accent), var(--color-secondary));
+  border-radius: 1px;
+}
+
+.processStep {
+  display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+  position: relative;
+}
+
+.processStepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: #fff;
+  font-family: var(--font-family-heading);
+  font-size: var(--font-xl);
+  font-weight: 700;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 12px rgba(27, 107, 90, 0.25);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.processStep:hover .processStepNumber {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(27, 107, 90, 0.35);
+}
+
+.processStepContent {
+  padding-top: var(--space-2);
+  flex: 1;
+}
+
+.processStepTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.processStepDescription {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  5. Estadísticas                                                           */
+/* -------------------------------------------------------------------------- */
+
+.statsSection {
+  composes: section;
+  background: linear-gradient(
+    135deg,
+    #0D3B2E 0%,
+    var(--color-primary-dark) 40%,
+    var(--color-primary) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.statsSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.statsHeader {
+  text-align: center;
+  margin-bottom: var(--space-12);
+  position: relative;
+  z-index: 1;
+}
+
+.statsTitle {
+  composes: sectionTitle;
+  color: #fff;
+}
+
+.statsSubtitle {
+  composes: sectionSubtitle;
+  color: rgba(255, 255, 255, 0.75);
+  margin-inline: auto;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  position: relative;
+  z-index: 1;
+}
+
+.statCard {
+  text-align: center;
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  transition: transform var(--transition-normal), background var(--transition-normal);
+  animation: countUp 0.6s ease-out both;
+}
+
+.statCard:nth-child(2) { animation-delay: 0.1s; }
+.statCard:nth-child(3) { animation-delay: 0.2s; }
+.statCard:nth-child(4) { animation-delay: 0.3s; }
+
+.statCard:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.statValue {
+  font-family: var(--font-family-heading);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--color-secondary-light), var(--color-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.statLabel {
+  font-size: var(--font-sm);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  line-height: var(--line-height-normal);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  6. CTA Section                                                            */
+/* -------------------------------------------------------------------------- */
+
+.ctaSection {
+  composes: section;
+  text-align: center;
+  background: var(--color-neutral-100);
+}
+
+.ctaContent {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.ctaSubtitle {
+  font-size: var(--font-lg);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+  line-height: var(--line-height-relaxed);
+}
+
+.ctaButtons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Dark mode overrides                                                       */
+/* -------------------------------------------------------------------------- */
+
+:global(.dark) .valuesSection,
+:global(.dark) .ctaSection {
+  background-color: var(--color-surface);
+}
+
+:global(.dark) .valueCard {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+:global(.dark) .valueCard:hover {
+  border-color: var(--color-primary-light);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+:global(.dark) .valueIcon {
+  background: linear-gradient(135deg, rgba(58, 174, 148, 0.12), rgba(58, 174, 148, 0.18));
+}
+
+:global(.dark) .missionDecorCircle {
+  background: linear-gradient(
+    135deg,
+    rgba(58, 174, 148, 0.06) 0%,
+    rgba(58, 174, 148, 0.1) 50%,
+    rgba(240, 201, 110, 0.06) 100%
+  );
+  border-color: rgba(58, 174, 148, 0.12);
+}
+
+:global(.dark) .missionDecorInner {
+  background: linear-gradient(135deg, rgba(58, 174, 148, 0.1), rgba(58, 174, 148, 0.15));
+  border-color: rgba(58, 174, 148, 0.14);
+}
+
+:global(.dark) .missionBlock {
+  border-image: linear-gradient(180deg, var(--color-primary-light), var(--color-accent)) 1;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Responsive — Tablet (≥640px)                                              */
+/* -------------------------------------------------------------------------- */
+
+@media (min-width: 640px) {
+  .valuesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .ctaButtons {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Responsive — Desktop (≥960px)                                             */
+/* -------------------------------------------------------------------------- */
+
+@media (min-width: 960px) {
+  .section {
+    padding: 5rem 0;
+  }
+
+  .hero {
+    min-height: 480px;
+    padding: 5rem 0;
+  }
+
+  .heroTitle {
+    font-size: 3rem;
+  }
+
+  .sectionTitle {
+    font-size: var(--font-4xl);
+  }
+
+  .missionGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16);
+  }
+
+  .valuesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Horizontal timeline */
+  .processTimeline {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+  }
+
+  .processTimeline::before {
+    left: calc(12.5% + 28px);
+    right: calc(12.5% + 28px);
+    top: 28px;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-secondary));
+  }
+
+  .processStep {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .processStepContent {
+    padding-top: var(--space-4);
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Responsive — Large Desktop (≥1200px)                                      */
+/* -------------------------------------------------------------------------- */
+
+@media (min-width: 1200px) {
+  .hero {
+    min-height: 520px;
+  }
+}
