@@ -1,22 +1,22 @@
 /**
  * Firebase Authentication service
  *
- * TODO: Implement after installing firebase package.
- * Currently exports skeleton functions with proper TypeScript signatures.
+ * Real Firebase Auth implementation with email/password.
  */
 
-// TODO: Uncomment after installing firebase
-// import {
-//   signInWithEmailAndPassword,
-//   createUserWithEmailAndPassword,
-//   signOut as firebaseSignOut,
-//   onAuthStateChanged,
-//   type User,
-//   type Unsubscribe,
-// } from 'firebase/auth';
-// import { auth } from './config';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut as firebaseSignOut,
+  onAuthStateChanged,
+  updateProfile,
+  type User,
+  type Unsubscribe,
+} from 'firebase/auth';
+import { auth } from './config';
 
-/** Placeholder user type until firebase is installed */
+/* ── Types ─────────────────────────────────────────────────────────────── */
+
 export interface AppUser {
   uid: string;
   email: string | null;
@@ -29,6 +29,34 @@ export interface AuthResult {
   error: string | null;
 }
 
+/* ── Helpers ───────────────────────────────────────────────────────────── */
+
+function mapUser(fbUser: User): AppUser {
+  return {
+    uid: fbUser.uid,
+    email: fbUser.email,
+    displayName: fbUser.displayName,
+    photoURL: fbUser.photoURL,
+  };
+}
+
+function mapAuthError(code: string): string {
+  const errorMessages: Record<string, string> = {
+    'auth/invalid-email': 'El email no es válido.',
+    'auth/user-disabled': 'Esta cuenta fue deshabilitada.',
+    'auth/user-not-found': 'No existe una cuenta con ese email.',
+    'auth/wrong-password': 'Contraseña incorrecta.',
+    'auth/invalid-credential': 'Email o contraseña incorrectos.',
+    'auth/email-already-in-use': 'Ya existe una cuenta con ese email.',
+    'auth/weak-password': 'La contraseña debe tener al menos 6 caracteres.',
+    'auth/too-many-requests': 'Demasiados intentos. Esperá un momento e intentá de nuevo.',
+    'auth/network-request-failed': 'Error de conexión. Verificá tu internet.',
+  };
+  return errorMessages[code] ?? 'Ocurrió un error. Intentá de nuevo.';
+}
+
+/* ── Public API ────────────────────────────────────────────────────────── */
+
 /**
  * Sign in a user with email and password
  */
@@ -36,13 +64,13 @@ export async function signInWithEmail(
   email: string,
   password: string
 ): Promise<AuthResult> {
-  // TODO: Implement with Firebase Auth
-  // const credential = await signInWithEmailAndPassword(auth, email, password);
-  // return { user: mapUser(credential.user), error: null };
-  console.warn('[Auth] signInWithEmail called — Firebase not configured yet');
-  void email;
-  void password;
-  return { user: null, error: 'Firebase Auth no está configurado todavía.' };
+  try {
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    return { user: mapUser(credential.user), error: null };
+  } catch (err: unknown) {
+    const code = (err as { code?: string }).code ?? '';
+    return { user: null, error: mapAuthError(code) };
+  }
 }
 
 /**
@@ -53,30 +81,38 @@ export async function signUpWithEmail(
   password: string,
   displayName?: string
 ): Promise<AuthResult> {
-  // TODO: Implement with Firebase Auth
-  console.warn('[Auth] signUpWithEmail called — Firebase not configured yet');
-  void email;
-  void password;
-  void displayName;
-  return { user: null, error: 'Firebase Auth no está configurado todavía.' };
+  try {
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+
+    if (displayName) {
+      await updateProfile(credential.user, { displayName });
+    }
+
+    return {
+      user: {
+        ...mapUser(credential.user),
+        displayName: displayName ?? credential.user.displayName,
+      },
+      error: null,
+    };
+  } catch (err: unknown) {
+    const code = (err as { code?: string }).code ?? '';
+    return { user: null, error: mapAuthError(code) };
+  }
 }
 
 /**
  * Sign out the current user
  */
 export async function signOut(): Promise<void> {
-  // TODO: Implement with Firebase Auth
-  // await firebaseSignOut(auth);
-  console.warn('[Auth] signOut called — Firebase not configured yet');
+  await firebaseSignOut(auth);
 }
 
 /**
  * Get the currently authenticated user (synchronous snapshot)
  */
 export function getCurrentUser(): AppUser | null {
-  // TODO: Implement with Firebase Auth
-  // return auth.currentUser ? mapUser(auth.currentUser) : null;
-  return null;
+  return auth.currentUser ? mapUser(auth.currentUser) : null;
 }
 
 /**
@@ -86,14 +122,8 @@ export function getCurrentUser(): AppUser | null {
 export function onAuthStateChange(
   callback: (user: AppUser | null) => void
 ): () => void {
-  // TODO: Implement with Firebase Auth
-  // const unsubscribe: Unsubscribe = onAuthStateChanged(auth, (fbUser) => {
-  //   callback(fbUser ? mapUser(fbUser) : null);
-  // });
-  // return unsubscribe;
-  console.warn('[Auth] onAuthStateChange called — Firebase not configured yet');
-  void callback;
-  return () => {
-    /* noop unsubscribe */
-  };
+  const unsubscribe: Unsubscribe = onAuthStateChanged(auth, (fbUser) => {
+    callback(fbUser ? mapUser(fbUser) : null);
+  });
+  return unsubscribe;
 }

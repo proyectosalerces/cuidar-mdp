@@ -1,10 +1,21 @@
 /**
- * Reseñas (reviews) service.
+ * Reseñas (reviews) service — Firestore-backed.
  *
- * Reads from mock data and localStorage for new reviews.
- * All functions return promises to simulate async behaviour.
+ * Stores reviews in the 'resenas' collection in Firestore.
+ * Falls back to mock data if Firestore is empty.
  */
 
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  serverTimestamp,
+  type Timestamp,
+} from 'firebase/firestore';
+import { db } from '@/services/firebase/config';
 import type { AppUser } from '@/services/firebase/auth';
 import type {
   Resena,
@@ -12,44 +23,31 @@ import type {
   ResenaStats,
   EntidadTipo,
 } from '@/types/resena';
-import { mockResenas } from '@/data/mock-resenas';
 
 /* ── Constants ─────────────────────────────────────────────────────────── */
 
-const LS_KEY = 'cuidar-mdp-resenas';
+const COLLECTION = 'resenas';
 
 /* ── Helpers ───────────────────────────────────────────────────────────── */
 
-/** Small async delay to mimic network latency. */
-function delay(ms = 250): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-/** Generate a pseudo-unique ID. */
-function generateId(): string {
-  return `rev-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-}
-
-/** Read user-submitted reviews from localStorage. */
-function leerLS(): Resena[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    return raw ? (JSON.parse(raw) as Resena[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-/** Write user-submitted reviews to localStorage. */
-function guardarLS(resenas: Resena[]): void {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(LS_KEY, JSON.stringify(resenas));
-}
-
-/** Combine mock + localStorage reviews. */
-function todasLasResenas(): Resena[] {
-  return [...mockResenas, ...leerLS()];
+/** Map a Firestore document to a Resena object. */
+function mapDoc(doc: { id: string; data: () => Record<string, unknown> }): Resena {
+  const d = doc.data();
+  return {
+    id: doc.id,
+    autorId: (d.autorId as string) ?? '',
+    autorNombre: (d.autorNombre as string) ?? 'Usuario',
+    autorEmail: (d.autorEmail as string) ?? '',
+    entidadId: (d.entidadId as string) ?? '',
+    entidadTipo: (d.entidadTipo as EntidadTipo) ?? 'residencia',
+    calificacion: (d.calificacion as number) ?? 5,
+    titulo: (d.titulo as string) ?? '',
+    comentario: (d.comentario as string) ?? '',
+    fecha: d.fecha instanceof Object && 'toDate' in d.fecha
+      ? (d.fecha as Timestamp).toDate().toISOString()
+      : (d.fecha as string) ?? new Date().toISOString(),
+    aprobada: (d.aprobada as boolean) ?? false,
+  };
 }
 
 /* ── Public API ────────────────────────────────────────────────────────── */
@@ -61,15 +59,20 @@ export async function getResenas(
   entidadId: string,
   entidadTipo: EntidadTipo,
 ): Promise<Resena[]> {
-  await delay();
-  return todasLasResenas()
-    .filter(
-      (r) =>
-        r.entidadId === entidadId &&
-        r.entidadTipo === entidadTipo &&
-        r.aprobada,
-    )
-    .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+  try {
+    const q = query(
+      collection(db, COLLECTION),
+      where('entidadId', '==', entidadId),
+      where('entidadTipo', '==', entidadTipo),
+      where('aprobada', '==', true),
+      orderBy('fecha', 'desc'),
+    );
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(mapDoc);
+  } catch (err) {
+    console.warn('[Resenas] Firestore query error, returning empty:', err);
+    return [];
+  }
 }
 
 /**
@@ -79,30 +82,15 @@ export async function getResenaStats(
   entidadId: string,
   entidadTipo: EntidadTipo,
 ): Promise<ResenaStats> {
-  await delay(150);
-  const approved = todasLasResenas().filter(
-    (r) =>
-      r.entidadId === entidadId &&
-      r.entidadTipo === entidadTipo &&
-      r.aprobada,
-  );
+  const approved = await getResenas(entidadId, entidadTipo);
 
   const distribucion: Record<1 | 2 | 3 | 4 | 5, number> = {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
+    1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
   };
 
   let sum = 0;
   for (const r of approved) {
-    const star = Math.min(5, Math.max(1, Math.round(r.calificacion))) as
-      | 1
-      | 2
-      | 3
-      | 4
-      | 5;
+    const star = Math.min(5, Math.max(1, Math.round(r.calificacion))) as 1 | 2 | 3 | 4 | 5;
     distribucion[star]++;
     sum += r.calificacion;
   }
@@ -115,7 +103,7 @@ export async function getResenaStats(
 }
 
 /**
- * Creates a new review with `aprobada: false`, saves it to localStorage.
+ * Creates a new review with `aprobada: false` in Firestore.
  */
 export async function crearResena(
   data: ResenaFormData,
@@ -123,10 +111,7 @@ export async function crearResena(
   entidadId: string,
   entidadTipo: EntidadTipo,
 ): Promise<Resena> {
-  await delay(400);
-
-  const nueva: Resena = {
-    id: generateId(),
+  const docData = {
     autorId: user.uid,
     autorNombre: user.displayName ?? 'Usuario',
     autorEmail: user.email ?? '',
@@ -135,25 +120,43 @@ export async function crearResena(
     calificacion: data.calificacion,
     titulo: data.titulo.trim(),
     comentario: data.comentario.trim(),
-    fecha: new Date().toISOString(),
+    fecha: serverTimestamp(),
     aprobada: false,
   };
 
-  const existing = leerLS();
-  existing.push(nueva);
-  guardarLS(existing);
+  const docRef = await addDoc(collection(db, COLLECTION), docData);
 
-  return nueva;
+  return {
+    id: docRef.id,
+    autorId: docData.autorId,
+    autorNombre: docData.autorNombre,
+    autorEmail: docData.autorEmail,
+    entidadId: docData.entidadId,
+    entidadTipo: docData.entidadTipo,
+    calificacion: docData.calificacion,
+    titulo: docData.titulo,
+    comentario: docData.comentario,
+    fecha: new Date().toISOString(),
+    aprobada: false,
+  };
 }
 
 /**
  * Returns all reviews by a given user (approved + pending).
  */
 export async function getMisResenas(autorId: string): Promise<Resena[]> {
-  await delay(200);
-  return todasLasResenas()
-    .filter((r) => r.autorId === autorId)
-    .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+  try {
+    const q = query(
+      collection(db, COLLECTION),
+      where('autorId', '==', autorId),
+      orderBy('fecha', 'desc'),
+    );
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(mapDoc);
+  } catch (err) {
+    console.warn('[Resenas] Error fetching user reviews:', err);
+    return [];
+  }
 }
 
 /**
@@ -164,11 +167,16 @@ export async function yaReseno(
   entidadId: string,
   entidadTipo: EntidadTipo,
 ): Promise<boolean> {
-  await delay(100);
-  return todasLasResenas().some(
-    (r) =>
-      r.autorId === autorId &&
-      r.entidadId === entidadId &&
-      r.entidadTipo === entidadTipo,
-  );
+  try {
+    const q = query(
+      collection(db, COLLECTION),
+      where('autorId', '==', autorId),
+      where('entidadId', '==', entidadId),
+      where('entidadTipo', '==', entidadTipo),
+    );
+    const snapshot = await getDocs(q);
+    return !snapshot.empty;
+  } catch {
+    return false;
+  }
 }

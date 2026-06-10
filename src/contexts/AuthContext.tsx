@@ -1,11 +1,10 @@
 'use client';
 
 /**
- * AuthContext — gestión global de autenticación.
+ * AuthContext — gestión global de autenticación con Firebase.
  *
- * Implementa mock auth con localStorage hasta que Firebase esté conectado.
- * Persiste la sesión en localStorage ('cuidar-mdp-auth-user').
- * Los usuarios registrados se almacenan en 'cuidar-mdp-auth-users'.
+ * Usa Firebase Auth para login/register/logout real.
+ * Escucha cambios de estado con onAuthStateChanged.
  */
 
 import {
@@ -17,13 +16,19 @@ import {
   useState,
 } from 'react';
 import type { AppUser } from '@/services/firebase/auth';
+import {
+  signInWithEmail,
+  signUpWithEmail,
+  signOut as firebaseSignOut,
+  onAuthStateChange,
+} from '@/services/firebase/auth';
 
 /* ── Types ─────────────────────────────────────────────────────────────── */
 
 interface AuthContextValue {
   /** Currently authenticated user, or null */
   user: AppUser | null;
-  /** True while restoring session from localStorage */
+  /** True while restoring session */
   loading: boolean;
   /** Convenience flag */
   isAuthenticated: boolean;
@@ -33,43 +38,6 @@ interface AuthContextValue {
   register: (email: string, password: string, nombre: string) => Promise<{ error?: string }>;
   /** Log out the current user */
   logout: () => void;
-}
-
-/* ── Constants ─────────────────────────────────────────────────────────── */
-
-const STORAGE_USER_KEY = 'cuidar-mdp-auth-user';
-const STORAGE_USERS_KEY = 'cuidar-mdp-auth-users';
-const MOCK_DELAY_MS = 500;
-
-/* ── Helpers ───────────────────────────────────────────────────────────── */
-
-interface StoredUser {
-  uid: string;
-  email: string;
-  displayName: string;
-  password: string;
-}
-
-function getStoredUsers(): StoredUser[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    const raw = localStorage.getItem(STORAGE_USERS_KEY);
-    return raw ? (JSON.parse(raw) as StoredUser[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveStoredUsers(users: StoredUser[]) {
-  localStorage.setItem(STORAGE_USERS_KEY, JSON.stringify(users));
-}
-
-function generateUid(): string {
-  return `mock-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-}
-
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /* ── Context ───────────────────────────────────────────────────────────── */
@@ -82,54 +50,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  /* Restore session on mount */
+  /* Listen to Firebase auth state changes */
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_USER_KEY);
-      if (raw) {
-        setUser(JSON.parse(raw) as AppUser);
-      }
-    } catch {
-      /* corrupted data – ignore */
-    }
-    setLoading(false);
+    const unsubscribe = onAuthStateChange((firebaseUser) => {
+      setUser(firebaseUser);
+      setLoading(false);
+    });
+    return unsubscribe;
   }, []);
-
-  /* Persist session whenever user changes */
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
-    } else {
-      localStorage.removeItem(STORAGE_USER_KEY);
-    }
-  }, [user]);
 
   /* ── Login ───────────────────────────────────────────────────────────── */
 
   const login = useCallback(async (email: string, password: string): Promise<{ error?: string }> => {
-    await delay(MOCK_DELAY_MS);
-
-    const users = getStoredUsers();
-    const found = users.find(
-      (u) => u.email.toLowerCase() === email.toLowerCase(),
-    );
-
-    if (!found) {
-      return { error: 'No existe una cuenta con ese email.' };
+    const result = await signInWithEmail(email, password);
+    if (result.error) {
+      return { error: result.error };
     }
-
-    if (found.password !== password) {
-      return { error: 'Contraseña incorrecta.' };
-    }
-
-    const appUser: AppUser = {
-      uid: found.uid,
-      email: found.email,
-      displayName: found.displayName,
-      photoURL: null,
-    };
-
-    setUser(appUser);
+    // user state will be updated by onAuthStateChanged listener
     return {};
   }, []);
 
@@ -137,34 +74,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const register = useCallback(
     async (email: string, password: string, nombre: string): Promise<{ error?: string }> => {
-      await delay(MOCK_DELAY_MS);
-
-      const users = getStoredUsers();
-      const exists = users.some(
-        (u) => u.email.toLowerCase() === email.toLowerCase(),
-      );
-
-      if (exists) {
-        return { error: 'Ya existe una cuenta con ese email.' };
+      const result = await signUpWithEmail(email, password, nombre);
+      if (result.error) {
+        return { error: result.error };
       }
-
-      const newUser: StoredUser = {
-        uid: generateUid(),
-        email: email.toLowerCase(),
-        displayName: nombre,
-        password,
-      };
-
-      saveStoredUsers([...users, newUser]);
-
-      const appUser: AppUser = {
-        uid: newUser.uid,
-        email: newUser.email,
-        displayName: newUser.displayName,
-        photoURL: null,
-      };
-
-      setUser(appUser);
+      // user state will be updated by onAuthStateChanged listener
       return {};
     },
     [],
@@ -172,8 +86,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   /* ── Logout ──────────────────────────────────────────────────────────── */
 
-  const logout = useCallback(() => {
-    setUser(null);
+  const logout = useCallback(async () => {
+    await firebaseSignOut();
+    // user state will be set to null by onAuthStateChanged listener
   }, []);
 
   /* ── Context value ───────────────────────────────────────────────────── */
