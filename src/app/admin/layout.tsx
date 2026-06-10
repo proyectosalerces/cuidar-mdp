@@ -14,6 +14,8 @@ const NAV_LINKS = [
   { href: '/admin', label: 'Dashboard', icon: '📊' },
   { href: '/admin/residencias', label: 'Residencias', icon: '🏠' },
   { href: '/admin/profesionales', label: 'Profesionales', icon: '👨‍⚕️' },
+  { href: '/admin/blog', label: 'Blog', icon: '📝' },
+  { href: '/admin/contacto', label: 'Mensajes', icon: '📬' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

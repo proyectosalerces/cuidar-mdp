@@ -1,62 +1,35 @@
 /**
  * Service layer for contact and consultation forms
  *
- * Currently logs data to console. Will be replaced with Firebase Firestore
- * writes and email notifications once the backend is connected.
+ * Saves data to Firebase Firestore collections.
  */
 
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '@/services/firebase/config';
 import type { ContactoFormData, SolicitudConsultaFormData } from '@/types/contacto';
 
 /**
- * Submit a general contact form
- *
- * TODO: Save to Firestore 'contactos' collection and trigger email notification
+ * Submit a general contact form — saves to Firestore 'contactos' collection
  */
 export async function enviarContacto(
   data: ContactoFormData
 ): Promise<void> {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 800));
-
-  console.log('[Contacto] Formulario de contacto recibido:', {
-    nombre: data.nombre,
-    email: data.email,
-    asunto: data.asunto ?? '(sin asunto)',
-    timestamp: new Date().toISOString(),
+  await addDoc(collection(db, 'contactos'), {
+    ...data,
+    leido: false,
+    createdAt: serverTimestamp(),
   });
-
-  // TODO: Save to Firestore
-  // const docRef = await addDoc(collection(db, 'contactos'), {
-  //   ...data,
-  //   createdAt: serverTimestamp(),
-  //   leido: false,
-  // });
 }
 
 /**
- * Submit a personalized care consultation request
- *
- * TODO: Save to Firestore 'consultas' collection and trigger priority email notification
+ * Submit a personalized care consultation request — saves to Firestore 'consultas' collection
  */
 export async function solicitarAsesoramiento(
   data: SolicitudConsultaFormData
 ): Promise<void> {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 1200));
-
-  console.log('[Contacto] Solicitud de asesoramiento recibida:', {
-    nombreFamiliar: data.nombreFamiliar,
-    emailFamiliar: data.emailFamiliar,
-    urgencia: data.urgencia,
-    tiposCuidado: data.tiposCuidadoBuscados,
-    timestamp: new Date().toISOString(),
+  await addDoc(collection(db, 'consultas'), {
+    ...data,
+    estado: 'pendiente',
+    createdAt: serverTimestamp(),
   });
-
-  // TODO: Save to Firestore
-  // const docRef = await addDoc(collection(db, 'consultas'), {
-  //   ...data,
-  //   createdAt: serverTimestamp(),
-  //   estado: 'pendiente',
-  //   asignadoA: null,
-  // });
 }

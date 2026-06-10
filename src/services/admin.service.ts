@@ -177,3 +177,115 @@ export async function getStats(): Promise<{
     totalResenas: resenasSnap.size,
   };
 }
+
+/* ── Blog ─────────────────────────────────────────────────────────────── */
+
+import type { BlogPost } from '@/types/blog';
+import type { ContactoFormData, SolicitudConsultaFormData } from '@/types/contacto';
+
+export interface ContactMessage extends ContactoFormData {
+  id: string;
+  createdAt: string;
+  leido: boolean;
+}
+
+export interface ConsultaRequest extends SolicitudConsultaFormData {
+  id: string;
+  createdAt: string;
+  estado: 'pendiente' | 'en-proceso' | 'completada';
+}
+
+export async function getAllBlogPosts(): Promise<BlogPost[]> {
+  const q = query(collection(db, 'blog'), orderBy('fechaPublicacion', 'desc'));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as BlogPost);
+}
+
+export async function getBlogPostById(id: string): Promise<BlogPost | null> {
+  const docRef = doc(db, 'blog', id);
+  const snapshot = await getDoc(docRef);
+  if (!snapshot.exists()) return null;
+  return { id: snapshot.id, ...snapshot.data() } as BlogPost;
+}
+
+export async function createBlogPost(data: Partial<BlogPost>): Promise<string> {
+  const slug = generateSlug(data.titulo ?? '');
+  const docRef = doc(db, 'blog', slug);
+
+  await setDoc(docRef, {
+    ...data,
+    slug,
+    autor: data.autor ?? { nombre: 'Equipo Cuidar MdP' },
+    tags: data.tags ?? [],
+    imagenPortada: data.imagenPortada ?? '',
+    publicado: data.publicado ?? false,
+    tiempoLectura: data.tiempoLectura ?? 5,
+    fechaPublicacion: data.fechaPublicacion ?? new Date().toISOString(),
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+
+  return slug;
+}
+
+export async function updateBlogPost(
+  id: string,
+  data: Partial<BlogPost>,
+): Promise<void> {
+  const docRef = doc(db, 'blog', id);
+  await updateDoc(docRef, {
+    ...data,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function deleteBlogPost(id: string): Promise<void> {
+  const docRef = doc(db, 'blog', id);
+  await deleteDoc(docRef);
+}
+
+/* ── Contacto / Consultas ─────────────────────────────────────────────── */
+
+export async function getContactMessages(): Promise<ContactMessage[]> {
+  const q = query(collection(db, 'contactos'), orderBy('createdAt', 'desc'));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((d) => {
+    const data = d.data();
+    return {
+      ...data,
+      id: d.id,
+      createdAt: data.createdAt?.toDate?.()?.toISOString?.() ?? data.createdAt ?? '',
+      leido: data.leido ?? false,
+    } as ContactMessage;
+  });
+}
+
+export async function getConsultaRequests(): Promise<ConsultaRequest[]> {
+  const q = query(collection(db, 'consultas'), orderBy('createdAt', 'desc'));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((d) => {
+    const data = d.data();
+    return {
+      ...data,
+      id: d.id,
+      createdAt: data.createdAt?.toDate?.()?.toISOString?.() ?? data.createdAt ?? '',
+      estado: data.estado ?? 'pendiente',
+    } as ConsultaRequest;
+  });
+}
+
+export async function markMessageAsRead(
+  collectionName: string,
+  id: string,
+): Promise<void> {
+  const docRef = doc(db, collectionName, id);
+  await updateDoc(docRef, { leido: true });
+}
+
+export async function deleteMessage(
+  collectionName: string,
+  id: string,
+): Promise<void> {
+  const docRef = doc(db, collectionName, id);
+  await deleteDoc(docRef);
+}
