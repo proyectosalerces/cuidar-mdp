@@ -26,6 +26,8 @@ export default function NuevaResidenciaPage() {
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
+  const [facebook, setFacebook] = useState('');
+  const [instagram, setInstagram] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [descripcionCorta, setDescripcionCorta] = useState('');
   const [tiposCuidado, setTiposCuidado] = useState<TipoCuidado[]>([]);
@@ -103,6 +105,8 @@ export default function NuevaResidenciaPage() {
         email: email.trim() || undefined,
         website: website.trim() || undefined,
         whatsapp: whatsapp.trim() || undefined,
+        facebook: facebook.trim() || undefined,
+        instagram: instagram.trim() || undefined,
         descripcion: descripcion.trim(),
         descripcionCorta: descripcionCorta.trim(),
         tiposCuidado,
@@ -220,6 +224,28 @@ export default function NuevaResidenciaPage() {
                 value={whatsapp}
                 onChange={(e) => setWhatsapp(e.target.value)}
                 placeholder="5492235551234"
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>Facebook</label>
+              <input
+                className={styles.input}
+                type="url"
+                value={facebook}
+                onChange={(e) => setFacebook(e.target.value)}
+                placeholder="https://facebook.com/..."
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>Instagram</label>
+              <input
+                className={styles.input}
+                type="url"
+                value={instagram}
+                onChange={(e) => setInstagram(e.target.value)}
+                placeholder="https://instagram.com/..."
               />
             </div>
           </div>

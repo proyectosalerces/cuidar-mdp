@@ -24,6 +24,8 @@ export interface Residencia {
   email?: string;
   website?: string;
   whatsapp?: string;
+  facebook?: string;
+  instagram?: string;
   coordenadas?: { lat: number; lng: number };
   imagenes: string[];
   imagenPrincipal: string;
