@@ -29,7 +29,7 @@ export default function FeaturedResidencias() {
         });
         // Featured first, then by rating, cap at 6
         const sorted = all
-          .filter((r) => r.publicada !== false)
+          .filter((r) => r.activa !== false)
           .sort((a, b) => {
             if (a.destacada && !b.destacada) return -1;
             if (!a.destacada && b.destacada) return 1;
