@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * BlogCard — Displays a blog post as a visually rich card.
  *

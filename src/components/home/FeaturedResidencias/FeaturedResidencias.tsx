@@ -1,19 +1,51 @@
+'use client';
+
 /**
  * FeaturedResidencias — Grid of highlighted senior-care facility cards.
+ * Fetches from Firestore and shows cover images when available.
  */
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { mockResidencias } from '@/data/mock-residencias';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '@/services/firebase/config';
+import type { Residencia } from '@/types/residencia';
 import { formatPrecio, formatCalificacion } from '@/utils/formatters';
 import styles from './FeaturedResidencias.module.css';
-
-/** Show only the featured (destacada) residencias, capped at 6. */
-const featured = mockResidencias.filter((r) => r.destacada).slice(0, 6);
 
 /** Maximum number of service badges to display per card. */
 const MAX_SERVICES = 3;
 
 export default function FeaturedResidencias() {
+  const [featured, setFeatured] = useState<Residencia[]>([]);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const snapshot = await getDocs(collection(db, 'residencias'));
+        const all = snapshot.docs.map((doc) => {
+          const d = doc.data();
+          return { id: doc.id, ...d } as Residencia;
+        });
+        // Featured first, then by rating, cap at 6
+        const sorted = all
+          .filter((r) => r.publicada !== false)
+          .sort((a, b) => {
+            if (a.destacada && !b.destacada) return -1;
+            if (!a.destacada && b.destacada) return 1;
+            return (b.calificacion ?? 0) - (a.calificacion ?? 0);
+          })
+          .slice(0, 6);
+        setFeatured(sorted);
+      } catch (err) {
+        console.warn('[FeaturedResidencias] Error loading:', err);
+      }
+    }
+    load();
+  }, []);
+
+  if (featured.length === 0) return null;
+
   return (
     <section className={styles.section} aria-label="Residencias destacadas">
       <div className={styles.container}>
@@ -36,7 +68,25 @@ export default function FeaturedResidencias() {
             >
               {/* Image */}
               <div className={styles.cardImage}>
-                <div className={styles.cardImagePlaceholder} aria-hidden="true">
+                {residencia.imagenPrincipal ? (
+                  <img
+                    src={residencia.imagenPrincipal}
+                    alt={residencia.nombre}
+                    className={styles.coverImage}
+                    loading="lazy"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const placeholder = target.nextElementSibling as HTMLElement;
+                      if (placeholder) placeholder.style.display = 'flex';
+                    }}
+                  />
+                ) : null}
+                <div
+                  className={styles.cardImagePlaceholder}
+                  aria-hidden="true"
+                  style={residencia.imagenPrincipal ? { display: 'none' } : undefined}
+                >
                   🏠
                 </div>
                 {residencia.verificada && (
