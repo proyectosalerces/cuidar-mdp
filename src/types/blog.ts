@@ -6,6 +6,8 @@ export type CategoriasBlog =
   | 'guias'
   | 'salud'
   | 'legal'
+  | 'legales'
+  | 'familias'
   | 'emocional'
   | 'actividades'
   | 'nutricion'

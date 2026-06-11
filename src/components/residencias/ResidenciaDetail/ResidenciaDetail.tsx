@@ -193,6 +193,41 @@ export default function ResidenciaDetail({ residencia }: ResidenciaDetailProps) 
             </section>
           )}
 
+          {/* Habilitaciones */}
+          {residencia.mostrarHabilitaciones && (residencia.habilitacionMunicipal || residencia.habilitacionProvincial) && (
+            <section className={styles.detailSection}>
+              <h2 className={styles.sectionTitle}>
+                <svg className={styles.sectionTitleIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Habilitaciones
+              </h2>
+              <div className={styles.infoGrid}>
+                {residencia.habilitacionMunicipal && (
+                  <div className={styles.infoCard}>
+                    <span className={styles.infoCardLabel}>Habilitación Municipal</span>
+                    <span className={`${styles.infoCardValue} ${styles[`hab_${residencia.habilitacionMunicipal}`]}`}>
+                      {residencia.habilitacionMunicipal === 'si' && '✅ Sí'}
+                      {residencia.habilitacionMunicipal === 'no' && '❌ No'}
+                      {residencia.habilitacionMunicipal === 'en-tramite' && '🔄 En trámite'}
+                    </span>
+                  </div>
+                )}
+                {residencia.habilitacionProvincial && (
+                  <div className={styles.infoCard}>
+                    <span className={styles.infoCardLabel}>Habilitación Provincial</span>
+                    <span className={`${styles.infoCardValue} ${styles[`hab_${residencia.habilitacionProvincial}`]}`}>
+                      {residencia.habilitacionProvincial === 'si' && '✅ Sí'}
+                      {residencia.habilitacionProvincial === 'no' && '❌ No'}
+                      {residencia.habilitacionProvincial === 'en-tramite' && '🔄 En trámite'}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
           {/* Reviews */}
           <ResenaSection
             entidadId={residencia.id}

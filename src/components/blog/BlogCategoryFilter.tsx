@@ -17,10 +17,13 @@ const CATEGORIES = [
   { value: '', label: 'Todas' },
   { value: 'guias', label: 'Guías' },
   { value: 'salud', label: 'Salud' },
+  { value: 'familias', label: 'Familias' },
+  { value: 'legales', label: 'Legales' },
   { value: 'legal', label: 'Legal' },
   { value: 'emocional', label: 'Emocional' },
   { value: 'actividades', label: 'Actividades' },
   { value: 'nutricion', label: 'Nutrición' },
+  { value: 'noticias', label: 'Noticias' },
 ] as const;
 
 /* -------------------------------------------------------------------------- */

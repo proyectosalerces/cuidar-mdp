@@ -505,3 +505,20 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ── Habilitaciones status colors ────────────────────────────────────── */
+
+.hab_si {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.hab_no {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.hab_en-tramite {
+  color: #d97706;
+  font-weight: 600;
+}

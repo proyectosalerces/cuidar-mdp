@@ -20,6 +20,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   guias: 'Guías',
   salud: 'Salud',
   legal: 'Legal',
+  legales: 'Legales',
+  familias: 'Familias',
   emocional: 'Emocional',
   actividades: 'Actividades',
   nutricion: 'Nutrición',
