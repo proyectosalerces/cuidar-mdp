@@ -4,14 +4,13 @@
  * Admin — Edit blog post
  */
 
-import { useState, useEffect, useRef, use } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { CategoriasBlog } from '@/types/blog';
 import {
   getBlogPostById,
   updateBlogPost,
-  uploadImage,
 } from '@/services/admin.service';
 import styles from '../form.module.css';
 
@@ -32,7 +31,6 @@ export default function EditBlogPostPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   /* Form state */
   const [titulo, setTitulo] = useState('');
@@ -44,9 +42,7 @@ export default function EditBlogPostPage({
   const [tagInput, setTagInput] = useState('');
   const [tiempoLectura, setTiempoLectura] = useState('5');
   const [publicado, setPublicado] = useState(false);
-  const [existingImage, setExistingImage] = useState<string | null>(null);
-  const [newImagePreview, setNewImagePreview] = useState<string | null>(null);
-  const [newImageFile, setNewImageFile] = useState<File | null>(null);
+  const [imagenPortada, setImagenPortada] = useState('');
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -74,9 +70,7 @@ export default function EditBlogPostPage({
         setTags(data.tags ?? []);
         setTiempoLectura(data.tiempoLectura?.toString() ?? '5');
         setPublicado(data.publicado ?? false);
-        if (data.imagenPortada) {
-          setExistingImage(data.imagenPortada);
-        }
+        setImagenPortada(data.imagenPortada ?? '');
       } catch (err) {
         console.error('Error loading blog post:', err);
         showToast('Error al cargar los datos', 'error');
@@ -100,28 +94,6 @@ export default function EditBlogPostPage({
     setTags((prev) => prev.filter((item) => item !== t));
   };
 
-  /* Image handling */
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      setNewImagePreview(ev.target?.result as string);
-    };
-    reader.readAsDataURL(file);
-    setNewImageFile(file);
-    e.target.value = '';
-  };
-
-  const handleRemoveExisting = () => {
-    setExistingImage(null);
-  };
-
-  const handleRemoveNew = () => {
-    setNewImagePreview(null);
-    setNewImageFile(null);
-  };
-
   /* Save */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,19 +105,12 @@ export default function EditBlogPostPage({
 
     setSaving(true);
     try {
-      let imagenPortada = existingImage ?? '';
-
-      if (newImageFile) {
-        const path = `blog/${Date.now()}-${newImageFile.name}`;
-        imagenPortada = await uploadImage(newImageFile, path);
-      }
-
       await updateBlogPost(id, {
         titulo: titulo.trim(),
         categoria,
         extracto: extracto.trim(),
         contenido: contenido.trim(),
-        imagenPortada,
+        imagenPortada: imagenPortada.trim(),
         autor: { nombre: autorNombre.trim() || 'Equipo Cuidar MdP' },
         tags,
         tiempoLectura: Number(tiempoLectura) || 5,
@@ -315,53 +280,30 @@ export default function EditBlogPostPage({
         {/* Image */}
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>Imagen de portada</h2>
-          <div className={styles.imageUpload}>
-            <div
-              className={styles.dropZone}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <div className={styles.dropIcon}>📷</div>
-              <div className={styles.dropText}>
-                Hacé click para subir la imagen de portada
-              </div>
-              <div className={styles.dropHint}>JPG, PNG, WebP — Máx. 5MB</div>
-            </div>
+          <div className={styles.field}>
+            <label className={styles.label}>URL de la imagen</label>
             <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={handleFileChange}
+              className={styles.input}
+              type="url"
+              value={imagenPortada}
+              onChange={(e) => setImagenPortada(e.target.value)}
+              placeholder="https://ejemplo.com/imagen.jpg"
             />
-            {(existingImage || newImagePreview) && (
-              <div className={styles.imagePreview}>
-                {existingImage && (
-                  <div className={styles.previewItem}>
-                    <img src={existingImage} alt="Portada actual" />
-                    <button
-                      type="button"
-                      className={styles.previewRemove}
-                      onClick={handleRemoveExisting}
-                    >
-                      ×
-                    </button>
-                  </div>
-                )}
-                {newImagePreview && (
-                  <div className={styles.previewItem}>
-                    <img src={newImagePreview} alt="Nueva portada" />
-                    <button
-                      type="button"
-                      className={styles.previewRemove}
-                      onClick={handleRemoveNew}
-                    >
-                      ×
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
+            <p className={styles.dropHint}>
+              Pegá la URL de una imagen de Google Maps, Instagram, o cualquier sitio web
+            </p>
           </div>
+          {imagenPortada.trim() && (
+            <div className={styles.imagePreview} style={{ marginTop: '0.5rem' }}>
+              <div className={styles.previewItem}>
+                <img
+                  src={imagenPortada.trim()}
+                  alt="Portada actual"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Estado */}

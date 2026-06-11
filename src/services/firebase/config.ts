@@ -1,14 +1,14 @@
 /**
  * Firebase configuration and initialization
  *
- * Initializes Firebase app, Firestore, Auth, and Storage.
+ * Initializes Firebase app, Firestore, and Auth.
  * Uses environment variables from .env.local.
  */
 
 import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
 import { getFirestore, type Firestore } from 'firebase/firestore';
 import { getAuth, type Auth } from 'firebase/auth';
-import { getStorage, type FirebaseStorage } from 'firebase/storage';
+
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? 'AIzaSyDBhWaGpqYgeaAc1el64rB58cpjGvYMQ6Y',
@@ -25,6 +25,6 @@ const app: FirebaseApp =
 
 const db: Firestore = getFirestore(app);
 const auth: Auth = getAuth(app);
-const storage: FirebaseStorage = getStorage(app);
 
-export { firebaseConfig, app, db, auth, storage };
+
+export { firebaseConfig, app, db, auth };

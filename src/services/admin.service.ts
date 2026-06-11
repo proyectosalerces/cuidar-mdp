@@ -1,7 +1,7 @@
 /**
  * Admin Service — CRUD operations for residencias & profesionales
  *
- * Uses Firebase client SDK (Firestore + Storage).
+ * Uses Firebase client SDK (Firestore).
  */
 
 import {
@@ -16,13 +16,7 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from 'firebase/storage';
-import { db, storage } from '@/services/firebase/config';
+import { db } from '@/services/firebase/config';
 import type { Residencia } from '@/types/residencia';
 import type { Profesional } from '@/types/profesional';
 
@@ -140,23 +134,7 @@ export async function deleteProfesional(id: string): Promise<void> {
   await deleteDoc(docRef);
 }
 
-/* ── Image Uploads ────────────────────────────────────────────────────── */
 
-export async function uploadImage(file: File, path: string): Promise<string> {
-  const storageRef = ref(storage, path);
-  const snapshot = await uploadBytes(storageRef, file);
-  const downloadURL = await getDownloadURL(snapshot.ref);
-  return downloadURL;
-}
-
-export async function deleteImage(url: string): Promise<void> {
-  try {
-    const storageRef = ref(storage, url);
-    await deleteObject(storageRef);
-  } catch {
-    // Image may not exist — ignore
-  }
-}
 
 /* ── Stats ────────────────────────────────────────────────────────────── */
 

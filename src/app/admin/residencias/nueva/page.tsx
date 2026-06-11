@@ -4,7 +4,7 @@
  * Admin — Create new residencia
  */
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { TipoCuidado } from '@/types/residencia';
@@ -12,12 +12,11 @@ import {
   BARRIOS_MDP,
   TIPOS_CUIDADO_OPTIONS,
 } from '@/utils/constants';
-import { createResidencia, uploadImage } from '@/services/admin.service';
+import { createResidencia } from '@/services/admin.service';
 import styles from '../form.module.css';
 
 export default function NuevaResidenciaPage() {
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   /* Form state */
   const [nombre, setNombre] = useState('');
@@ -36,8 +35,9 @@ export default function NuevaResidenciaPage() {
   const [precioHasta, setPrecioHasta] = useState('');
   const [destacada, setDestacada] = useState(false);
   const [activa, setActiva] = useState(true);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagenPrincipal, setImagenPrincipal] = useState('');
+  const [imagenes, setImagenes] = useState<string[]>([]);
+  const [imagenInput, setImagenInput] = useState('');
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
@@ -66,23 +66,17 @@ export default function NuevaResidenciaPage() {
     setServicios((prev) => prev.filter((item) => item !== s));
   };
 
-  /* Image handling */
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? []);
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setImagePreviews((prev) => [...prev, ev.target?.result as string]);
-      };
-      reader.readAsDataURL(file);
-      setImageFiles((prev) => [...prev, file]);
-    });
-    e.target.value = '';
+  /* Imágenes URL add/remove */
+  const handleAddImagen = () => {
+    const trimmed = imagenInput.trim();
+    if (trimmed && !imagenes.includes(trimmed)) {
+      setImagenes((prev) => [...prev, trimmed]);
+      setImagenInput('');
+    }
   };
 
-  const handleRemoveImage = (index: number) => {
-    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-    setImageFiles((prev) => prev.filter((_, i) => i !== index));
+  const handleRemoveImagen = (url: string) => {
+    setImagenes((prev) => prev.filter((item) => item !== url));
   };
 
   /* Save */
@@ -96,13 +90,10 @@ export default function NuevaResidenciaPage() {
 
     setSaving(true);
     try {
-      // Upload images
-      const imageUrls: string[] = [];
-      for (const file of imageFiles) {
-        const path = `residencias/${Date.now()}-${file.name}`;
-        const url = await uploadImage(file, path);
-        imageUrls.push(url);
-      }
+      const allImages = [
+        ...(imagenPrincipal.trim() ? [imagenPrincipal.trim()] : []),
+        ...imagenes,
+      ];
 
       await createResidencia({
         nombre: nombre.trim(),
@@ -120,8 +111,8 @@ export default function NuevaResidenciaPage() {
         precioHasta: precioHasta ? Number(precioHasta) : undefined,
         destacada,
         activa,
-        imagenes: imageUrls,
-        imagenPrincipal: imageUrls[0] ?? '',
+        imagenes: allImages,
+        imagenPrincipal: imagenPrincipal.trim(),
       });
 
       showToast('Residencia creada exitosamente', 'success');
@@ -360,40 +351,93 @@ export default function NuevaResidenciaPage() {
         {/* Images */}
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>Imágenes</h2>
-          <div className={styles.imageUpload}>
-            <div
-              className={styles.dropZone}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <div className={styles.dropIcon}>📷</div>
-              <div className={styles.dropText}>
-                Hacé click para subir imágenes
-              </div>
-              <div className={styles.dropHint}>JPG, PNG, WebP — Máx. 5MB</div>
-            </div>
+          <p className={styles.dropHint} style={{ marginBottom: '0.75rem' }}>
+            Pegá la URL de una imagen de Google Maps, Instagram, o cualquier sitio web
+          </p>
+
+          {/* Imagen principal */}
+          <div className={styles.field} style={{ marginBottom: '1rem' }}>
+            <label className={styles.label}>Imagen principal (URL)</label>
             <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              hidden
-              onChange={handleFileChange}
+              className={styles.input}
+              type="url"
+              value={imagenPrincipal}
+              onChange={(e) => setImagenPrincipal(e.target.value)}
+              placeholder="https://ejemplo.com/imagen.jpg"
             />
-            {imagePreviews.length > 0 && (
-              <div className={styles.imagePreview}>
-                {imagePreviews.map((src, i) => (
-                  <div key={i} className={styles.previewItem}>
-                    <img src={src} alt={`Preview ${i + 1}`} />
-                    <button
-                      type="button"
-                      className={styles.previewRemove}
-                      onClick={() => handleRemoveImage(i)}
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
+            {imagenPrincipal.trim() && (
+              <div className={styles.imagePreview} style={{ marginTop: '0.5rem' }}>
+                <div className={styles.previewItem}>
+                  <img
+                    src={imagenPrincipal.trim()}
+                    alt="Imagen principal"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
+                </div>
               </div>
+            )}
+          </div>
+
+          {/* Imágenes adicionales */}
+          <div className={styles.tagsWrapper}>
+            <label className={styles.label}>Imágenes adicionales (URLs)</label>
+            <div className={styles.tagInputRow}>
+              <input
+                className={styles.input}
+                type="url"
+                value={imagenInput}
+                onChange={(e) => setImagenInput(e.target.value)}
+                placeholder="https://ejemplo.com/imagen.jpg"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleAddImagen();
+                  }
+                }}
+              />
+              <button
+                type="button"
+                className={styles.tagAddBtn}
+                onClick={handleAddImagen}
+              >
+                Agregar
+              </button>
+            </div>
+            {imagenes.length > 0 && (
+              <>
+                <div className={styles.tagsList}>
+                  {imagenes.map((url) => (
+                    <span key={url} className={styles.tag}>
+                      {url.length > 50 ? url.substring(0, 50) + '...' : url}
+                      <button
+                        type="button"
+                        className={styles.tagRemove}
+                        onClick={() => handleRemoveImagen(url)}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <div className={styles.imagePreview} style={{ marginTop: '0.5rem' }}>
+                  {imagenes.map((url, i) => (
+                    <div key={i} className={styles.previewItem}>
+                      <img
+                        src={url}
+                        alt={`Imagen ${i + 1}`}
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                      <button
+                        type="button"
+                        className={styles.previewRemove}
+                        onClick={() => handleRemoveImagen(url)}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         </div>

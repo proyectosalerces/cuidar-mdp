@@ -4,7 +4,7 @@
  * Admin — Edit profesional
  */
 
-import { useState, useEffect, useRef, use } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { Especialidad } from '@/types/profesional';
@@ -12,7 +12,6 @@ import { ESPECIALIDAD_OPTIONS, BARRIOS_MDP } from '@/utils/constants';
 import {
   getProfesionalById,
   updateProfesional,
-  uploadImage,
 } from '@/services/admin.service';
 import styles from '../form.module.css';
 
@@ -23,7 +22,6 @@ export default function EditProfesionalPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   /* Form state */
   const [nombre, setNombre] = useState('');
@@ -35,9 +33,7 @@ export default function EditProfesionalPage({
   const [matricula, setMatricula] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [website, setWebsite] = useState('');
-  const [existingFoto, setExistingFoto] = useState('');
-  const [fotoPreview, setFotoPreview] = useState<string | null>(null);
-  const [fotoFile, setFotoFile] = useState<File | null>(null);
+  const [foto, setFoto] = useState('');
   const [activo, setActivo] = useState(true);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -67,7 +63,7 @@ export default function EditProfesionalPage({
         setMatricula(data.matricula ?? '');
         setDescripcion(data.descripcion ?? '');
         setWebsite(data.website ?? '');
-        setExistingFoto(data.foto ?? '');
+        setFoto(data.foto ?? '');
         setActivo(data.activo ?? true);
       } catch (err) {
         console.error('Error loading profesional:', err);
@@ -78,17 +74,6 @@ export default function EditProfesionalPage({
     }
     loadProfesional();
   }, [id, router]);
-
-  /* Photo handling */
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => setFotoPreview(ev.target?.result as string);
-    reader.readAsDataURL(file);
-    setFotoFile(file);
-    e.target.value = '';
-  };
 
   /* Save */
   const handleSubmit = async (e: React.FormEvent) => {
@@ -101,12 +86,6 @@ export default function EditProfesionalPage({
 
     setSaving(true);
     try {
-      let fotoUrl = existingFoto;
-      if (fotoFile) {
-        const path = `profesionales/${Date.now()}-${fotoFile.name}`;
-        fotoUrl = await uploadImage(fotoFile, path);
-      }
-
       await updateProfesional(id, {
         nombre: nombre.trim(),
         especialidad: especialidad as Especialidad,
@@ -117,7 +96,7 @@ export default function EditProfesionalPage({
         matricula: matricula.trim() || undefined,
         descripcion: descripcion.trim(),
         website: website.trim() || undefined,
-        foto: fotoUrl,
+        foto: foto.trim(),
         activo,
       });
 
@@ -144,8 +123,6 @@ export default function EditProfesionalPage({
     );
   }
 
-  const displayPhoto = fotoPreview ?? existingFoto;
-
   return (
     <div className={styles.page}>
       {/* Header */}
@@ -160,32 +137,30 @@ export default function EditProfesionalPage({
         {/* Photo */}
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>Foto</h2>
-          <div className={styles.photoUpload}>
-            <div className={styles.photoPreview}>
-              {displayPhoto ? (
-                <img src={displayPhoto} alt={nombre} />
-              ) : (
-                <span className={styles.photoPlaceholder}>👤</span>
-              )}
-            </div>
-            <div className={styles.photoActions}>
-              <button
-                type="button"
-                className={styles.uploadBtn}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                {displayPhoto ? 'Cambiar foto' : 'Subir foto'}
-              </button>
-              <p className={styles.photoHint}>JPG, PNG — Máx. 2MB</p>
-            </div>
+          <div className={styles.field}>
+            <label className={styles.label}>URL de la foto</label>
             <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={handlePhotoChange}
+              className={styles.input}
+              type="url"
+              value={foto}
+              onChange={(e) => setFoto(e.target.value)}
+              placeholder="https://ejemplo.com/foto.jpg"
             />
+            <p className={styles.photoHint}>
+              Pegá la URL de una imagen de Google Maps, Instagram, o cualquier sitio web
+            </p>
           </div>
+          {foto.trim() && (
+            <div className={styles.photoUpload} style={{ marginTop: '0.75rem' }}>
+              <div className={styles.photoPreview}>
+                <img
+                  src={foto.trim()}
+                  alt={nombre}
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Basic Info */}

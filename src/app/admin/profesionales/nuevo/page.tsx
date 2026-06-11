@@ -4,17 +4,16 @@
  * Admin — Create new profesional
  */
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { Especialidad } from '@/types/profesional';
 import { ESPECIALIDAD_OPTIONS, BARRIOS_MDP } from '@/utils/constants';
-import { createProfesional, uploadImage } from '@/services/admin.service';
+import { createProfesional } from '@/services/admin.service';
 import styles from '../form.module.css';
 
 export default function NuevoProfesionalPage() {
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   /* Form state */
   const [nombre, setNombre] = useState('');
@@ -26,8 +25,7 @@ export default function NuevoProfesionalPage() {
   const [matricula, setMatricula] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [website, setWebsite] = useState('');
-  const [fotoPreview, setFotoPreview] = useState<string | null>(null);
-  const [fotoFile, setFotoFile] = useState<File | null>(null);
+  const [foto, setFoto] = useState('');
   const [activo, setActivo] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -35,17 +33,6 @@ export default function NuevoProfesionalPage() {
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
-  };
-
-  /* Photo handling */
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => setFotoPreview(ev.target?.result as string);
-    reader.readAsDataURL(file);
-    setFotoFile(file);
-    e.target.value = '';
   };
 
   /* Save */
@@ -59,12 +46,6 @@ export default function NuevoProfesionalPage() {
 
     setSaving(true);
     try {
-      let fotoUrl = '';
-      if (fotoFile) {
-        const path = `profesionales/${Date.now()}-${fotoFile.name}`;
-        fotoUrl = await uploadImage(fotoFile, path);
-      }
-
       await createProfesional({
         nombre: nombre.trim(),
         especialidad: especialidad as Especialidad,
@@ -75,7 +56,7 @@ export default function NuevoProfesionalPage() {
         matricula: matricula.trim() || undefined,
         descripcion: descripcion.trim(),
         website: website.trim() || undefined,
-        foto: fotoUrl,
+        foto: foto.trim(),
         activo,
       });
 
@@ -103,32 +84,30 @@ export default function NuevoProfesionalPage() {
         {/* Photo */}
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>Foto</h2>
-          <div className={styles.photoUpload}>
-            <div className={styles.photoPreview}>
-              {fotoPreview ? (
-                <img src={fotoPreview} alt="Preview" />
-              ) : (
-                <span className={styles.photoPlaceholder}>👤</span>
-              )}
-            </div>
-            <div className={styles.photoActions}>
-              <button
-                type="button"
-                className={styles.uploadBtn}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                {fotoPreview ? 'Cambiar foto' : 'Subir foto'}
-              </button>
-              <p className={styles.photoHint}>JPG, PNG — Máx. 2MB</p>
-            </div>
+          <div className={styles.field}>
+            <label className={styles.label}>URL de la foto</label>
             <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={handlePhotoChange}
+              className={styles.input}
+              type="url"
+              value={foto}
+              onChange={(e) => setFoto(e.target.value)}
+              placeholder="https://ejemplo.com/foto.jpg"
             />
+            <p className={styles.photoHint}>
+              Pegá la URL de una imagen de Google Maps, Instagram, o cualquier sitio web
+            </p>
           </div>
+          {foto.trim() && (
+            <div className={styles.photoUpload} style={{ marginTop: '0.75rem' }}>
+              <div className={styles.photoPreview}>
+                <img
+                  src={foto.trim()}
+                  alt="Preview"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Basic Info */}

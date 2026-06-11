@@ -4,7 +4,7 @@
  * Admin — Edit residencia
  */
 
-import { useState, useEffect, useRef, use } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { TipoCuidado } from '@/types/residencia';
@@ -15,7 +15,6 @@ import {
 import {
   getResidenciaById,
   updateResidencia,
-  uploadImage,
 } from '@/services/admin.service';
 import styles from '../form.module.css';
 
@@ -26,7 +25,6 @@ export default function EditResidenciaPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   /* Form state */
   const [nombre, setNombre] = useState('');
@@ -45,9 +43,9 @@ export default function EditResidenciaPage({
   const [precioHasta, setPrecioHasta] = useState('');
   const [destacada, setDestacada] = useState(false);
   const [activa, setActiva] = useState(true);
-  const [existingImages, setExistingImages] = useState<string[]>([]);
-  const [newImagePreviews, setNewImagePreviews] = useState<string[]>([]);
-  const [newImageFiles, setNewImageFiles] = useState<File[]>([]);
+  const [imagenPrincipal, setImagenPrincipal] = useState('');
+  const [imagenes, setImagenes] = useState<string[]>([]);
+  const [imagenInput, setImagenInput] = useState('');
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -82,7 +80,12 @@ export default function EditResidenciaPage({
         setPrecioHasta(data.precioHasta?.toString() ?? '');
         setDestacada(data.destacada ?? false);
         setActiva(data.activa ?? true);
-        setExistingImages(data.imagenes ?? []);
+        setImagenPrincipal(data.imagenPrincipal ?? '');
+        // Additional images = all images except the principal one
+        const extras = (data.imagenes ?? []).filter(
+          (img) => img !== (data.imagenPrincipal ?? ''),
+        );
+        setImagenes(extras);
       } catch (err) {
         console.error('Error loading residencia:', err);
         showToast('Error al cargar los datos', 'error');
@@ -113,27 +116,17 @@ export default function EditResidenciaPage({
     setServicios((prev) => prev.filter((item) => item !== s));
   };
 
-  /* Image handling */
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? []);
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setNewImagePreviews((prev) => [...prev, ev.target?.result as string]);
-      };
-      reader.readAsDataURL(file);
-      setNewImageFiles((prev) => [...prev, file]);
-    });
-    e.target.value = '';
+  /* Imágenes URL add/remove */
+  const handleAddImagen = () => {
+    const trimmed = imagenInput.trim();
+    if (trimmed && !imagenes.includes(trimmed)) {
+      setImagenes((prev) => [...prev, trimmed]);
+      setImagenInput('');
+    }
   };
 
-  const handleRemoveExisting = (index: number) => {
-    setExistingImages((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleRemoveNew = (index: number) => {
-    setNewImagePreviews((prev) => prev.filter((_, i) => i !== index));
-    setNewImageFiles((prev) => prev.filter((_, i) => i !== index));
+  const handleRemoveImagen = (url: string) => {
+    setImagenes((prev) => prev.filter((item) => item !== url));
   };
 
   /* Save */
@@ -147,15 +140,10 @@ export default function EditResidenciaPage({
 
     setSaving(true);
     try {
-      // Upload new images
-      const newUrls: string[] = [];
-      for (const file of newImageFiles) {
-        const path = `residencias/${Date.now()}-${file.name}`;
-        const url = await uploadImage(file, path);
-        newUrls.push(url);
-      }
-
-      const allImages = [...existingImages, ...newUrls];
+      const allImages = [
+        ...(imagenPrincipal.trim() ? [imagenPrincipal.trim()] : []),
+        ...imagenes,
+      ];
 
       await updateResidencia(id, {
         nombre: nombre.trim(),
@@ -174,7 +162,7 @@ export default function EditResidenciaPage({
         destacada,
         activa,
         imagenes: allImages,
-        imagenPrincipal: allImages[0] ?? '',
+        imagenPrincipal: imagenPrincipal.trim(),
       });
 
       showToast('Residencia actualizada', 'success');
@@ -416,52 +404,93 @@ export default function EditResidenciaPage({
         {/* Images */}
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>Imágenes</h2>
-          <div className={styles.imageUpload}>
-            <div
-              className={styles.dropZone}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <div className={styles.dropIcon}>📷</div>
-              <div className={styles.dropText}>
-                Hacé click para subir imágenes
-              </div>
-              <div className={styles.dropHint}>JPG, PNG, WebP — Máx. 5MB</div>
-            </div>
+          <p className={styles.dropHint} style={{ marginBottom: '0.75rem' }}>
+            Pegá la URL de una imagen de Google Maps, Instagram, o cualquier sitio web
+          </p>
+
+          {/* Imagen principal */}
+          <div className={styles.field} style={{ marginBottom: '1rem' }}>
+            <label className={styles.label}>Imagen principal (URL)</label>
             <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              hidden
-              onChange={handleFileChange}
+              className={styles.input}
+              type="url"
+              value={imagenPrincipal}
+              onChange={(e) => setImagenPrincipal(e.target.value)}
+              placeholder="https://ejemplo.com/imagen.jpg"
             />
-            {(existingImages.length > 0 || newImagePreviews.length > 0) && (
-              <div className={styles.imagePreview}>
-                {existingImages.map((src, i) => (
-                  <div key={`existing-${i}`} className={styles.previewItem}>
-                    <img src={src} alt={`Imagen ${i + 1}`} />
-                    <button
-                      type="button"
-                      className={styles.previewRemove}
-                      onClick={() => handleRemoveExisting(i)}
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-                {newImagePreviews.map((src, i) => (
-                  <div key={`new-${i}`} className={styles.previewItem}>
-                    <img src={src} alt={`Nueva ${i + 1}`} />
-                    <button
-                      type="button"
-                      className={styles.previewRemove}
-                      onClick={() => handleRemoveNew(i)}
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
+            {imagenPrincipal.trim() && (
+              <div className={styles.imagePreview} style={{ marginTop: '0.5rem' }}>
+                <div className={styles.previewItem}>
+                  <img
+                    src={imagenPrincipal.trim()}
+                    alt="Imagen principal"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
+                </div>
               </div>
+            )}
+          </div>
+
+          {/* Imágenes adicionales */}
+          <div className={styles.tagsWrapper}>
+            <label className={styles.label}>Imágenes adicionales (URLs)</label>
+            <div className={styles.tagInputRow}>
+              <input
+                className={styles.input}
+                type="url"
+                value={imagenInput}
+                onChange={(e) => setImagenInput(e.target.value)}
+                placeholder="https://ejemplo.com/imagen.jpg"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleAddImagen();
+                  }
+                }}
+              />
+              <button
+                type="button"
+                className={styles.tagAddBtn}
+                onClick={handleAddImagen}
+              >
+                Agregar
+              </button>
+            </div>
+            {imagenes.length > 0 && (
+              <>
+                <div className={styles.tagsList}>
+                  {imagenes.map((url) => (
+                    <span key={url} className={styles.tag}>
+                      {url.length > 50 ? url.substring(0, 50) + '...' : url}
+                      <button
+                        type="button"
+                        className={styles.tagRemove}
+                        onClick={() => handleRemoveImagen(url)}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <div className={styles.imagePreview} style={{ marginTop: '0.5rem' }}>
+                  {imagenes.map((url, i) => (
+                    <div key={i} className={styles.previewItem}>
+                      <img
+                        src={url}
+                        alt={`Imagen ${i + 1}`}
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                      <button
+                        type="button"
+                        className={styles.previewRemove}
+                        onClick={() => handleRemoveImagen(url)}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         </div>
