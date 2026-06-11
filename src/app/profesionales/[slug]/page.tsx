@@ -44,6 +44,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: profesional.nombre,
     description,
+    alternates: {
+      canonical: `/profesionales/${profesional.slug}`,
+    },
     openGraph: {
       title: `${profesional.nombre} — Cuidar MdP`,
       description,

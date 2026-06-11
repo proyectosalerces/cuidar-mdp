@@ -9,7 +9,7 @@ import type { Profesional } from '@/types/profesional';
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from '@/utils/constants';
 
 interface SeoParams {
-  /** Page title – will be appended with "| Cuidar MdP" */
+  /** Page title – the root layout template will append the site name */
   title: string;
   /** Meta description for the page */
   description?: string;
@@ -37,14 +37,14 @@ export function generateMetadata({
   title,
   description = SITE_DESCRIPTION,
   path = '',
-  ogImage = '/images/og-default.jpg',
+  ogImage = '/images/og-default.png',
   noIndex = false,
 }: SeoParams): Metadata {
   const fullTitle = `${title} | ${SITE_NAME}`;
-  const canonicalUrl = `${SITE_URL}${path}`;
+  const canonicalUrl = path;
 
   return {
-    title: fullTitle,
+    title,
     description,
     alternates: {
       canonical: canonicalUrl,
@@ -52,7 +52,7 @@ export function generateMetadata({
     openGraph: {
       title: fullTitle,
       description,
-      url: canonicalUrl,
+      url: `${SITE_URL}${path}`,
       siteName: SITE_NAME,
       locale: 'es_AR',
       type: 'website',

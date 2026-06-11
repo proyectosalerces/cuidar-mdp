@@ -1,25 +1,15 @@
 /**
  * JSON-LD Structured Data component.
  *
- * Uses Next.js Script component to avoid the "script tag inside React
- * component" warning in Next.js 16+.
+ * Renders as a plain <script type="application/ld+json"> tag so that
+ * search-engine crawlers see the structured data in the initial HTML.
  */
 
-import Script from 'next/script';
-
-interface JsonLdProps {
-  /** The JSON-LD structured data object to embed */
-  data: Record<string, unknown>;
-  /** Unique id for the script tag */
-  id?: string;
-}
-
-export default function JsonLd({ data, id = 'json-ld' }: JsonLdProps) {
+export default function JsonLd({ id, data }: { id: string; data: object }) {
   return (
-    <Script
+    <script
       id={id}
       type="application/ld+json"
-      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
   );

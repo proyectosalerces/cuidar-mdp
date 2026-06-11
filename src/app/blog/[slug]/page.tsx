@@ -41,15 +41,15 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: `Artículo no encontrado | ${SITE_NAME}`,
+      title: 'Artículo no encontrado',
     };
   }
 
   return {
-    title: `${post.titulo} | ${SITE_NAME}`,
+    title: post.titulo,
     description: post.extracto,
     alternates: {
-      canonical: `${SITE_URL}/blog/${post.slug}`,
+      canonical: `/blog/${post.slug}`,
     },
     openGraph: {
       title: `${post.titulo} | ${SITE_NAME}`,

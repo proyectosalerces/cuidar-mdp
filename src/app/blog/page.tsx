@@ -9,14 +9,14 @@ import BlogPage from '@/components/blog/BlogPage';
 import { SITE_NAME, SITE_URL } from '@/utils/constants';
 
 export const metadata: Metadata = {
-  title: `Blog — Recursos y Guías | ${SITE_NAME}`,
+  title: 'Blog — Recursos y Guías',
   description:
     'Artículos, guías y recursos sobre cuidado geriátrico, salud del adulto mayor, nutrición, actividades y asesoramiento legal para familias en Mar del Plata.',
   alternates: {
-    canonical: `${SITE_URL}/blog`,
+    canonical: '/blog',
   },
   openGraph: {
-    title: `Blog — Recursos y Guías | ${SITE_NAME}`,
+    title: 'Blog — Recursos y Guías | Cuidar MdP',
     description:
       'Información actualizada sobre cuidado geriátrico, salud del adulto mayor y asesoramiento para familias.',
     url: `${SITE_URL}/blog`,

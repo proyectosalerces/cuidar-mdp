@@ -2,16 +2,17 @@
  * Next.js App Router sitemap convention.
  *
  * Generates a sitemap.xml with static and dynamic pages.
+ * Uses Firestore services for dynamic content.
  * @see https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
  */
 
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/utils/constants';
-import { mockResidencias } from '@/data/mock';
-import { mockBlogPosts } from '@/data/mock';
-import { mockProfesionales } from '@/data/mock';
+import { getResidencias } from '@/services/residencias.service';
+import { getBlogPosts } from '@/services/blog.service';
+import { getProfesionales } from '@/services/profesionales.service';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   /* ── Static pages ─────────────────────────────────────────────────── */
@@ -63,36 +64,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   /* ── Dynamic: Residencias ─────────────────────────────────────────── */
 
-  const residenciaPages: MetadataRoute.Sitemap = mockResidencias
-    .filter((r) => r.activa)
-    .map((r) => ({
-      url: `${SITE_URL}/residencias/${r.slug}`,
-      lastModified: new Date(r.updatedAt),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    }));
+  const residencias = await getResidencias();
+  const residenciaPages: MetadataRoute.Sitemap = residencias.map((r) => ({
+    url: `${SITE_URL}/residencias/${r.slug}`,
+    lastModified: new Date(r.updatedAt),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
 
   /* ── Dynamic: Blog Posts ──────────────────────────────────────────── */
 
-  const blogPages: MetadataRoute.Sitemap = mockBlogPosts
-    .filter((p) => p.publicado)
-    .map((p) => ({
-      url: `${SITE_URL}/blog/${p.slug}`,
-      lastModified: new Date(p.fechaPublicacion),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    }));
+  const blogPosts = await getBlogPosts();
+  const blogPages: MetadataRoute.Sitemap = blogPosts.map((p) => ({
+    url: `${SITE_URL}/blog/${p.slug}`,
+    lastModified: new Date(p.fechaPublicacion),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
 
   /* ── Dynamic: Profesionales ───────────────────────────────────────── */
 
-  const profesionalPages: MetadataRoute.Sitemap = mockProfesionales
-    .filter((p) => p.activo)
-    .map((p) => ({
-      url: `${SITE_URL}/profesionales/${p.slug}`,
-      lastModified: new Date(p.createdAt),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    }));
+  const profesionales = await getProfesionales();
+  const profesionalPages: MetadataRoute.Sitemap = profesionales.map((p) => ({
+    url: `${SITE_URL}/profesionales/${p.slug}`,
+    lastModified: new Date(p.createdAt),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
 
   return [
     ...staticPages,

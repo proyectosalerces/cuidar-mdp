@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: 'Asesoramiento Personalizado',
   description:
     'Solicitá un asesoramiento personalizado para encontrar la mejor opción de cuidado geriátrico en Mar del Plata. Completá el formulario y recibí una recomendación a medida.',
+  alternates: {
+    canonical: '/asesoramiento',
+  },
   openGraph: {
     title: 'Asesoramiento Personalizado — Cuidar MdP',
     description:

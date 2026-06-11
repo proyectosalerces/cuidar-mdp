@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: 'Profesionales de Salud Geriátrica',
   description:
     'Encontrá profesionales de salud geriátrica verificados en Mar del Plata. Geriatras, gerontólogos, kinesiólogos, psicólogos y más especialistas para el cuidado del adulto mayor.',
+  alternates: {
+    canonical: '/profesionales',
+  },
   openGraph: {
     title: 'Profesionales de Salud Geriátrica — Cuidar MdP',
     description:

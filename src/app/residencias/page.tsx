@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: 'Residencias Geriátricas',
   description:
     'Explorá residencias geriátricas verificadas en Mar del Plata. Filtrá por barrio, tipo de cuidado, precio y calificación para encontrar el mejor lugar para tu ser querido.',
+  alternates: {
+    canonical: '/residencias',
+  },
   openGraph: {
     title: 'Residencias Geriátricas — Cuidar MdP',
     description:

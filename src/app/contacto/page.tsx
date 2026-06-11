@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: 'Contacto',
   description:
     'Contactá a Cuidar MdP para consultas sobre residencias geriátricas, profesionales de salud y servicios de cuidado en Mar del Plata. Teléfono, WhatsApp y formulario de contacto.',
+  alternates: {
+    canonical: '/contacto',
+  },
   openGraph: {
     title: 'Contacto — Cuidar MdP',
     description:
