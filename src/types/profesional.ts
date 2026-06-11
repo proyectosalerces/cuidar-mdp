@@ -11,7 +11,11 @@ export type Especialidad =
   | 'nutricion'
   | 'terapia-ocupacional'
   | 'enfermeria'
-  | 'trabajo-social';
+  | 'trabajo-social'
+  | 'cuidador-domiciliario'
+  | 'auxiliar-gerontologico'
+  | 'auxiliar-familia'
+  | 'cuidados-paliativos';
 
 export interface Profesional {
   id: string;

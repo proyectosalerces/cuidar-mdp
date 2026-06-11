@@ -190,6 +190,10 @@ export const ESPECIALIDAD_LABELS: Record<Especialidad, string> = {
   'terapia-ocupacional': 'Terapia ocupacional',
   enfermeria: 'Enfermería',
   'trabajo-social': 'Trabajo social',
+  'cuidador-domiciliario': 'Cuidador/a Domiciliario/a',
+  'auxiliar-gerontologico': 'Auxiliar Gerontológico/a',
+  'auxiliar-familia': 'Auxiliar de Familia',
+  'cuidados-paliativos': 'Cuidados Paliativos',
 };
 
 export const ESPECIALIDAD_OPTIONS: SelectOption[] = Object.entries(ESPECIALIDAD_LABELS).map(
