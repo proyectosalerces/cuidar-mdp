@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { Outfit, Inter } from "next/font/google";
 import Header from "@/components/layout/Header/Header";
 import Footer from "@/components/layout/Footer/Footer";
@@ -120,19 +119,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es-AR" className={`${outfit.variable} ${inter.variable}`} suppressHydrationWarning data-scroll-behavior="smooth">
-      <body>
-        {/* JSON-LD Structured Data: LocalBusiness */}
-        <JsonLd id="jsonld-local-business" data={generateLocalBusinessJsonLd()} />
-
+      <head>
         {/* FOUC prevention: apply theme before React hydrates */}
-        <Script
-          id="theme-fouc"
-          strategy="beforeInteractive"
+        <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('cuidar-mdp-theme');if(t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.setAttribute('data-theme','dark')}}catch(e){}})()`,
           }}
         />
-
+      </head>
+      <body>
+        {/* JSON-LD Structured Data: LocalBusiness */}
+        <JsonLd id="jsonld-local-business" data={generateLocalBusinessJsonLd()} />
         {/* Google Analytics 4 */}
         <GoogleAnalytics />
 
