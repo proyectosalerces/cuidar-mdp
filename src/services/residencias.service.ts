@@ -8,9 +8,6 @@
 import {
   collection,
   getDocs,
-  query,
-  where,
-  orderBy,
   type Timestamp,
 } from 'firebase/firestore';
 import { db } from '@/services/firebase/config';
@@ -179,13 +176,13 @@ async function fetchAllResidencias(): Promise<Residencia[]> {
   }
 
   try {
-    const q = query(
-      collection(db, COLLECTION),
-      where('activa', '==', true),
-      orderBy('calificacion', 'desc'),
-    );
-    const snapshot = await getDocs(q);
-    const residencias = snapshot.docs.map(mapDoc);
+    const snapshot = await getDocs(collection(db, COLLECTION));
+    const allResidencias = snapshot.docs.map(mapDoc);
+
+    // Filter active and sort by calificacion (done in JS to avoid composite index)
+    const residencias = allResidencias
+      .filter((r) => r.activa)
+      .sort((a, b) => b.calificacion - a.calificacion);
 
     // Update cache
     cache = { data: residencias, timestamp: Date.now() };

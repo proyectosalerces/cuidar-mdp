@@ -8,9 +8,6 @@
 import {
   collection,
   getDocs,
-  query,
-  where,
-  orderBy,
   type Timestamp,
 } from 'firebase/firestore';
 import { db } from '@/services/firebase/config';
@@ -74,13 +71,17 @@ async function fetchAllBlogPosts(): Promise<BlogPost[]> {
   }
 
   try {
-    const q = query(
-      collection(db, COLLECTION),
-      where('publicado', '==', true),
-      orderBy('fechaPublicacion', 'desc'),
-    );
-    const snapshot = await getDocs(q);
-    const posts = snapshot.docs.map(mapDoc);
+    const snapshot = await getDocs(collection(db, COLLECTION));
+    const allPosts = snapshot.docs.map(mapDoc);
+
+    // Filter published and sort by date (done in JS to avoid composite index)
+    const posts = allPosts
+      .filter((p) => p.publicado)
+      .sort(
+        (a, b) =>
+          new Date(b.fechaPublicacion).getTime() -
+          new Date(a.fechaPublicacion).getTime(),
+      );
 
     // Update cache
     cache = { data: posts, timestamp: Date.now() };

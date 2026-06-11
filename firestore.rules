@@ -9,22 +9,16 @@ service cloud.firestore {
         request.auth.token.email == 'proyectos@residencialosalerces.com';
     }
 
-    // ── Admins collection ────────────────────────────────────────────
-    match /admins/{email} {
-      allow read: if request.auth != null;
-      allow write: if false;
-    }
-
     // ── Residencias ──────────────────────────────────────────────────
     match /residencias/{residenciaId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     // ── Profesionales ────────────────────────────────────────────────
     match /profesionales/{profesionalId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     // ── Reseñas ──────────────────────────────────────────────────────
@@ -37,7 +31,7 @@ service cloud.firestore {
     // ── Blog ────────────────────────────────────────────────────────
     match /blog/{postId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     // ── Contactos ───────────────────────────────────────────────────
@@ -52,9 +46,10 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
-    // Block all other collections by default
-    match /{document=**} {
-      allow read, write: if false;
+    // ── Admins ───────────────────────────────────────────────────────
+    match /admins/{email} {
+      allow read: if request.auth != null;
+      allow write: if false;
     }
   }
 }
