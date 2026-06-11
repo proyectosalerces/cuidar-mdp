@@ -107,6 +107,17 @@ export default function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
             </div>
           </header>
 
+          {/* Cover image */}
+          {post.imagenPortada && (
+            <div className={styles.coverWrapper}>
+              <img
+                src={post.imagenPortada}
+                alt={post.titulo}
+                className={styles.coverImage}
+              />
+            </div>
+          )}
+
           {/* Divider */}
           <hr className={styles.divider} />
 

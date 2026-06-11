@@ -36,7 +36,11 @@ function mapDoc(doc: { id: string; data: () => Record<string, unknown> }): BlogP
     return (val as string) ?? new Date().toISOString();
   };
 
-  const autor = (d.autor as Record<string, unknown>) ?? {};
+  const rawAutor = d.autor;
+  const autor =
+    typeof rawAutor === 'string'
+      ? { nombre: rawAutor }
+      : (rawAutor as Record<string, unknown>) ?? {};
 
   return {
     id: doc.id,

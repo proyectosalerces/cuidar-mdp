@@ -42,6 +42,14 @@
   transition: filter var(--transition-normal);
 }
 
+.coverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
 .card:hover .imagePlaceholder {
   filter: brightness(1.06);
 }

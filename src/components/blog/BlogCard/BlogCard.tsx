@@ -56,33 +56,50 @@ export default function BlogCard({ post, className }: BlogCardProps) {
 
   return (
     <article className={cn(styles.card, className)}>
-      {/* Image placeholder */}
+      {/* Image */}
       <Link href={`/blog/${post.slug}`} className={styles.imageLink}>
         <div
           className={styles.imagePlaceholder}
-          style={{ background: gradient }}
+          style={{ background: post.imagenPortada ? undefined : gradient }}
         >
+          {post.imagenPortada ? (
+            <img
+              src={post.imagenPortada}
+              alt={post.titulo}
+              className={styles.coverImage}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                if (target.parentElement) {
+                  target.parentElement.style.background = gradient;
+                }
+              }}
+            />
+          ) : (
+            <>
+              <div className={styles.imagePattern} />
+              {/* Decorative icon */}
+              <svg
+                className={styles.imageIcon}
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#fff"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+                <path d="M8 7h6" />
+                <path d="M8 11h8" />
+              </svg>
+            </>
+          )}
           <Badge variant="primary" className={styles.categoryBadge}>
             {label}
           </Badge>
-          <div className={styles.imagePattern} />
-          {/* Decorative icon */}
-          <svg
-            className={styles.imageIcon}
-            width="48"
-            height="48"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#fff"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-            <path d="M8 7h6" />
-            <path d="M8 11h8" />
-          </svg>
         </div>
       </Link>
 

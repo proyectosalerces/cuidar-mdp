@@ -137,6 +137,23 @@
   opacity: 0.4;
 }
 
+/* ── Cover Image ─────────────────────────────────────────────────────── */
+
+.coverWrapper {
+  margin-bottom: var(--space-8);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.coverImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
 /* ── Divider ──────────────────────────────────────────────────────────── */
 
 .divider {
