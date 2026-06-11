@@ -33,6 +33,17 @@ function generateSlug(name: string): string {
     .replace(/-+/g, '-');            // collapse multiple hyphens
 }
 
+/** Remove undefined values from an object (Firestore rejects them) */
+function stripUndefined<T extends Record<string, unknown>>(obj: T): Partial<T> {
+  const clean: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) {
+      clean[key] = value;
+    }
+  }
+  return clean as Partial<T>;
+}
+
 /* ── Residencias ──────────────────────────────────────────────────────── */
 
 export async function getResidencias(): Promise<Residencia[]> {
@@ -52,7 +63,7 @@ export async function createResidencia(data: Partial<Residencia>): Promise<strin
   const slug = generateSlug(data.nombre ?? '');
   const docRef = doc(db, 'residencias', slug);
 
-  await setDoc(docRef, {
+  await setDoc(docRef, stripUndefined({
     ...data,
     slug,
     ciudad: data.ciudad ?? 'Mar del Plata',
@@ -68,7 +79,7 @@ export async function createResidencia(data: Partial<Residencia>): Promise<strin
     activa: data.activa ?? true,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
-  });
+  }));
 
   return slug;
 }
@@ -78,10 +89,10 @@ export async function updateResidencia(
   data: Partial<Residencia>,
 ): Promise<void> {
   const docRef = doc(db, 'residencias', id);
-  await updateDoc(docRef, {
+  await updateDoc(docRef, stripUndefined({
     ...data,
     updatedAt: serverTimestamp(),
-  });
+  }));
 }
 
 export async function deleteResidencia(id: string): Promise<void> {
@@ -108,7 +119,7 @@ export async function createProfesional(data: Partial<Profesional>): Promise<str
   const slug = generateSlug(data.nombre ?? '');
   const docRef = doc(db, 'profesionales', slug);
 
-  await setDoc(docRef, {
+  await setDoc(docRef, stripUndefined({
     ...data,
     slug,
     calificacion: data.calificacion ?? 0,
@@ -116,7 +127,7 @@ export async function createProfesional(data: Partial<Profesional>): Promise<str
     foto: data.foto ?? '',
     activo: data.activo ?? true,
     createdAt: serverTimestamp(),
-  });
+  }));
 
   return slug;
 }
@@ -126,7 +137,7 @@ export async function updateProfesional(
   data: Partial<Profesional>,
 ): Promise<void> {
   const docRef = doc(db, 'profesionales', id);
-  await updateDoc(docRef, { ...data });
+  await updateDoc(docRef, stripUndefined({ ...data }));
 }
 
 export async function deleteProfesional(id: string): Promise<void> {
@@ -211,10 +222,10 @@ export async function updateBlogPost(
   data: Partial<BlogPost>,
 ): Promise<void> {
   const docRef = doc(db, 'blog', id);
-  await updateDoc(docRef, {
+  await updateDoc(docRef, stripUndefined({
     ...data,
     updatedAt: serverTimestamp(),
-  });
+  }));
 }
 
 export async function deleteBlogPost(id: string): Promise<void> {
