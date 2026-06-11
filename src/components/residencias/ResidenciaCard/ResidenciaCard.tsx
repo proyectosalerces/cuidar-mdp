@@ -35,7 +35,24 @@ export default function ResidenciaCard({ residencia, className }: ResidenciaCard
       {/* ── Image ─────────────────────────────────────────────────── */}
       <div className={styles.imageWrapper}>
         <div className={styles.imageGradientOverlay} />
-        <div className={styles.imagePlaceholder}>
+        {residencia.imagenPrincipal ? (
+          <img
+            src={residencia.imagenPrincipal}
+            alt={residencia.nombre}
+            className={styles.image}
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+              const placeholder = target.nextElementSibling as HTMLElement;
+              if (placeholder) placeholder.style.display = 'flex';
+            }}
+          />
+        ) : null}
+        <div
+          className={styles.imagePlaceholder}
+          style={residencia.imagenPrincipal ? { display: 'none' } : undefined}
+        >
           <svg className={styles.placeholderIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <path d="M3 21V7a2 2 0 012-2h14a2 2 0 012 2v14M3 21h18M3 21l6-6m0 0l3 3 4-4 5 5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
