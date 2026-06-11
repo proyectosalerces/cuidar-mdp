@@ -7,7 +7,7 @@
 import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import type { TipoCuidado } from '@/types/residencia';
+import type { TipoCuidado, EstadoHabilitacion } from '@/types/residencia';
 import {
   BARRIOS_MDP,
   TIPOS_CUIDADO_OPTIONS,
@@ -45,6 +45,10 @@ export default function EditResidenciaPage({
   const [precioHasta, setPrecioHasta] = useState('');
   const [destacada, setDestacada] = useState(false);
   const [activa, setActiva] = useState(true);
+  const [capacidad, setCapacidad] = useState('');
+  const [habilitacionMunicipal, setHabilitacionMunicipal] = useState<EstadoHabilitacion | ''>('');
+  const [habilitacionProvincial, setHabilitacionProvincial] = useState<EstadoHabilitacion | ''>('');
+  const [mostrarHabilitaciones, setMostrarHabilitaciones] = useState(false);
   const [imagenPrincipal, setImagenPrincipal] = useState('');
   const [imagenes, setImagenes] = useState<string[]>([]);
   const [imagenInput, setImagenInput] = useState('');
@@ -84,6 +88,10 @@ export default function EditResidenciaPage({
         setPrecioHasta(data.precioHasta?.toString() ?? '');
         setDestacada(data.destacada ?? false);
         setActiva(data.activa ?? true);
+        setCapacidad(data.capacidad?.toString() ?? '');
+        setHabilitacionMunicipal(data.habilitacionMunicipal ?? '');
+        setHabilitacionProvincial(data.habilitacionProvincial ?? '');
+        setMostrarHabilitaciones(data.mostrarHabilitaciones ?? false);
         setImagenPrincipal(data.imagenPrincipal ?? '');
         // Additional images = all images except the principal one
         const extras = (data.imagenes ?? []).filter(
@@ -167,6 +175,10 @@ export default function EditResidenciaPage({
         precioHasta: precioHasta ? Number(precioHasta) : undefined,
         destacada,
         activa,
+        capacidad: capacidad ? Number(capacidad) : undefined,
+        habilitacionMunicipal: habilitacionMunicipal || undefined,
+        habilitacionProvincial: habilitacionProvincial || undefined,
+        mostrarHabilitaciones,
         imagenes: allImages,
         imagenPrincipal: imagenPrincipal.trim(),
       });
@@ -548,6 +560,64 @@ export default function EditResidenciaPage({
                 <span className={styles.toggleSlider} />
               </label>
               <span className={styles.toggleLabel}>Activa</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Capacidad y Habilitaciones */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Capacidad y Habilitaciones</h2>
+          <div className={styles.grid}>
+            <div className={styles.field}>
+              <label className={styles.label}>Cantidad de plazas</label>
+              <input
+                className={styles.input}
+                type="number"
+                value={capacidad}
+                onChange={(e) => setCapacidad(e.target.value)}
+                min="0"
+                placeholder="Ej: 30"
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>Habilitación municipal</label>
+              <select
+                className={styles.select}
+                value={habilitacionMunicipal}
+                onChange={(e) => setHabilitacionMunicipal(e.target.value as EstadoHabilitacion | '')}
+              >
+                <option value="">Sin dato</option>
+                <option value="si">✅ Sí</option>
+                <option value="no">❌ No</option>
+                <option value="en-tramite">⏳ En trámite</option>
+              </select>
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>Habilitación provincial</label>
+              <select
+                className={styles.select}
+                value={habilitacionProvincial}
+                onChange={(e) => setHabilitacionProvincial(e.target.value as EstadoHabilitacion | '')}
+              >
+                <option value="">Sin dato</option>
+                <option value="si">✅ Sí</option>
+                <option value="no">❌ No</option>
+                <option value="en-tramite">⏳ En trámite</option>
+              </select>
+            </div>
+
+            <div className={styles.toggleRow}>
+              <label className={styles.toggle}>
+                <input
+                  type="checkbox"
+                  checked={mostrarHabilitaciones}
+                  onChange={(e) => setMostrarHabilitaciones(e.target.checked)}
+                />
+                <span className={styles.toggleSlider} />
+              </label>
+              <span className={styles.toggleLabel}>Mostrar habilitaciones en la web pública</span>
             </div>
           </div>
         </div>

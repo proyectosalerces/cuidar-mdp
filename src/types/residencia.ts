@@ -11,6 +11,8 @@ export type TipoCuidado =
   | 'alzheimer-demencia'
   | 'convalecencia';
 
+export type EstadoHabilitacion = 'si' | 'no' | 'en-tramite';
+
 export interface Residencia {
   id: string;
   nombre: string;
@@ -32,6 +34,9 @@ export interface Residencia {
   tiposCuidado: TipoCuidado[];
   servicios: string[];
   habilitada: boolean;
+  habilitacionMunicipal?: EstadoHabilitacion;
+  habilitacionProvincial?: EstadoHabilitacion;
+  mostrarHabilitaciones?: boolean;
   verificada: boolean;
   precioDesde?: number;
   precioHasta?: number;
