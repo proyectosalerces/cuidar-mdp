@@ -1,10 +1,7 @@
 'use client';
 
 /**
- * Admin — Fix profesionales data
- *
- * 1. Limpia el campo 'foto' de todos los profesionales que tienen el placeholder
- * 2. Elimina profesionales que NO están en el PDF del listado MGP 2024
+ * Admin — Fix: borrar residencias del mock y limpiar fotos de profesionales
  */
 
 import { useState } from 'react';
@@ -13,6 +10,22 @@ import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firesto
 import { db } from '@/services/firebase/config';
 import { mockProfesionales } from '@/data/mock-profesionales';
 import styles from '../residencias/form.module.css';
+
+const MOCK_SLUGS = new Set([
+  'casa-anis','casagrande-residencia-geriatrica','casa-irala',
+  'centro-de-dia-plaza-mitre','centro-de-dia-tiempos-modernos',
+  'centro-gerontologico-municipal-brown','centro-gerontologico-municipal-vertiz',
+  'en-familia-residencia-senior','estancia-residencia',
+  'gama-centro-integral-memoria','geriatrico-casablanca','geriatrico-mi-casa',
+  'hogares-cristina-french','hogares-cristina-strobel',
+  'hogares-mdp-hogar-de-rosa','hogares-mdp-hogar-otonal',
+  'hogares-mdp-jose-ignacio','hogares-mdp-residencia-gema',
+  'hogar-eva-peron-municipal','kairos-centro-de-dia','lares-del-mar',
+  'los-alerces-hogar','mama-sara-chacabuco','mama-sara-edison',
+  'mama-sara-espana','mama-sara-vieytes','nuestros-sabios',
+  'residencia-las-moras-rodriguez-pena','residencia-las-moras-sarmiento',
+  'residencia-seniors','villa-maria-hogar',
+]);
 
 export default function FixPage() {
   const [log, setLog] = useState<string[]>([]);
@@ -24,61 +37,44 @@ export default function FixPage() {
   const handleFix = async () => {
     setRunning(true);
     setLog([]);
-    addLog('🔧 Corrigiendo profesionales en Firestore...');
-    addLog('');
 
     try {
-      // Build set of valid slugs from the PDF-generated mock data
-      const validSlugs = new Set(mockProfesionales.map((p) => p.slug));
-      addLog(`📋 Profesionales válidos (del PDF): ${validSlugs.size}`);
+      // ── 1. Borrar residencias del mock ──
+      addLog('🗑️ Borrando residencias del mock de Firestore...');
+      const resSnap = await getDocs(collection(db, 'residencias'));
+      let deletedRes = 0;
 
-      const snapshot = await getDocs(collection(db, 'profesionales'));
-      addLog(`📋 Profesionales en Firestore: ${snapshot.size}`);
+      for (const d of resSnap.docs) {
+        if (MOCK_SLUGS.has(d.id)) {
+          await deleteDoc(doc(db, 'residencias', d.id));
+          deletedRes++;
+          addLog(`  ❌ ${d.data().nombre || d.id}`);
+        }
+      }
+      addLog(`✅ ${deletedRes} residencias del mock borradas.`);
       addLog('');
 
+      // ── 2. Limpiar fotos placeholder de profesionales ──
+      addLog('🔧 Limpiando fotos placeholder de profesionales...');
+      const profSnap = await getDocs(collection(db, 'profesionales'));
       let fixedFoto = 0;
-      let deleted = 0;
-      const deletedNames: string[] = [];
 
-      for (const docSnap of snapshot.docs) {
-        const data = docSnap.data();
-        const slug = data.slug || docSnap.id;
-
-        // Delete if not in the PDF
-        if (!validSlugs.has(slug)) {
-          deletedNames.push(data.nombre || docSnap.id);
-          await deleteDoc(doc(db, 'profesionales', docSnap.id));
-          deleted++;
-          continue;
-        }
-
-        // Fix foto: clear placeholder paths
-        const updates: Record<string, unknown> = {};
+      for (const d of profSnap.docs) {
+        const data = d.data();
         if (data.foto && (data.foto.includes('placeholder') || data.foto.includes('/images/'))) {
-          updates.foto = '';
+          await updateDoc(doc(db, 'profesionales', d.id), { foto: '' });
           fixedFoto++;
         }
-
-        if (Object.keys(updates).length > 0) {
-          await updateDoc(doc(db, 'profesionales', docSnap.id), updates);
-        }
       }
-
-      if (deletedNames.length > 0) {
-        addLog('🗑️ Profesionales eliminados (no están en el PDF):');
-        for (const name of deletedNames) {
-          addLog(`  ❌ ${name}`);
-        }
-        addLog('');
-      }
-
-      addLog(`✅ Fotos placeholder limpiadas: ${fixedFoto}`);
-      addLog(`🗑️ Profesionales eliminados: ${deleted}`);
+      addLog(`✅ ${fixedFoto} fotos placeholder limpiadas.`);
       addLog('');
 
-      // Verify final count
-      const finalSnapshot = await getDocs(collection(db, 'profesionales'));
-      addLog(`📋 Profesionales finales en Firestore: ${finalSnapshot.size}`);
+      // ── 3. Verificar resultado ──
+      const resAfter = await getDocs(collection(db, 'residencias'));
+      const profAfter = await getDocs(collection(db, 'profesionales'));
+      addLog('📋 Estado final:');
+      addLog(`  Residencias en Firestore: ${resAfter.size}`);
+      addLog(`  Profesionales en Firestore: ${profAfter.size}`);
       addLog('');
       addLog('🎉 ¡Corrección completada!');
       setDone(true);
@@ -94,15 +90,15 @@ export default function FixPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <Link href="/admin" className={styles.backBtn}>←</Link>
-        <h1 className={styles.title}>Fix Profesionales</h1>
+        <h1 className={styles.title}>Fix — Limpieza de datos</h1>
       </div>
 
       <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Corregir datos</h2>
+        <h2 className={styles.sectionTitle}>Correcciones pendientes</h2>
         <p style={{ marginBottom: '1rem', color: '#94a3b8', lineHeight: 1.6 }}>
           Este proceso:<br />
-          1. <strong>Elimina</strong> profesionales que no estén en el PDF del listado MGP 2024<br />
-          2. <strong>Limpia</strong> las fotos placeholder que generan imágenes rotas
+          1. <strong>Borra</strong> las 31 residencias duplicadas del mock<br />
+          2. <strong>Limpia</strong> las fotos placeholder de los profesionales
         </p>
 
         <button
@@ -111,7 +107,7 @@ export default function FixPage() {
           disabled={running || done}
           style={{ marginBottom: '1.5rem' }}
         >
-          {running ? 'Corrigiendo...' : done ? '✅ Completado' : 'Ejecutar corrección'}
+          {running ? 'Ejecutando...' : done ? '✅ Completado' : 'Ejecutar limpieza'}
         </button>
 
         {log.length > 0 && (
@@ -123,7 +119,7 @@ export default function FixPage() {
               borderRadius: '0.5rem',
               fontSize: '0.85rem',
               lineHeight: 1.8,
-              maxHeight: '500px',
+              maxHeight: '600px',
               overflowY: 'auto',
               fontFamily: 'monospace',
             }}
