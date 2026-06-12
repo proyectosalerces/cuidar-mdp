@@ -34,6 +34,9 @@ export interface Profesional {
   cantidadResenas: number;
   obrasSociales?: string[];
   horarioAtencion?: string;
+  /** Visibility toggles – control which contact fields are shown publicly */
+  mostrarTelefono?: boolean;
+  mostrarEmail?: boolean;
   activo: boolean;
   createdAt: string;
 }

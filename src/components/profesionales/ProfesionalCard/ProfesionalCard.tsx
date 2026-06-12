@@ -98,10 +98,12 @@ export default function ProfesionalCard({
           <MapPinIcon />
           {profesional.barrio}
         </span>
-        <span className={styles.metaItem}>
-          <PhoneIcon />
-          {formatTelefono(profesional.telefono)}
-        </span>
+        {profesional.mostrarTelefono !== false && (
+          <span className={styles.metaItem}>
+            <PhoneIcon />
+            {formatTelefono(profesional.telefono)}
+          </span>
+        )}
       </div>
 
       {/* Obras sociales */}

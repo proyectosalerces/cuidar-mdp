@@ -28,6 +28,10 @@ export interface Residencia {
   whatsapp?: string;
   facebook?: string;
   instagram?: string;
+  /** Visibility toggles – control which contact fields are shown publicly */
+  mostrarTelefono?: boolean;
+  mostrarWhatsapp?: boolean;
+  mostrarEmail?: boolean;
   coordenadas?: { lat: number; lng: number };
   imagenes: string[];
   imagenPrincipal: string;

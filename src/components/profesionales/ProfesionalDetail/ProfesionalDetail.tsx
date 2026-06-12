@@ -12,7 +12,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/utils/classnames';
 import { Badge, Rating, Button } from '@/components/ui';
-import { ESPECIALIDAD_LABELS } from '@/utils/constants';
+import { ESPECIALIDAD_LABELS, WHATSAPP_NUMBER } from '@/utils/constants';
 import { formatTelefono, buildWhatsAppLink } from '@/utils/formatters';
 import type { Profesional } from '@/types/profesional';
 import ResenaSection from '@/components/resenas/ResenaSection/ResenaSection';
@@ -95,11 +95,14 @@ interface ProfesionalDetailProps {
 
 export default function ProfesionalDetail({ profesional }: ProfesionalDetailProps) {
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const showPhone = profesional.mostrarTelefono !== false;
+  const showEmail = profesional.mostrarEmail !== false;
 
-  const whatsAppLink = buildWhatsAppLink(
-    profesional.telefono,
-    `Hola, me contacto desde Cuidar MdP por una consulta con ${profesional.nombre}.`,
-  );
+  const whatsAppPhone = showPhone ? profesional.telefono : WHATSAPP_NUMBER;
+  const whatsAppMsg = showPhone
+    ? `Hola, me contacto desde Cuidar MdP por una consulta con ${profesional.nombre}.`
+    : `Hola, estoy buscando contactar a ${profesional.nombre}. ¿Podrían ayudarme?`;
+  const whatsAppLink = buildWhatsAppLink(whatsAppPhone, whatsAppMsg);
 
   return (
     <>
@@ -183,14 +186,16 @@ export default function ProfesionalDetail({ profesional }: ProfesionalDetailProp
           <div className={styles.contactCard}>
             <h3 className={styles.cardTitle}>Contacto</h3>
 
-            <div className={styles.contactItem}>
-              <PhoneIcon />
-              <a href={`tel:${profesional.telefono.replace(/\D/g, '')}`}>
-                {formatTelefono(profesional.telefono)}
-              </a>
-            </div>
+            {showPhone && (
+              <div className={styles.contactItem}>
+                <PhoneIcon />
+                <a href={`tel:${profesional.telefono.replace(/\D/g, '')}`}>
+                  {formatTelefono(profesional.telefono)}
+                </a>
+              </div>
+            )}
 
-            {profesional.email && (
+            {showEmail && profesional.email && (
               <div className={styles.contactItem}>
                 <EmailIcon />
                 <a href={`mailto:${profesional.email}`}>

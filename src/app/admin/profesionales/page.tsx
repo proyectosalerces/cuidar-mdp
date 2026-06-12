@@ -140,7 +140,7 @@ export default function AdminProfesionalesPage() {
                 <tr key={p.id}>
                   <td>
                     <div className={styles.nameCell}>
-                      {p.foto ? (
+                      {p.foto && !p.foto.includes('placeholder') ? (
                         <img
                           src={p.foto}
                           alt={p.nombre}

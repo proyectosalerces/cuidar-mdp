@@ -30,8 +30,16 @@ interface ResidenciaDetailProps {
 export default function ResidenciaDetail({ residencia }: ResidenciaDetailProps) {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  const whatsappPhone = residencia.whatsapp ?? WHATSAPP_NUMBER;
-  const whatsappMessage = `Hola, quisiera consultar disponibilidad en ${residencia.nombre}. ¿Podrían darme más información?`;
+  const showPhone = residencia.mostrarTelefono !== false;
+  const showWhatsapp = residencia.mostrarWhatsapp !== false;
+  const showEmail = residencia.mostrarEmail !== false;
+
+  // When the residence's own WhatsApp is hidden, fall back to Cuidar MdP
+  // with a contextual message mentioning which residence the user is asking about.
+  const whatsappPhone = (showWhatsapp && residencia.whatsapp) ? residencia.whatsapp : WHATSAPP_NUMBER;
+  const whatsappMessage = (showWhatsapp && residencia.whatsapp)
+    ? `Hola, quisiera consultar disponibilidad en ${residencia.nombre}. ¿Podrían darme más información?`
+    : `Hola, estoy interesado en ${residencia.nombre} (${residencia.direccion}). ¿Podrían orientarme sobre esta residencia?`;
   const whatsappLink = buildWhatsAppLink(whatsappPhone, whatsappMessage);
 
   return (
@@ -267,17 +275,19 @@ export default function ResidenciaDetail({ residencia }: ResidenciaDetailProps) 
           {/* Contact info */}
           <div className={styles.contactInfo}>
             {/* Phone */}
-            <div className={styles.contactItem}>
-              <svg className={styles.contactIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <a href={`tel:${residencia.telefono}`} className={styles.contactLink}>
-                {formatTelefono(residencia.telefono)}
-              </a>
-            </div>
+            {showPhone && (
+              <div className={styles.contactItem}>
+                <svg className={styles.contactIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <a href={`tel:${residencia.telefono}`} className={styles.contactLink}>
+                  {formatTelefono(residencia.telefono)}
+                </a>
+              </div>
+            )}
 
             {/* Email */}
-            {residencia.email && (
+            {showEmail && residencia.email && (
               <div className={styles.contactItem}>
                 <svg className={styles.contactIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" strokeLinecap="round" strokeLinejoin="round" />

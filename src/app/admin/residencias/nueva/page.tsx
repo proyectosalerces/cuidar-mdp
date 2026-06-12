@@ -44,6 +44,9 @@ export default function NuevaResidenciaPage() {
   const [imagenPrincipal, setImagenPrincipal] = useState('');
   const [imagenes, setImagenes] = useState<string[]>([]);
   const [imagenInput, setImagenInput] = useState('');
+  const [mostrarTelefono, setMostrarTelefono] = useState(false);
+  const [mostrarWhatsapp, setMostrarWhatsapp] = useState(false);
+  const [mostrarEmail, setMostrarEmail] = useState(false);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
@@ -123,6 +126,9 @@ export default function NuevaResidenciaPage() {
         habilitacionMunicipal: habilitacionMunicipal || undefined,
         habilitacionProvincial: habilitacionProvincial || undefined,
         mostrarHabilitaciones,
+        mostrarTelefono,
+        mostrarWhatsapp,
+        mostrarEmail,
         imagenes: allImages,
         imagenPrincipal: imagenPrincipal.trim(),
       });
@@ -501,6 +507,50 @@ export default function NuevaResidenciaPage() {
                 <span className={styles.toggleSlider} />
               </label>
               <span className={styles.toggleLabel}>Activa</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Visibilidad de contacto */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Visibilidad de contacto</h2>
+          <p className={styles.dropHint} style={{ marginBottom: '0.75rem' }}>
+            Controlá qué datos de contacto se muestran públicamente en la web.
+            Los datos ocultos solo se ven desde el panel de administración.
+          </p>
+          <div className={styles.grid}>
+            <div className={styles.toggleRow}>
+              <label className={styles.toggle}>
+                <input
+                  type="checkbox"
+                  checked={mostrarTelefono}
+                  onChange={(e) => setMostrarTelefono(e.target.checked)}
+                />
+                <span className={styles.toggleSlider} />
+              </label>
+              <span className={styles.toggleLabel}>Mostrar teléfono al público</span>
+            </div>
+            <div className={styles.toggleRow}>
+              <label className={styles.toggle}>
+                <input
+                  type="checkbox"
+                  checked={mostrarWhatsapp}
+                  onChange={(e) => setMostrarWhatsapp(e.target.checked)}
+                />
+                <span className={styles.toggleSlider} />
+              </label>
+              <span className={styles.toggleLabel}>Mostrar WhatsApp al público</span>
+            </div>
+            <div className={styles.toggleRow}>
+              <label className={styles.toggle}>
+                <input
+                  type="checkbox"
+                  checked={mostrarEmail}
+                  onChange={(e) => setMostrarEmail(e.target.checked)}
+                />
+                <span className={styles.toggleSlider} />
+              </label>
+              <span className={styles.toggleLabel}>Mostrar email al público</span>
             </div>
           </div>
         </div>
