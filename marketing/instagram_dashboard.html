@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuidar MdP — Grilla de Publicaciones</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #0d7377;
+      --teal-dark: #094b4e;
+      --teal-light: #14919b;
+      --gold: #c8a45a;
+      --gold-light: #e0c87a;
+      --bg: #0a0f14;
+      --bg-card: #131c26;
+      --bg-elevated: #1a2733;
+      --bg-hover: #1f3040;
+      --text: #e8ecf1;
+      --text-muted: #8295a8;
+      --border: #243040;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --purple: #8b5cf6;
+      --pink: #ec4899;
+      --radius: 0.75rem;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .hero {
+      background: linear-gradient(135deg, #061a1c 0%, var(--teal-dark) 50%, #0a2e30 100%);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+      border-bottom: 2px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(200,164,90,0.06) 0%, transparent 50%);
+    }
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff, var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.3rem;
+      position: relative;
+    }
+    .hero .sub {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      position: relative;
+    }
+    .hero .badges {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .hero .badge {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+    }
+    .hero .badge strong {
+      color: var(--gold);
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,15,20,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .view-toggle {
+      display: flex;
+      gap: 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .view-toggle button {
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .view-toggle button.active {
+      background: var(--teal);
+      color: #fff;
+    }
+    .view-toggle button:hover:not(.active) {
+      background: var(--bg-hover);
+    }
+
+    .week-pills {
+      display: flex;
+      gap: 0.3rem;
+      overflow-x: auto;
+      flex: 1;
+      justify-content: center;
+    }
+    .week-pills button {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .week-pills button:hover,
+    .week-pills button.active {
+      background: var(--teal);
+      color: #fff;
+      border-color: var(--teal);
+    }
+
+    /* ── CONTENT ── */
+    .content { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+
+    /* ── GRID VIEW ── */
+    .grid-view {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+    .grid-cell {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+    .grid-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s, filter 0.3s;
+    }
+    .grid-cell:hover img {
+      transform: scale(1.05);
+      filter: brightness(0.6);
+    }
+    .grid-cell .overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    .grid-cell:hover .overlay { opacity: 1; }
+    .grid-cell .overlay .num {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--gold);
+    }
+    .grid-cell .overlay .theme {
+      font-size: 0.7rem;
+      color: #fff;
+      margin-top: 0.2rem;
+    }
+    .grid-cell .overlay .day-badge {
+      font-size: 0.6rem;
+      background: var(--teal);
+      color: #fff;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      margin-top: 0.4rem;
+      font-weight: 600;
+    }
+    .grid-cell .week-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.4rem;
+      background: rgba(0,0,0,0.7);
+      color: var(--gold);
+      font-size: 0.55rem;
+      font-weight: 700;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    /* ── CALENDAR VIEW ── */
+    .calendar-view { display: none; }
+    .cal-week {
+      margin-bottom: 2rem;
+    }
+    .cal-week-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .cal-week-header .week-num {
+      background: var(--teal);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+    }
+    .cal-week-header .week-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .cal-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .cal-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .cal-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    .cal-card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+    .cal-card-body {
+      padding: 0.8rem;
+    }
+    .cal-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .cal-card-top .post-num {
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: var(--gold);
+    }
+    .cal-card-top .day-tag {
+      font-size: 0.65rem;
+      background: rgba(13,115,119,0.2);
+      color: var(--teal-light);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .cal-card .theme-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .cal-card .caption-preview {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-height: 4.5em;
+      overflow: hidden;
+      margin-bottom: 0.6rem;
+    }
+    .cal-card .btn-row {
+      display: flex;
+      gap: 0.4rem;
+    }
+    .cal-card .btn-row button {
+      flex: 1;
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.35rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .cal-card .btn-row button:hover {
+      background: var(--teal);
+      color: #fff;
+      border-color: var(--teal);
+    }
+    .cal-card .btn-row button.copied {
+      background: var(--success);
+      color: #fff;
+      border-color: var(--success);
+    }
+
+    /* ── LIST VIEW ── */
+    .list-view { display: none; }
+    .list-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 1.2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      transition: border-color 0.2s;
+    }
+    .list-item:hover { border-color: var(--teal); }
+    .list-item img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .list-item-body { min-width: 0; }
+    .list-item-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .list-item-header .num { font-weight: 800; font-size: 0.8rem; color: var(--gold); }
+    .list-item-header .theme { font-size: 0.85rem; font-weight: 600; }
+    .list-item-header .day {
+      font-size: 0.65rem;
+      background: rgba(13,115,119,0.2);
+      color: var(--teal-light);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-weight: 600;
+      margin-left: auto;
+    }
+    .list-item .caption-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      white-space: pre-wrap;
+      margin-bottom: 0.5rem;
+    }
+    .list-item .tags-text {
+      font-size: 0.75rem;
+      color: var(--teal-light);
+      margin-bottom: 0.5rem;
+    }
+    .list-item .btn-row { display: flex; gap: 0.4rem; }
+    .list-item .btn-row button {
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .list-item .btn-row button:hover {
+      background: var(--teal);
+      color: #fff;
+      border-color: var(--teal);
+    }
+    .list-item .btn-row button.copied {
+      background: var(--success);
+      color: #fff;
+      border-color: var(--success);
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      max-width: 700px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .modal img {
+      width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+      background: #000;
+    }
+    .modal-body {
+      padding: 1.5rem;
+    }
+    .modal-body h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+      color: var(--gold);
+    }
+    .modal-body .meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .modal-body .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+    .modal-body .text-block {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .modal-body .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: var(--teal);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .modal-body .copy-btn.copied { background: var(--success); }
+    .modal-body .full-copy {
+      width: 100%;
+      background: var(--teal);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .modal-body .full-copy:hover { background: var(--teal-dark); }
+    .modal-body .full-copy.copied { background: var(--success); }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .cal-row { grid-template-columns: 1fr; }
+      .list-item { grid-template-columns: 80px 1fr; }
+      .list-item img { width: 80px; height: 80px; }
+      .grid-view { gap: 2px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>📱 Grilla de Publicaciones</h1>
+  <p class="sub">@cuidarmdp — Instagram & Facebook</p>
+  <div class="badges">
+    <span class="badge"><strong>30</strong> publicaciones</span>
+    <span class="badge"><strong>10</strong> semanas</span>
+    <span class="badge">Lu · Mi · Vi</span>
+    <span class="badge">🟢 Listo para programar</span>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="view-toggle">
+    <button class="active" onclick="setView('grid')">◻ Grilla</button>
+    <button onclick="setView('calendar')">📅 Calendario</button>
+    <button onclick="setView('list')">☰ Lista</button>
+  </div>
+  <div class="week-pills" id="weekPills"></div>
+</div>
+
+<div class="content">
+  <div class="grid-view" id="gridView"></div>
+  <div class="calendar-view" id="calendarView"></div>
+  <div class="list-view" id="listView"></div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal"></div>
+</div>
+
+<div class="footer">
+  Cuidar MdP — Grilla de contenido generada para Meta Business Suite<br>
+  Hacé click en cualquier post para ver el detalle y copiar el contenido
+</div>
+
+<script>
+const POSTS=[
+{n:1,w:1,d:"Lunes",t:"Presentación",img:"ig_post_01.png",
+c:`¿Estás buscando el mejor cuidado para tu ser querido? 💚 Somos Cuidar MdP, te acompañamos en cada paso para encontrar la residencia ideal en Mar del Plata.\n\n🏠 +39 residencias verificadas\n👨‍⚕️ Red de profesionales\n📋 Asesoramiento gratuito y personalizado\n\nEscribinos al 2236 94-8075 o visitá cuidar-mdp.vercel.app 🔗`,
+h:"#CuidarMdP #ResidenciasMdP #PersonasMayores #MarDelPlata #CuidadoPersonalizado"},
+{n:2,w:1,d:"Miércoles",t:"Dato impactante 📊",img:"ig_post_02.png",
+c:`📊 ¿Sabías que en Argentina hay más de 7 millones de personas mayores de 60 años?\n\nElegir el cuidado adecuado es una de las decisiones más importantes que podés tomar por tu familia.\n\nEn Cuidar MdP te ayudamos con información verificada y asesoramiento gratuito. 💚`,
+h:"#PersonasMayores #Argentina #Estadísticas #CuidadoFamiliar #EnvejecimientoActivo"},
+{n:3,w:1,d:"Viernes",t:"Checklist ✅",img:"ig_post_03.png",
+c:`✅ 7 cosas que tenés que verificar ANTES de elegir una residencia de larga estadía.\n\nGuardate este post, lo vas a necesitar. 📌\n\n¿Tenés dudas? Escribinos, el asesoramiento es 100% gratuito.`,
+h:"#Checklist #Residencias #ConsejosParaFamilias #ResidenciasMdP #Guía"},
+{n:4,w:2,d:"Lunes",t:"Estimulación cognitiva 🧠",img:"ig_post_04.png",
+c:`🧠 3 ejercicios de estimulación cognitiva que podés hacer en casa con tu ser querido.\n\nLa mente también necesita ejercicio. 💪\n\n¿Querés más tips como este? Seguinos y activá las notificaciones 🔔`,
+h:"#EstimulaciónCognitiva #SaludMental #TerapiaOcupacional #CuidadoEnCasa"},
+{n:5,w:2,d:"Miércoles",t:"Testimonio 💬",img:"ig_post_05.png",
+c:`💬 "No sabíamos por dónde empezar. Cuidar MdP nos orientó y encontramos el lugar perfecto para mamá."\n\n— Familia de Mar del Plata\n\nCada familia tiene una historia. Nosotros te ayudamos a escribir el mejor capítulo.\n\n📞 2236 94-8075`,
+h:"#Testimonios #FamiliasReales #CuidadoPersonalizado #MarDelPlata"},
+{n:6,w:2,d:"Viernes",t:"Barrios de MdP 📍",img:"ig_post_06.png",
+c:`📍 ¿En qué barrio de MdP conviene buscar?\n\nTe mostramos los barrios con más opciones de residencias y qué ofrece cada zona.\n\nCentro, Güemes, Constitución, Chauvin... cada barrio tiene su encanto. 🏘️`,
+h:"#MarDelPlata #Barrios #Residencias #InfoÚtil #MdP"},
+{n:7,w:3,d:"Lunes",t:"Señales de alerta 🚨",img:"ig_post_07.png",
+c:`🚨 5 señales de que tu ser querido podría necesitar asistencia profesional.\n\nNo es fácil reconocerlo, pero identificarlo a tiempo puede marcar la diferencia.\n\nSi te identificás con alguna de estas señales, hablemos. Estamos para ayudarte. 💚`,
+h:"#Señales #CuidadoProfesional #FamiliaCuidadora #PersonasMayores"},
+{n:8,w:3,d:"Miércoles",t:"Nutrición 🥗",img:"ig_post_08.png",
+c:`🥗 La alimentación en personas mayores no es igual que a los 30.\n\nTe compartimos 5 nutrientes esenciales que no pueden faltar.\n\nUna buena alimentación = mejor calidad de vida. 💚`,
+h:"#Nutrición #PersonasMayores #Salud #AlimentaciónSaludable #Bienestar"},
+{n:9,w:3,d:"Viernes",t:"Destacado Los Alerces 🌿",img:"ig_post_09.png",
+c:`🌿 Residencia Los Alerces — Güemes 3626.\n\nSe destaca por su atención personalizada y compromiso con el bienestar integral de cada residente.\n\n📋 Si querés conocer más opciones, visitá nuestro directorio en cuidar-mdp.vercel.app 🔗`,
+h:"#LosAlerces #ResidenciasVerificadas #CuidarMdP #MdP"},
+{n:10,w:4,d:"Lunes",t:"Derechos ⚖️",img:"ig_post_10.png",
+c:`⚖️ ¿Conocés los derechos de las personas mayores en Argentina?\n\nMuchas familias no saben que existen leyes que las protegen.\n\nTe resumimos los más importantes. 📌 Guardalo y compartilo.`,
+h:"#Derechos #LeyArgentina #PersonasMayores #Protección #Legal"},
+{n:11,w:4,d:"Miércoles",t:"Cómo hablar 🤝",img:"ig_post_11.png",
+c:`🤝 "Mamá, necesitamos hablar..."\n\nCómo abordar la conversación sobre una residencia sin que sea un drama.\n\n3 claves para una charla respetuosa y amorosa. 💬\n\n¿Ya tuviste esta conversación? Contanos en comentarios.`,
+h:"#Comunicación #Familia #Empatía #CuidadoFamiliar"},
+{n:12,w:4,d:"Viernes",t:"Mito vs Realidad 💡",img:"ig_post_12.png",
+c:`💡 MITO vs REALIDAD sobre las residencias de larga estadía.\n\n¿Cuántos de estos mitos creías?\n\nLa realidad es que las residencias modernas ofrecen calidad de vida, no encierro.`,
+h:"#MitosYRealidades #Educación #DerribandoMitos #PersonasMayores"},
+{n:13,w:5,d:"Lunes",t:"Directorio 🗺️",img:"ig_post_13.png",
+c:`🗺️ +39 residencias verificadas en Mar del Plata.\n\n¿Ya conocés nuestro directorio? Filtrá por barrio, servicios y calificaciones.\n\nTodo en un solo lugar. 🔗 Link en bio.`,
+h:"#Directorio #ResidenciasMdP #MarDelPlata #BúsquedaFácil"},
+{n:14,w:5,d:"Miércoles",t:"Día a día ❤️",img:"ig_post_14.png",
+c:`❤️ Un día típico en una residencia de calidad.\n\nDesayuno, actividades recreativas, terapia, almuerzo, siesta, merienda, juegos...\n\nLa vida en una buena residencia es activa y plena. 🌞`,
+h:"#VidaEnResidencia #Rutina #CalidadDeVida #PersonasMayores"},
+{n:15,w:5,d:"Viernes",t:"Tutorial 📱",img:"ig_post_15.png",
+c:`📱 ¿Cómo usar Cuidar MdP?\n\nTe mostramos en 30 segundos cómo buscar y comparar residencias en nuestro sitio web.\n\nEs gratis, rápido y fácil. 🔍\n\n¡Probalo vos!`,
+h:"#Tutorial #HowTo #CuidarMdP #Tecnología"},
+{n:16,w:6,d:"Lunes",t:"Profesionales 👨‍⚕️",img:"ig_post_16.png",
+c:`👨‍⚕️ ¿Necesitás un geriatra, kinesiólogo o psicólogo especializado en personas mayores?\n\nEn nuestra red encontrás profesionales verificados de Mar del Plata.\n\nConsultá el directorio en nuestra web. 🔗`,
+h:"#Profesionales #Kinesiología #Psicología #MdP #PersonasMayores"},
+{n:17,w:6,d:"Miércoles",t:"Actividad física 🏋️",img:"ig_post_17.png",
+c:`🏋️ No es necesario correr una maratón.\n\n5 ejercicios simples y seguros para personas mayores que mejoran fuerza, equilibrio y ánimo.\n\nConsultá siempre con un profesional antes de empezar. 💪`,
+h:"#EjercicioFísico #Movilidad #Equilibrio #SaludFísica"},
+{n:18,w:6,d:"Viernes",t:"Terapias 🌿",img:"ig_post_18.png",
+c:`🌿 Musicoterapia, arteterapia, terapia con mascotas...\n\nLas terapias complementarias mejoran el bienestar emocional de las personas mayores.\n\n¿Sabías que muchas residencias de MdP las ofrecen? 🎵🎨🐕`,
+h:"#Terapias #Musicoterapia #Arteterapia #BienestarEmocional"},
+{n:19,w:7,d:"Lunes",t:"FAQ Costos 💰",img:"ig_post_19.png",
+c:`❓ La pregunta que todos hacen: ¿Cuánto cuesta una residencia de larga estadía en MdP?\n\nLa respuesta depende de muchos factores. Te explicamos los rangos y qué incluye cada uno.\n\n💰 Asesoramiento gratuito: 2236 94-8075`,
+h:"#Precios #Costos #FAQ #Presupuesto #Transparencia"},
+{n:20,w:7,d:"Miércoles",t:"FAQ Obra social 🏥",img:"ig_post_20.png",
+c:`❓ ¿La obra social cubre la estadía en una residencia?\n\nTe explicamos qué coberturas existen, qué trámites hacer, y cómo reclamar si te rechazan.\n\n📋 Este post puede ahorrarte mucho tiempo y dinero.`,
+h:"#ObraSocial #PAMI #Cobertura #Salud #Trámites"},
+{n:21,w:7,d:"Viernes",t:"Envejecimiento activo 🎂",img:"ig_post_21.png",
+c:`🎂 Envejecer no es dejar de vivir. Es vivir con más experiencia.\n\nHoy celebramos a todas las personas mayores que nos inspiran cada día. 💚\n\nEtiquetá a alguien que admires. 👇`,
+h:"#EnvejecimientoActivo #Inspiración #VidaPlena #Celebración"},
+{n:22,w:8,d:"Lunes",t:"Invierno ❄️",img:"ig_post_22.png",
+c:`🌧️ El invierno en MdP puede ser duro.\n\n5 cuidados esenciales para personas mayores durante los meses fríos:\n\n❄️ Calefacción segura\n💉 Vacunas al día\n💧 Hidratación constante\n🚶 Prevención de caídas\n😊 Cuidar el ánimo`,
+h:"#Invierno #Cuidados #Prevención #MarDelPlata #Salud"},
+{n:23,w:8,d:"Miércoles",t:"Tipos de cuidado 📊",img:"ig_post_23.png",
+c:`📊 ¿Sabés la diferencia entre internación permanente, centro de día, y hogar de día?\n\nNo son lo mismo. Te explicamos cada opción para que elijas la que mejor se adapta a tu familia. 📋`,
+h:"#TiposDeCuidado #Educación #Opciones #InfoÚtil"},
+{n:24,w:8,d:"Viernes",t:"Historia de Carlos ❤️",img:"ig_post_24.png",
+c:`❤️ La historia de Carlos: a los 82 años encontró en su residencia un grupo de amigos, una rutina activa, y la tranquilidad que su familia buscaba.\n\nCada persona merece un lugar donde sentirse en casa. 🏠`,
+h:"#HistoriaReal #CalidadDeVida #Esperanza #CuidarMdP"},
+{n:25,w:9,d:"Lunes",t:"Encuesta 🗳️",img:"ig_post_25.png",
+c:`🗳️ ¿Qué es lo MÁS importante para vos al elegir una residencia?\n\nA) Ubicación 📍\nB) Precio 💰\nC) Equipo médico 👨‍⚕️\nD) Actividades recreativas 🎨\n\nVotá en las stories y dejá tu opinión acá 👇`,
+h:"#Encuesta #Opinión #Comunidad #TuVozImporta"},
+{n:26,w:9,d:"Miércoles",t:"Guía completa 📌",img:"ig_post_26.png",
+c:`📌 GUARDÁ este post.\n\nLa guía definitiva para elegir una residencia de larga estadía en Mar del Plata.\n\n10 pasos desde la primera búsqueda hasta la mudanza. Todo lo que necesitás saber en un solo lugar. 📋`,
+h:"#GuíaCompleta #PasoAPaso #Guardar #ResidenciasMdP"},
+{n:27,w:9,d:"Viernes",t:"Destacado Mamá Sara 🏠",img:"ig_post_27.png",
+c:`🏠 Grupo Mamá Sara — 4 sedes en Mar del Plata.\n\nDesde 2014 ofreciendo cuidado especializado.\n\n📍 Edison\n📍 Vieytes\n📍 Chacabuco\n📍 España\n\n¿Querés comparar opciones? Visitá nuestro directorio. 🔗`,
+h:"#MamáSara #Residencias #MdP #CuidarMdP"},
+{n:28,w:10,d:"Lunes",t:"Agradecimiento 🙏",img:"ig_post_28.png",
+c:`🙏 Gracias por acompañarnos en este primer mes.\n\nCada consulta, cada like, cada compartida nos acerca a nuestro objetivo: que ninguna familia en Mar del Plata tenga que elegir a ciegas. 💚\n\nEsto recién empieza.`,
+h:"#Gracias #Comunidad #CuidarMdP #Compromiso"},
+{n:29,w:10,d:"Miércoles",t:"CTA Asesoramiento 📞",img:"ig_post_29.png",
+c:`📞 ¿Necesitás orientación?\n\nNuestro asesoramiento es GRATUITO y personalizado.\n\n✅ Te escuchamos\n✅ Te informamos\n✅ Te acompañamos\n✅ Sin compromiso\n\n💚 WhatsApp: 2236 94-8075\n🔗 Web: cuidar-mdp.vercel.app`,
+h:"#Asesoramiento #Gratuito #Contacto #CuidarMdP"},
+{n:30,w:10,d:"Viernes",t:"Lo que viene 🚀",img:"ig_post_30.png",
+c:`🚀 ¿Qué viene en Cuidar MdP?\n\n🔜 Entrevistas a profesionales\n🔜 Videos de residencias\n🔜 Guías descargables\n🔜 Eventos para familias cuidadoras\n\n¡Activá las notificaciones para no perderte nada! 🔔`,
+h:"#Próximamente #Novedades #CuidarMdP #ComingSoon"}
+];
+
+/* ── Helpers ── */
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const o = btn.textContent;
+    btn.textContent = "✓ Copiado";
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = o; btn.classList.remove("copied"); }, 1500);
+  });
+}
+
+function fullText(p) {
+  return p.c + "\n\n.\n.\n.\n\n" + p.h;
+}
+
+/* ── Views ── */
+let currentView = 'grid';
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('gridView').style.display = v === 'grid' ? 'grid' : 'none';
+  document.getElementById('calendarView').style.display = v === 'calendar' ? 'block' : 'none';
+  document.getElementById('listView').style.display = v === 'list' ? 'block' : 'none';
+  document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.view-toggle button[onclick="setView('${v}')"]`).classList.add('active');
+}
+
+/* ── Modal ── */
+function openModal(n) {
+  const p = POSTS.find(x => x.n === n);
+  if (!p) return;
+  const m = document.getElementById('modal');
+  m.innerHTML = `
+    <div style="position:relative">
+      <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('show')">✕</button>
+      <img src="instagram/${p.img}" alt="Post ${p.n}">
+    </div>
+    <div class="modal-body">
+      <h2>Post ${p.n} — ${p.t}</h2>
+      <p class="meta">Semana ${p.w} · ${p.d}</p>
+
+      <p class="section-label">📝 Caption</p>
+      <div class="text-block" id="mc-${p.n}">${p.c}
+        <button class="copy-btn" onclick="copyText(document.getElementById('mc-${p.n}').innerText.replace('Copiar','').trim(), this)">Copiar</button>
+      </div>
+
+      <p class="section-label">🏷️ Hashtags</p>
+      <div class="text-block" id="mh-${p.n}">${p.h}
+        <button class="copy-btn" onclick="copyText('${p.h}', this)">Copiar</button>
+      </div>
+
+      <button class="full-copy" onclick="copyText(\`${fullText(p).replace(/`/g,"\\`")}\`, this)">📋 Copiar todo (Caption + Hashtags)</button>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('show');
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('modalOverlay').classList.remove('show');
+});
+
+/* ── Render ── */
+function render() {
+  // Week pills
+  const pills = document.getElementById('weekPills');
+  pills.innerHTML = '<button class="active" onclick="scrollToWeek(0, this)">Todas</button>';
+  for (let i = 1; i <= 10; i++) {
+    pills.innerHTML += `<button onclick="scrollToWeek(${i}, this)">S${i}</button>`;
+  }
+
+  // Grid
+  const grid = document.getElementById('gridView');
+  POSTS.forEach(p => {
+    grid.innerHTML += `
+      <div class="grid-cell" onclick="openModal(${p.n})">
+        <span class="week-label">S${p.w}</span>
+        <img src="instagram/${p.img}" alt="Post ${p.n}" loading="lazy">
+        <div class="overlay">
+          <span class="num">#${p.n}</span>
+          <span class="theme">${p.t}</span>
+          <span class="day-badge">Sem ${p.w} · ${p.d}</span>
+        </div>
+      </div>
+    `;
+  });
+
+  // Calendar
+  const cal = document.getElementById('calendarView');
+  let cw = 0;
+  let rowHtml = '';
+  POSTS.forEach((p, i) => {
+    if (p.w !== cw) {
+      if (rowHtml) cal.innerHTML += rowHtml + '</div></div>';
+      cw = p.w;
+      rowHtml = `<div class="cal-week" id="week-${cw}">
+        <div class="cal-week-header">
+          <span class="week-num">SEMANA ${cw}</span>
+          <span class="week-title">${['','Lanzamiento','Educativo','Tips prácticos','Confianza','Plataforma','Profesionales','FAQ','Profundidad','Comunidad','Cierre'][cw]}</span>
+        </div>
+        <div class="cal-row">`;
+    }
+    const preview = p.c.substring(0, 100) + '...';
+    rowHtml += `
+      <div class="cal-card" onclick="openModal(${p.n})">
+        <img src="instagram/${p.img}" alt="Post ${p.n}" loading="lazy">
+        <div class="cal-card-body">
+          <div class="cal-card-top">
+            <span class="post-num">POST ${p.n}</span>
+            <span class="day-tag">${p.d}</span>
+          </div>
+          <div class="theme-label">${p.t}</div>
+          <div class="caption-preview">${preview}</div>
+          <div class="btn-row">
+            <button onclick="event.stopPropagation(); copyText(\`${fullText(p).replace(/`/g,"\\`")}\`, this)">📋 Copiar todo</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  if (rowHtml) cal.innerHTML += rowHtml + '</div></div>';
+
+  // List
+  const list = document.getElementById('listView');
+  POSTS.forEach(p => {
+    list.innerHTML += `
+      <div class="list-item" onclick="openModal(${p.n})">
+        <img src="instagram/${p.img}" alt="Post ${p.n}" loading="lazy">
+        <div class="list-item-body">
+          <div class="list-item-header">
+            <span class="num">#${p.n}</span>
+            <span class="theme">${p.t}</span>
+            <span class="day">Sem ${p.w} · ${p.d}</span>
+          </div>
+          <div class="caption-text">${p.c}</div>
+          <div class="tags-text">${p.h}</div>
+          <div class="btn-row">
+            <button onclick="event.stopPropagation(); copyText(\`${p.c}\`, this)">📝 Caption</button>
+            <button onclick="event.stopPropagation(); copyText('${p.h}', this)">🏷️ Tags</button>
+            <button onclick="event.stopPropagation(); copyText(\`${fullText(p).replace(/`/g,"\\`")}\`, this)">📋 Todo</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function scrollToWeek(w, btn) {
+  document.querySelectorAll('.week-pills button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (w === 0) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  if (currentView === 'grid') {
+    const idx = POSTS.findIndex(p => p.w === w);
+    const cells = document.querySelectorAll('.grid-cell');
+    if (cells[idx]) cells[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else if (currentView === 'calendar') {
+    const el = document.getElementById(`week-${w}`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    const idx = POSTS.findIndex(p => p.w === w);
+    const items = document.querySelectorAll('.list-item');
+    if (items[idx]) items[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+render();
+</script>
+</body>
+</html>

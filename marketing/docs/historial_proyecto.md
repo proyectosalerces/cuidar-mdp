@@ -1,6 +1,6 @@
-# 📋 Historial Completo del Proyecto — Cuidar MdP
+﻿# 📋 Historial Completo del Proyecto — Cuidar MdP
 
-**Proyecto:** Consultora de Recomendación Geriátrica de Mar del Plata
+**Proyecto:** Cuidar MdP de Mar del Plata
 **URL:** https://cuidar-mdp.vercel.app
 **Repositorio:** https://github.com/proyectosalerces/cuidar-mdp
 **Período:** 9 de junio 2026 — presente
@@ -45,7 +45,7 @@ b6b9dad — feat: Cuidar MdP - MVP completo con sistema de reseñas y autenticac
 ## Etapa 2 — Integración Firebase y Datos Reales (10 de junio, mañana)
 
 ### Qué se hizo
-Se migró de datos mock a Firebase/Firestore como backend real. Se cargaron las 31 residencias geriátricas verificadas de Mar del Plata con datos investigados.
+Se migró de datos mock a Firebase/Firestore como backend real. Se cargaron las 31 residencias de larga estadía verificadas de Mar del Plata con datos investigados.
 
 ### Implementación
 - **Firebase Auth** para login con Google y gestión de sesiones
@@ -163,25 +163,25 @@ Se crearon y cargaron 20 posts completos para el blog, con imágenes de portada 
 ### Implementación
 
 **Batch 1 — 6 posts fundacionales:**
-1. Guía para elegir residencia geriátrica
+1. Guía para elegir residencia de larga estadía
 2. Opciones de cuidado en Mar del Plata
-3. Señales de que un adulto mayor necesita ayuda
+3. Señales de que un persona mayor necesita ayuda
 4. Cómo contratar un cuidador domiciliario
-5. Derechos de los adultos mayores en Argentina
+5. Derechos de los personas mayores en Argentina
 6. Cómo preparar el ingreso a una residencia
 
 **Batch 2 — 14 posts adicionales:**
 7. Primera visita a una residencia
 8. Trámites PAMI para cobertura
-9. Mi padre se niega a ir a un geriátrico
-10. Emergencias geriátricas
-11. Alimentación en adultos mayores
+9. Mi padre se niega a ir a una residencia
+10. Emergencias de larga estadía
+11. Alimentación en personas mayores
 12. Alzheimer: señales tempranas
 13. Actividad física después de los 70
-14. Depresión en adultos mayores
+14. Depresión en personas mayores
 15. Prevención de caídas
 16. PAMI 2025: cambios y novedades
-17. Ola de frío y adultos mayores
+17. Ola de frío y personas mayores
 18. Estafas telefónicas: prevención
 19. Culpa por internar a un ser querido
 20. Síndrome del cuidador
@@ -270,7 +270,7 @@ src/
 
 | Colección | Documentos | Descripción |
 |-----------|-----------|-------------|
-| `residencias` | 31+ | Residencias geriátricas verificadas |
+| `residencias` | 31+ | residencias de larga estadía verificadas |
 | `profesionales` | 88 | Cuidadores certificados MGP |
 | `blog-posts` | 20 | Artículos con contenido HTML |
 | `resenas` | Variable | Reseñas de usuarios |
@@ -290,7 +290,7 @@ src/
 | 4 | **Google Business Profile** | Crear perfil (necesita verificación con dirección/teléfono real) |
 | 5 | **Cuenta Instagram** | Crear @cuidarmdp, subir avatar y bio del doc de textos |
 | 6 | **Página Facebook** | Crear con los textos preparados |
-| 7 | **WhatsApp Business** | Configurar con el 223 540-9226 y los mensajes automáticos |
+| 7 | **WhatsApp Business** | Configurar con el 2236 94-8075 y los mensajes automáticos |
 | 8 | **Publicar posts de IG** | Las 30 imágenes + captions están en `marketing/` |
 | 9 | **Completar datos de residencias** | Fotos reales, precios actualizados, servicios detallados |
 | 10 | **Revisar profesionales** | Verificar que los 88 cargados tengan info correcta |

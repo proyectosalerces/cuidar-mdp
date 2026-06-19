@@ -1,4 +1,4 @@
-# Textos para Redes Sociales — Cuidar MdP
+﻿# Textos para Redes Sociales — Cuidar MdP
 
 ---
 
@@ -16,7 +16,7 @@ Cuidar MdP
 
 ### Bio (150 caracteres máx.)
 ```
-Consultora geriátrica en Mar del Plata 🌊
+Cuidar MdP en Mar del Plata 🌊
 Te ayudamos a elegir el mejor cuidado 💚
 📋 +39 residencias verificadas
 👇 Asesoramiento gratuito
@@ -40,7 +40,7 @@ Salud y bienestar
 
 ### Botón de contacto
 ```
-WhatsApp: +54 223 540-9226
+WhatsApp: +54 2236 94-8075
 ```
 
 ### Texto para el botón de acción
@@ -69,7 +69,7 @@ Enviar mensaje
 
 ### Nombre de la página
 ```
-Cuidar MdP — Consultora Geriátrica
+Cuidar MdP — Cuidar MdP
 ```
 
 ### Nombre de usuario
@@ -89,23 +89,23 @@ Servicio de consultoría
 
 ### Bio / Presentación corta (255 caracteres)
 ```
-Somos la primera consultora de recomendación geriátrica de Mar del Plata. Te ayudamos a encontrar la residencia ideal para tu ser querido con información verificada y asesoramiento 100% gratuito. 💚
+Somos la primera Cuidar MdP de Mar del Plata. Te ayudamos a encontrar la residencia ideal para tu ser querido con información verificada y asesoramiento 100% gratuito. 💚
 ```
 
 ### Descripción larga (sección "Información")
 ```
-🏠 ¿Estás buscando una residencia geriátrica para un ser querido y no sabés por dónde empezar?
+🏠 ¿Estás buscando una residencia de larga estadía para un ser querido y no sabés por dónde empezar?
 
-Cuidar MdP es la primera consultora de recomendación geriátrica de Mar del Plata. Nuestro objetivo es simple: que ninguna familia tenga que elegir a ciegas.
+Cuidar MdP es la primera Cuidar MdP de Mar del Plata. Nuestro objetivo es simple: que ninguna familia tenga que elegir a ciegas.
 
 ✅ Qué hacemos:
-• Directorio con +39 residencias geriátricas verificadas de Mar del Plata
-• Red de profesionales especializados en adultos mayores
+• Directorio con +39 residencias de larga estadía verificadas de Mar del Plata
+• Red de profesionales especializados en personas mayores
 • Asesoramiento gratuito y personalizado para cada familia
 • Blog con información útil, guías y consejos
 
 💚 Nuestro compromiso:
-No somos una residencia ni vendemos nada. Somos un equipo que investiga, verifica y recomienda las mejores opciones de cuidado para adultos mayores en la ciudad. Toda nuestra información es independiente y verificada.
+No somos una residencia ni vendemos nada. Somos un equipo que investiga, verifica y recomienda las mejores opciones de cuidado para personas mayores en la ciudad. Toda nuestra información es independiente y verificada.
 
 📋 Servicios:
 • Búsqueda de residencias según necesidades (ubicación, presupuesto, tipo de cuidado)
@@ -114,12 +114,12 @@ No somos una residencia ni vendemos nada. Somos un equipo que investiga, verific
 • Conexión con profesionales (geriatras, kinesiólogos, psicólogos, cuidadores domiciliarios)
 
 📞 El asesoramiento es 100% gratuito.
-Escribinos por WhatsApp al 223 540-9226 o visitá nuestra web.
+Escribinos por WhatsApp al 2236 94-8075 o visitá nuestra web.
 ```
 
 ### Historia de la página (sección "Nuestra historia")
 ```
-Cuidar MdP nació de una necesidad real: cuando una familia busca una residencia geriátrica, se enfrenta a un mundo de opciones sin información confiable. ¿Está habilitada? ¿Cuánto cuesta? ¿Qué servicios ofrece? ¿Es segura?
+Cuidar MdP nació de una necesidad real: cuando una familia busca una residencia de larga estadía, se enfrenta a un mundo de opciones sin información confiable. ¿Está habilitada? ¿Cuánto cuesta? ¿Qué servicios ofrece? ¿Es segura?
 
 Creamos esta consultora para responder todas esas preguntas. Recorremos las residencias, verificamos la información, y la ponemos a disposición de las familias de Mar del Plata de forma gratuita.
 
@@ -130,8 +130,8 @@ Porque elegir el cuidado de un ser querido no debería ser una apuesta. Debería
 
 | Campo | Valor |
 |-------|-------|
-| **Teléfono** | 223 540-9226 |
-| **WhatsApp** | +54 223 540-9226 |
+| **Teléfono** | 2236 94-8075 |
+| **WhatsApp** | +54 2236 94-8075 |
 | **Email** | info@cuidarmdp.com.ar *(cuando tengas el dominio)* |
 | **Sitio web** | https://cuidar-mdp.vercel.app |
 | **Dirección** | Mar del Plata, Buenos Aires, Argentina |
@@ -146,16 +146,16 @@ Enviar mensaje por WhatsApp
 ```
 💚 ¡Hola, Mar del Plata!
 
-Somos Cuidar MdP, la primera consultora de recomendación geriátrica de la ciudad.
+Somos Cuidar MdP, la primera Cuidar MdP de la ciudad.
 
 ¿Estás buscando una residencia para un ser querido y no sabés por dónde empezar? Te entendemos. Por eso creamos un directorio con +39 residencias verificadas, una red de profesionales especializados, y un equipo que te asesora de forma 100% gratuita.
 
 🏠 Visitá nuestra web: cuidar-mdp.vercel.app
-📞 Escribinos: 223 540-9226
+📞 Escribinos: 2236 94-8075
 
 Porque elegir el cuidado de alguien que amás no debería ser una apuesta. Debería ser una decisión informada.
 
-#CuidarMdP #MarDelPlata #GeriatricosMdP #AdultosMayores #CuidadoPersonalizado
+#CuidarMdP #MarDelPlata #ResidenciasMdP #PersonasMayores #CuidadoPersonalizado
 ```
 
 ---
@@ -166,10 +166,10 @@ Porque elegir el cuidado de alguien que amás no debería ser una apuesta. Deber
 ```
 ¡Hola! 👋 Gracias por contactar a Cuidar MdP.
 
-Somos la primera consultora de recomendación geriátrica de Mar del Plata. Nuestro asesoramiento es 100% gratuito.
+Somos la primera Cuidar MdP de Mar del Plata. Nuestro asesoramiento es 100% gratuito.
 
 Contanos qué estás buscando y te orientamos:
-• 🏠 Residencia geriátrica
+• 🏠 residencia de larga estadía
 • 👨‍⚕️ Profesional especializado
 • 📋 Información general
 
@@ -192,8 +192,8 @@ Mientras tanto, podés visitar nuestra web con toda la información: cuidar-mdp.
 ```
 —
 Diego | Cuidar MdP
-Consultora de Recomendación Geriátrica
-📞 223 540-9226
+Cuidar MdP
+📞 2236 94-8075
 🌐 cuidarmdp.com.ar
 💚 Asesoramiento gratuito para familias
 ```

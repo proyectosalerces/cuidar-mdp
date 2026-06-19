@@ -410,10 +410,10 @@ export default function PrivacidadPage() {
                   </span>
                   Email:{' '}
                   <a
-                    href="mailto:proyectos@residencialosalerces.com"
+                    href="mailto:info@cuidarmdp.com"
                     className={styles.contactLink}
                   >
-                    proyectos@residencialosalerces.com
+                    info@cuidarmdp.com
                   </a>
                 </div>
               </div>

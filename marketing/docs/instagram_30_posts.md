@@ -1,4 +1,4 @@
-# 📱 Instagram @cuidarmdp — 30 Posts Listos
+﻿# 📱 Instagram @cuidarmdp — 30 Posts Listos
 
 Cada post incluye imagen + caption + hashtags. Listos para publicar.
 
@@ -7,9 +7,9 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 1 — Presentación 🟢
 ![Post 1 - Presentación](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_01_1781229583453.png)
 
-**Caption:** ¿Estás buscando el mejor cuidado para tu ser querido? 💚 Somos Cuidar MdP, la primera consultora de recomendación geriátrica de Mar del Plata. Te acompañamos en cada paso para encontrar la residencia ideal. 🏠 +39 residencias verificadas | 👨‍⚕️ Red de profesionales | 📋 Asesoramiento gratuito y personalizado. Escribinos al 223 540-9226 o visitá cuidar-mdp.vercel.app 🔗
+**Caption:** ¿Estás buscando el mejor cuidado para tu ser querido? 💚 Somos Cuidar MdP, la primera Cuidar MdP de Mar del Plata. Te acompañamos en cada paso para encontrar la residencia ideal. 🏠 +39 residencias verificadas | 👨‍⚕️ Red de profesionales | 📋 Asesoramiento gratuito y personalizado. Escribinos al 2236 94-8075 o visitá cuidar-mdp.vercel.app 🔗
 
-**Hashtags:** #CuidarMdP #GeriatricosMdP #AdultosMayores #MarDelPlata #CuidadoPersonalizado #Geriatría
+**Hashtags:** #CuidarMdP #ResidenciasMdP #PersonasMayores #MarDelPlata #CuidadoPersonalizado #PersonasMayores
 
 ---
 
@@ -18,16 +18,16 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 
 **Caption:** 📊 ¿Sabías que en Argentina hay más de 7 millones de personas mayores de 60 años? Elegir el cuidado adecuado es una de las decisiones más importantes que podés tomar por tu familia. En Cuidar MdP te ayudamos con información verificada y asesoramiento gratuito. 💚
 
-**Hashtags:** #AdultosMayores #Argentina #Estadísticas #CuidadoFamiliar #EnvejecimientoActivo
+**Hashtags:** #PersonasMayores #Argentina #Estadísticas #CuidadoFamiliar #EnvejecimientoActivo
 
 ---
 
 ## Post 3 — Checklist ✅
 ![Post 3 - 7 cosas](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_03_1781229622903.png)
 
-**Caption:** ✅ 7 cosas que tenés que verificar ANTES de elegir una residencia geriátrica. Guardate este post, lo vas a necesitar. 📌 ¿Tenés dudas? Escribinos, el asesoramiento es 100% gratuito.
+**Caption:** ✅ 7 cosas que tenés que verificar ANTES de elegir una residencia de larga estadía. Guardate este post, lo vas a necesitar. 📌 ¿Tenés dudas? Escribinos, el asesoramiento es 100% gratuito.
 
-**Hashtags:** #Checklist #Residencias #ConsejosParaFamilias #GeriatricosMdP #Guía
+**Hashtags:** #Checklist #Residencias #ConsejosParaFamilias #ResidenciasMdP #Guía
 
 ---
 
@@ -43,7 +43,7 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 5 — Testimonio 💬
 ![Post 5 - Testimonio](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_05_1781229660412.png)
 
-**Caption:** 💬 "No sabíamos por dónde empezar. Cuidar MdP nos orientó y encontramos el lugar perfecto para mamá." — Familia de Mar del Plata. Cada familia tiene una historia. Nosotros te ayudamos a escribir el mejor capítulo. 📞 223 540-9226
+**Caption:** 💬 "No sabíamos por dónde empezar. Cuidar MdP nos orientó y encontramos el lugar perfecto para mamá." — Familia de Mar del Plata. Cada familia tiene una historia. Nosotros te ayudamos a escribir el mejor capítulo. 📞 2236 94-8075
 
 **Hashtags:** #Testimonios #FamiliasReales #CuidadoPersonalizado #MarDelPlata
 
@@ -52,7 +52,7 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 6 — Barrios de MdP 📍
 ![Post 6 - Barrios](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_06_1781229678517.png)
 
-**Caption:** 📍 ¿En qué barrio de MdP conviene buscar? Te mostramos los barrios con más opciones de residencias geriátricas y qué ofrece cada zona. Centro, Güemes, Constitución, Chauvin... cada barrio tiene su encanto. 🏘️
+**Caption:** 📍 ¿En qué barrio de MdP conviene buscar? Te mostramos los barrios con más opciones de residencias de larga estadía y qué ofrece cada zona. Centro, Güemes, Constitución, Chauvin... cada barrio tiene su encanto. 🏘️
 
 **Hashtags:** #MarDelPlata #Barrios #Residencias #InfoÚtil #MdP
 
@@ -63,16 +63,16 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 
 **Caption:** 🚨 5 señales de que tu ser querido podría necesitar asistencia profesional. No es fácil reconocerlo, pero identificarlo a tiempo puede marcar la diferencia. Si te identificás con alguna de estas señales, hablemos. Estamos para ayudarte. 💚
 
-**Hashtags:** #Señales #CuidadoProfesional #FamiliaCuidadora #Geriatría
+**Hashtags:** #Señales #CuidadoProfesional #FamiliaCuidadora #PersonasMayores
 
 ---
 
 ## Post 8 — Nutrición 🥗
 ![Post 8 - Nutrición](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_08_1781229715582.png)
 
-**Caption:** 🥗 La alimentación en adultos mayores no es igual que a los 30. Te compartimos 5 nutrientes esenciales que no pueden faltar. Una buena alimentación = mejor calidad de vida. 💚
+**Caption:** 🥗 La alimentación en personas mayores no es igual que a los 30. Te compartimos 5 nutrientes esenciales que no pueden faltar. Una buena alimentación = mejor calidad de vida. 💚
 
-**Hashtags:** #Nutrición #AdultosMayores #Salud #AlimentaciónSaludable #Bienestar
+**Hashtags:** #Nutrición #PersonasMayores #Salud #AlimentaciónSaludable #Bienestar
 
 ---
 
@@ -88,9 +88,9 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 10 — Derechos ⚖️
 ![Post 10 - Derechos](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_10_1781229756535.png)
 
-**Caption:** ⚖️ ¿Conocés los derechos de los adultos mayores en Argentina? Muchas familias no saben que existen leyes que los protegen. Te resumimos los más importantes. 📌 Guardalo y compartilo.
+**Caption:** ⚖️ ¿Conocés los derechos de los personas mayores en Argentina? Muchas familias no saben que existen leyes que los protegen. Te resumimos los más importantes. 📌 Guardalo y compartilo.
 
-**Hashtags:** #Derechos #LeyArgentina #AdultosMayores #Protección #Legal
+**Hashtags:** #Derechos #LeyArgentina #PersonasMayores #Protección #Legal
 
 ---
 
@@ -106,9 +106,9 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 12 — Mito vs Realidad 💡
 ![Post 12 - Mitos](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_12_1781229791648.png)
 
-**Caption:** 💡 MITO vs REALIDAD sobre las residencias geriátricas. ¿Cuántos de estos mitos creías? La realidad es que las residencias modernas ofrecen calidad de vida, no encierro.
+**Caption:** 💡 MITO vs REALIDAD sobre las residencias de larga estadía. ¿Cuántos de estos mitos creías? La realidad es que las residencias modernas ofrecen calidad de vida, no encierro.
 
-**Hashtags:** #MitosYRealidades #Geriatría #Educación #DerribandoMitos
+**Hashtags:** #MitosYRealidades #PersonasMayores #Educación #DerribandoMitos
 
 ---
 
@@ -124,9 +124,9 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 14 — Día a día ❤️
 ![Post 14 - Rutina](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_14_1781229830544.png)
 
-**Caption:** ❤️ Un día típico en una residencia geriátrica de calidad. Desayuno, actividades recreativas, terapia, almuerzo, siesta, merienda, juegos... La vida en una buena residencia es activa y plena. 🌞
+**Caption:** ❤️ Un día típico en una residencia de larga estadía de calidad. Desayuno, actividades recreativas, terapia, almuerzo, siesta, merienda, juegos... La vida en una buena residencia es activa y plena. 🌞
 
-**Hashtags:** #VidaEnResidencia #Rutina #CalidadDeVida #AdultosMayores
+**Hashtags:** #VidaEnResidencia #Rutina #CalidadDeVida #PersonasMayores
 
 ---
 
@@ -142,16 +142,16 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 16 — Profesionales 👨‍⚕️
 ![Post 16 - Profesionales](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_16_1781229867984.png)
 
-**Caption:** 👨‍⚕️ ¿Necesitás un geriatra, kinesiólogo o psicólogo especializado en adultos mayores? En nuestra red encontrás profesionales verificados de Mar del Plata. Consultá el directorio en nuestra web. 🔗
+**Caption:** 👨‍⚕️ ¿Necesitás un geriatra, kinesiólogo o psicólogo especializado en personas mayores? En nuestra red encontrás profesionales verificados de Mar del Plata. Consultá el directorio en nuestra web. 🔗
 
-**Hashtags:** #Profesionales #Geriatría #Kinesiología #Psicología #MdP
+**Hashtags:** #Profesionales #PersonasMayores #Kinesiología #Psicología #MdP
 
 ---
 
 ## Post 17 — Actividad física 🏋️
 ![Post 17 - Ejercicios](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_17_1781229887791.png)
 
-**Caption:** 🏋️ No es necesario correr una maratón. 5 ejercicios simples y seguros para adultos mayores que mejoran fuerza, equilibrio y ánimo. Consultá siempre con un profesional antes de empezar. 💪
+**Caption:** 🏋️ No es necesario correr una maratón. 5 ejercicios simples y seguros para personas mayores que mejoran fuerza, equilibrio y ánimo. Consultá siempre con un profesional antes de empezar. 💪
 
 **Hashtags:** #EjercicioFísico #Movilidad #Equilibrio #SaludFísica
 
@@ -160,7 +160,7 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 18 — Terapias 🌿
 ![Post 18 - Terapias](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_18_1781229906135.png)
 
-**Caption:** 🌿 Musicoterapia, arteterapia, terapia con mascotas... Las terapias complementarias mejoran el bienestar emocional de los adultos mayores. ¿Sabías que muchas residencias de MdP las ofrecen? 🎵🎨🐕
+**Caption:** 🌿 Musicoterapia, arteterapia, terapia con mascotas... Las terapias complementarias mejoran el bienestar emocional de los personas mayores. ¿Sabías que muchas residencias de MdP las ofrecen? 🎵🎨🐕
 
 **Hashtags:** #Terapias #Musicoterapia #Arteterapia #BienestarEmocional
 
@@ -169,7 +169,7 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 19 — FAQ Costos 💰
 ![Post 19 - Costos](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_19_1781229926612.png)
 
-**Caption:** ❓ La pregunta que todos hacen: ¿Cuánto cuesta una residencia geriátrica en MdP? La respuesta depende de muchos factores. Te explicamos los rangos y qué incluye cada uno. 💰 Asesoramiento gratuito: 223 540-9226.
+**Caption:** ❓ La pregunta que todos hacen: ¿Cuánto cuesta una residencia de larga estadía en MdP? La respuesta depende de muchos factores. Te explicamos los rangos y qué incluye cada uno. 💰 Asesoramiento gratuito: 2236 94-8075.
 
 **Hashtags:** #Precios #Costos #FAQ #Presupuesto #Transparencia
 
@@ -187,7 +187,7 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 21 — Envejecimiento activo 🎂
 ![Post 21 - Envejecimiento](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_21_1781229973203.png)
 
-**Caption:** 🎂 Envejecer no es dejar de vivir. Es vivir con más experiencia. Hoy celebramos a todos los adultos mayores que nos inspiran cada día. 💚 Etiquetá a alguien que admires. 👇
+**Caption:** 🎂 Envejecer no es dejar de vivir. Es vivir con más experiencia. Hoy celebramos a todos los personas mayores que nos inspiran cada día. 💚 Etiquetá a alguien que admires. 👇
 
 **Hashtags:** #EnvejecimientoActivo #Inspiración #VidaPlena #Celebración
 
@@ -196,7 +196,7 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 22 — Invierno ❄️
 ![Post 22 - Invierno](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_22_1781229990936.png)
 
-**Caption:** 🌧️ El invierno en MdP puede ser duro. 5 cuidados esenciales para adultos mayores durante los meses fríos: calefacción, vacunas, hidratación, caídas, y ánimo. ❄️
+**Caption:** 🌧️ El invierno en MdP puede ser duro. 5 cuidados esenciales para personas mayores durante los meses fríos: calefacción, vacunas, hidratación, caídas, y ánimo. ❄️
 
 **Hashtags:** #Invierno #Cuidados #Prevención #MarDelPlata #Salud
 
@@ -232,7 +232,7 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 26 — Guía completa 📌
 ![Post 26 - Guía](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_26_1781230067053.png)
 
-**Caption:** 📌 GUARDÁ este post. La guía definitiva para elegir una residencia geriátrica en Mar del Plata. 10 pasos desde la primera búsqueda hasta la mudanza. Todo lo que necesitás saber en un solo lugar. 📋
+**Caption:** 📌 GUARDÁ este post. La guía definitiva para elegir una residencia de larga estadía en Mar del Plata. 10 pasos desde la primera búsqueda hasta la mudanza. Todo lo que necesitás saber en un solo lugar. 📋
 
 **Hashtags:** #GuíaCompleta #PasoAPaso #Guardar #ResidenciasMdP
 
@@ -259,7 +259,7 @@ Cada post incluye imagen + caption + hashtags. Listos para publicar.
 ## Post 29 — CTA Asesoramiento 📞
 ![Post 29 - CTA](C:/Users/proye/.gemini/antigravity/brain/d2930a39-8658-4d38-88a4-323906e75531/ig_post_29_1781230127000.png)
 
-**Caption:** 📞 ¿Necesitás orientación? Nuestro asesoramiento es GRATUITO y personalizado. Te escuchamos, te informamos, y te acompañamos. Sin compromiso. 💚 WhatsApp: 223 540-9226 | Web: cuidar-mdp.vercel.app
+**Caption:** 📞 ¿Necesitás orientación? Nuestro asesoramiento es GRATUITO y personalizado. Te escuchamos, te informamos, y te acompañamos. Sin compromiso. 💚 WhatsApp: 2236 94-8075 | Web: cuidar-mdp.vercel.app
 
 **Hashtags:** #Asesoramiento #Gratuito #Contacto #CuidarMdP
 

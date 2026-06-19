@@ -1,21 +1,21 @@
-# Manual de Marca — Cuidar MdP
+﻿# Manual de Marca — Cuidar MdP
 
 ## 1. La Marca
 
-**Cuidar MdP** es la primera consultora de recomendación geriátrica de Mar del Plata. Nuestro propósito es acompañar a las familias en la búsqueda del mejor cuidado para sus seres queridos, con información verificada, transparencia y empatía.
+**Cuidar MdP** es la primera Cuidar MdP de Mar del Plata. Nuestro propósito es acompañar a las familias en la búsqueda del mejor cuidado para sus seres queridos, con información verificada, transparencia y empatía.
 
 ### Misión
-Facilitar el acceso a información confiable sobre residencias geriátricas y profesionales de salud en Mar del Plata, ayudando a las familias a tomar decisiones informadas con tranquilidad.
+Facilitar el acceso a información confiable sobre residencias de larga estadía y profesionales de salud en Mar del Plata, ayudando a las familias a tomar decisiones informadas con tranquilidad.
 
 ### Visión
-Ser la referencia N°1 en recomendación geriátrica del sudeste bonaerense, impulsando la transparencia y la calidad en el sector del cuidado de adultos mayores.
+Ser la referencia N°1 en recomendación de cuidado del sudeste bonaerense, impulsando la transparencia y la calidad en el sector del cuidado de personas mayores.
 
 ### Valores
 - **Empatía** — Entendemos el momento emocional de cada familia
 - **Transparencia** — Información verificada y sin conflictos de interés
 - **Cercanía** — Comunicación cálida, humana y accesible
 - **Profesionalismo** — Rigor en cada recomendación
-- **Compromiso** — Con el bienestar de los adultos mayores
+- **Compromiso** — Con el bienestar de los personas mayores
 
 ---
 
@@ -135,7 +135,7 @@ Cuidar MdP habla como un **amigo profesional**: cálido, cercano, pero con conoc
 | "Te ayudamos a encontrar el mejor lugar" | "Contratá nuestros servicios" |
 | "Sabemos que es difícil" | "Es una decisión simple" |
 | "Tu ser querido" / "tu mamá/papá" | "El paciente" / "El anciano" |
-| "Residencia geriátrica" | "Asilo" / "Internación" |
+| "Residencia de larga estadía" | "Asilo" / "Internación" |
 | Voseo argentino ("vos podés") | Tuteo ("tú puedes") |
 | Datos verificados | Promesas vagas |
 
