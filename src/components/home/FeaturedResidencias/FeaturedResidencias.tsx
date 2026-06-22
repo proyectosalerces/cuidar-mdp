@@ -11,6 +11,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/services/firebase/config';
 import type { Residencia } from '@/types/residencia';
 import { formatPrecio, formatCalificacion } from '@/utils/formatters';
+import { SmartImage } from '@/components/ui';
 import styles from './FeaturedResidencias.module.css';
 
 /** Maximum number of service badges to display per card. */
@@ -68,27 +69,17 @@ export default function FeaturedResidencias() {
             >
               {/* Image */}
               <div className={styles.cardImage}>
-                {residencia.imagenPrincipal ? (
-                  <img
-                    src={residencia.imagenPrincipal}
-                    alt={residencia.nombre}
-                    className={styles.coverImage}
-                    loading="lazy"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const placeholder = target.nextElementSibling as HTMLElement;
-                      if (placeholder) placeholder.style.display = 'flex';
-                    }}
-                  />
-                ) : null}
-                <div
-                  className={styles.cardImagePlaceholder}
-                  aria-hidden="true"
-                  style={residencia.imagenPrincipal ? { display: 'none' } : undefined}
-                >
-                  🏠
-                </div>
+                <SmartImage
+                  src={residencia.imagenPrincipal}
+                  alt={residencia.nombre}
+                  className={styles.coverImage}
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  fallback={
+                    <div className={styles.cardImagePlaceholder} aria-hidden="true" style={{ display: 'flex' }}>
+                      🏠
+                    </div>
+                  }
+                />
                 {residencia.verificada && (
                   <span className={styles.verifiedBadge}>✓ Verificada</span>
                 )}

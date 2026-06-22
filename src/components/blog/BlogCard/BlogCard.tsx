@@ -8,7 +8,7 @@
  */
 
 import Link from 'next/link';
-import { Badge } from '@/components/ui';
+import { Badge, SmartImage } from '@/components/ui';
 import { cn } from '@/utils/classnames';
 import { formatFecha, formatTiempoLectura } from '@/utils/formatters';
 import type { BlogPost } from '@/types/blog';
@@ -66,43 +66,36 @@ export default function BlogCard({ post, className }: BlogCardProps) {
       <Link href={`/blog/${post.slug}`} className={styles.imageLink}>
         <div
           className={styles.imagePlaceholder}
-          style={{ background: post.imagenPortada ? undefined : gradient }}
+          style={{ background: gradient }}
         >
-          {post.imagenPortada ? (
-            <img
-              src={post.imagenPortada}
-              alt={post.titulo}
-              className={styles.coverImage}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                if (target.parentElement) {
-                  target.parentElement.style.background = gradient;
-                }
-              }}
-            />
-          ) : (
-            <>
-              <div className={styles.imagePattern} />
-              {/* Decorative icon */}
-              <svg
-                className={styles.imageIcon}
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#fff"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-                <path d="M8 7h6" />
-                <path d="M8 11h8" />
-              </svg>
-            </>
-          )}
+          <SmartImage
+            src={post.imagenPortada}
+            alt={post.titulo}
+            className={styles.coverImage}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            fallback={
+              <>
+                <div className={styles.imagePattern} />
+                {/* Decorative icon */}
+                <svg
+                  className={styles.imageIcon}
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#fff"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+                  <path d="M8 7h6" />
+                  <path d="M8 11h8" />
+                </svg>
+              </>
+            }
+          />
           <Badge variant="primary" className={styles.categoryBadge}>
             {label}
           </Badge>

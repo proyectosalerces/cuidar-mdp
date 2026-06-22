@@ -5,19 +5,20 @@
  */
 
 import type { Metadata } from 'next';
-import { getProfesionalBySlug } from '@/services/profesionales.service';
-import { mockProfesionales } from '@/data/mock';
+import { getProfesionalBySlug, getProfesionales } from '@/services/profesionales.service';
 import ProfesionalDetail from '@/components/profesionales/ProfesionalDetail/ProfesionalDetail';
 import ProfesionalNotFound from '@/components/profesionales/ProfesionalDetail/ProfesionalNotFound';
 import JsonLd from '@/components/seo/JsonLd';
 import { generateProfesionalJsonLd } from '@/utils/seo';
 
+/* Regenerar las páginas con datos frescos de Firestore cada hora */
+export const revalidate = 3600;
+
 /* ── Static params ────────────────────────────────────────────────────── */
 
 export async function generateStaticParams() {
-  return mockProfesionales
-    .filter((p) => p.activo)
-    .map((p) => ({ slug: p.slug }));
+  const profesionales = await getProfesionales();
+  return profesionales.map((p) => ({ slug: p.slug }));
 }
 
 /* ── SEO metadata ─────────────────────────────────────────────────────── */

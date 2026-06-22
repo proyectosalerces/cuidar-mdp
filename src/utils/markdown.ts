@@ -97,12 +97,46 @@ export function markdownToHtml(md: string): string {
 }
 
 /**
+ * Escape HTML special characters so any raw HTML in the source text is
+ * rendered as plain text instead of being executed by the browser (XSS guard).
+ */
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/**
+ * Only allow safe link schemes. Blocks javascript:, data:, etc.
+ * Returns the URL if safe, or null to drop the link.
+ */
+function safeUrl(url: string): string | null {
+  const trimmed = url.trim();
+  if (/^(https?:\/\/|\/|mailto:|tel:|#)/i.test(trimmed)) {
+    return trimmed;
+  }
+  return null;
+}
+
+/**
  * Process inline formatting: **bold**, [text](url)
+ *
+ * Escapes the raw text FIRST, then applies the markdown formatting on top,
+ * so user content can never inject executable HTML.
  */
 function inlineFormat(text: string): string {
-  // Bold: **text**
-  let result = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  // Links: [text](url)
-  result = result.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>');
+  // 1) Neutralize any HTML in the raw text
+  let result = escapeHtml(text);
+  // 2) Bold: **text**
+  result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // 3) Links: [text](url) — validate the URL scheme, drop unsafe ones
+  result = result.replace(/\[(.+?)\]\((.+?)\)/g, (_match, label: string, url: string) => {
+    const safe = safeUrl(url);
+    if (!safe) return label;
+    return `<a href="${safe}" rel="noopener noreferrer">${label}</a>`;
+  });
   return result;
 }

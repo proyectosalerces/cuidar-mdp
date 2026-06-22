@@ -5,19 +5,20 @@
  */
 
 import type { Metadata } from 'next';
-import { getResidenciaBySlug } from '@/services/residencias.service';
-import { mockResidencias } from '@/data/mock';
+import { getResidenciaBySlug, getResidencias } from '@/services/residencias.service';
 import ResidenciaDetail from '@/components/residencias/ResidenciaDetail/ResidenciaDetail';
 import ResidenciaNotFound from '@/components/residencias/ResidenciaDetail/ResidenciaNotFound';
 import JsonLd from '@/components/seo/JsonLd';
 import { generateResidenciaJsonLd } from '@/utils/seo';
 
+/* Regenerar las páginas con datos frescos de Firestore cada hora */
+export const revalidate = 3600;
+
 /* ── Static params ────────────────────────────────────────────────────── */
 
 export async function generateStaticParams() {
-  return mockResidencias
-    .filter((r) => r.activa)
-    .map((r) => ({ slug: r.slug }));
+  const residencias = await getResidencias();
+  return residencias.map((r) => ({ slug: r.slug }));
 }
 
 /* ── SEO metadata ─────────────────────────────────────────────────────── */

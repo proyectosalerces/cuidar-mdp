@@ -12,6 +12,10 @@ import { getResidencias } from '@/services/residencias.service';
 import { getBlogPosts } from '@/services/blog.service';
 import { getProfesionales } from '@/services/profesionales.service';
 
+/* Regenerar el sitemap con datos frescos de Firestore cada hora,
+   para que Google descubra residencias y profesionales nuevos sin redeploy */
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 

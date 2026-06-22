@@ -5,6 +5,7 @@
  */
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Badge } from '@/components/ui';
 import BlogCard from '@/components/blog/BlogCard/BlogCard';
 import { formatFecha, formatTiempoLectura } from '@/utils/formatters';
@@ -112,10 +113,14 @@ export default function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
           {/* Cover image */}
           {post.imagenPortada && (
             <div className={styles.coverWrapper}>
-              <img
+              <Image
                 src={post.imagenPortada}
                 alt={post.titulo}
+                width={1200}
+                height={675}
                 className={styles.coverImage}
+                priority
+                sizes="(max-width: 768px) 100vw, 800px"
               />
             </div>
           )}

@@ -10,7 +10,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import type { Residencia } from '@/types/residencia';
-import { Button, Badge, Rating } from '@/components/ui';
+import { Button, Badge, Rating, SmartImage } from '@/components/ui';
 import { TIPOS_CUIDADO_LABELS, WHATSAPP_NUMBER } from '@/utils/constants';
 import {
   formatPrecio,
@@ -57,27 +57,20 @@ export default function ResidenciaDetail({ residencia }: ResidenciaDetailProps) 
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <div className={styles.hero}>
         <div className={styles.heroOverlay} />
-        {residencia.imagenPrincipal ? (
-          <img
-            src={residencia.imagenPrincipal}
-            alt={residencia.nombre}
-            className={styles.heroImage}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-              const placeholder = target.nextElementSibling as HTMLElement;
-              if (placeholder) placeholder.style.display = 'flex';
-            }}
-          />
-        ) : null}
-        <div
-          className={styles.heroPlaceholderIcon}
-          style={residencia.imagenPrincipal ? { display: 'none' } : { display: 'flex' }}
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ width: 80, height: 80, opacity: 0.25, color: '#fff' }}>
-            <path d="M3 21V7a2 2 0 012-2h14a2 2 0 012 2v14M3 21h18M3 21l6-6m0 0l3 3 4-4 5 5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
+        <SmartImage
+          src={residencia.imagenPrincipal}
+          alt={residencia.nombre}
+          className={styles.heroImage}
+          sizes="100vw"
+          priority
+          fallback={
+            <div className={styles.heroPlaceholderIcon} style={{ display: 'flex' }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ width: 80, height: 80, opacity: 0.25, color: '#fff' }}>
+                <path d="M3 21V7a2 2 0 012-2h14a2 2 0 012 2v14M3 21h18M3 21l6-6m0 0l3 3 4-4 5 5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          }
+        />
         <div className={styles.heroContent}>
           <div className={styles.heroBadges}>
             {residencia.verificada && (

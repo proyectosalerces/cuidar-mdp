@@ -22,3 +22,5 @@ export type { SkeletonProps, SkeletonVariant } from './Skeleton/Skeleton';
 
 export { default as Select } from './Select/Select';
 export type { SelectProps, SelectOption } from './Select/Select';
+
+export { default as SmartImage } from './SmartImage/SmartImage';
