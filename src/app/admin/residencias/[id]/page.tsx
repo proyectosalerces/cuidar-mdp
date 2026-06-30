@@ -16,6 +16,7 @@ import {
   getResidenciaById,
   updateResidencia,
 } from '@/services/admin.service';
+import LocationPickerField from '@/components/mapa/LocationPicker/LocationPickerField';
 import styles from '../form.module.css';
 
 export default function EditResidenciaPage({
@@ -30,6 +31,8 @@ export default function EditResidenciaPage({
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
   const [barrio, setBarrio] = useState('');
+  const [lat, setLat] = useState('');
+  const [lng, setLng] = useState('');
   const [telefono, setTelefono] = useState('');
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
@@ -77,6 +80,8 @@ export default function EditResidenciaPage({
         setNombre(data.nombre);
         setDireccion(data.direccion);
         setBarrio(data.barrio ?? '');
+        setLat(data.coordenadas?.lat?.toString() ?? '');
+        setLng(data.coordenadas?.lng?.toString() ?? '');
         setTelefono(data.telefono ?? '');
         setEmail(data.email ?? '');
         setWebsite(data.website ?? '');
@@ -163,10 +168,15 @@ export default function EditResidenciaPage({
         ...imagenes,
       ];
 
+      const latNum = lat.trim() !== '' && !isNaN(Number(lat)) ? Number(lat) : null;
+      const lngNum = lng.trim() !== '' && !isNaN(Number(lng)) ? Number(lng) : null;
+
       await updateResidencia(id, {
         nombre: nombre.trim(),
         direccion: direccion.trim(),
         barrio,
+        coordenadas:
+          latNum != null && lngNum != null ? { lat: latNum, lng: lngNum } : undefined,
         telefono: telefono.trim(),
         email: email.trim() || undefined,
         website: website.trim() || undefined,
@@ -268,6 +278,18 @@ export default function EditResidenciaPage({
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>Ubicación en el mapa</label>
+              <LocationPickerField
+                lat={lat}
+                lng={lng}
+                onChange={(la, ln) => {
+                  setLat(la);
+                  setLng(ln);
+                }}
+              />
             </div>
 
             <div className={styles.field}>

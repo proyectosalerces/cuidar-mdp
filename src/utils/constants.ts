@@ -34,6 +34,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Inicio', href: '/' },
   { label: 'Residencias', href: '/residencias' },
+  { label: 'Mapa', href: '/mapa' },
   { label: 'Profesionales', href: '/profesionales' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contacto', href: '/contacto' },

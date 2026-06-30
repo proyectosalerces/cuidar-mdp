@@ -14,7 +14,10 @@ import { Skeleton } from '@/components/ui';
 import { Button } from '@/components/ui';
 import ResidenciaCard from './ResidenciaCard/ResidenciaCard';
 import FilterSidebar from './FilterSidebar/FilterSidebar';
+import MapaView from '@/components/mapa/MapaView';
 import styles from './ResidenciasPage.module.css';
+
+type Vista = 'lista' | 'mapa';
 
 export default function ResidenciasPage() {
   const {
@@ -30,6 +33,14 @@ export default function ResidenciasPage() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearch = useDebounce(searchTerm, 350);
+
+  /* ── List vs map view ─────────────────────────────────────────────── */
+
+  const [vista, setVista] = useState<Vista>('lista');
+  const conUbicacion = useMemo(
+    () => residencias.filter((r) => r.coordenadas),
+    [residencias],
+  );
 
   useEffect(() => {
     updateFiltro('busqueda', debouncedSearch || undefined);
@@ -118,6 +129,25 @@ export default function ResidenciasPage() {
                   </span>{' '}
                   {residencias.length === 1 ? 'residencia' : 'residencias'}
                 </p>
+
+                <div className={styles.viewToggle} role="group" aria-label="Cambiar vista">
+                  <button
+                    type="button"
+                    className={`${styles.viewBtn} ${vista === 'lista' ? styles.viewBtnActive : ''}`}
+                    onClick={() => setVista('lista')}
+                    aria-pressed={vista === 'lista'}
+                  >
+                    ☰ Lista
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.viewBtn} ${vista === 'mapa' ? styles.viewBtnActive : ''}`}
+                    onClick={() => setVista('mapa')}
+                    aria-pressed={vista === 'mapa'}
+                  >
+                    📍 Mapa
+                  </button>
+                </div>
               </div>
             )}
 
@@ -163,10 +193,24 @@ export default function ResidenciasPage() {
 
               {!loading &&
                 !error &&
+                vista === 'lista' &&
                 residencias.map((r) => (
                   <ResidenciaCard key={r.id} residencia={r} />
                 ))}
             </div>
+
+            {/* Map view */}
+            {!loading && !error && vista === 'mapa' && residencias.length > 0 && (
+              <div className={styles.mapWrapper}>
+                {conUbicacion.length < residencias.length && (
+                  <p className={styles.mapNote}>
+                    Mostrando {conUbicacion.length} de {residencias.length} en el mapa
+                    (el resto aún no tiene ubicación cargada).
+                  </p>
+                )}
+                <MapaView residencias={conUbicacion} height="70vh" />
+              </div>
+            )}
           </section>
         </div>
       </div>

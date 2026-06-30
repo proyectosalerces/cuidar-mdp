@@ -258,3 +258,44 @@
     min-width: unset;
   }
 }
+
+/* ── List / map view toggle ──────────────────────────────────────────── */
+
+.viewToggle {
+  display: inline-flex;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.viewBtn {
+  border: none;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  padding: 0.5rem 0.9rem;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.viewBtn:hover {
+  background: var(--color-neutral-100);
+}
+
+.viewBtnActive,
+.viewBtnActive:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.mapWrapper {
+  margin-top: var(--space-2);
+}
+
+.mapNote {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-3);
+}

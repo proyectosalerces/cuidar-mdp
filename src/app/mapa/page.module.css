@@ -1,0 +1,26 @@
+.page {
+  padding-block: var(--space-8) var(--space-12);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  font-size: var(--font-3xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 var(--space-2);
+}
+
+.subtitle {
+  font-size: var(--font-lg);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.count {
+  font-weight: 600;
+  color: var(--color-primary);
+}
