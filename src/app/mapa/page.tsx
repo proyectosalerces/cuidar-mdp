@@ -11,7 +11,7 @@ import { generateMetadata as genMeta } from '@/utils/seo';
 import MapaView from '@/components/mapa/MapaView';
 import styles from './page.module.css';
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export const metadata: Metadata = genMeta({
   title: 'Mapa de Residencias',
