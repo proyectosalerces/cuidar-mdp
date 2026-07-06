@@ -121,6 +121,7 @@ export default function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
                 className={styles.coverImage}
                 priority
                 sizes="(max-width: 768px) 100vw, 800px"
+                unoptimized
               />
             </div>
           )}

@@ -51,6 +51,10 @@ export default function SmartImage({
       sizes={sizes ?? DEFAULT_SIZES}
       className={className}
       priority={priority}
+      // Load images directly (skip Vercel's optimizer proxy): the residencia
+      // photos live on third-party hosts, some of which block server-side
+      // fetches (WordPress hotlink protection) or use expiring signed URLs.
+      unoptimized
       onError={() => setErrored(true)}
     />
   );
