@@ -13,7 +13,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui';
 import { isRequired, hasMinLength, hasMaxLength } from '@/utils/validators';
 import StarRatingInput from '@/components/resenas/StarRatingInput/StarRatingInput';
-import type { Resena, ResenaFormData } from '@/types/resena';
+import { getAspectos, promedioAspectos } from '@/types/resena';
+import type { Resena, ResenaFormData, EntidadTipo } from '@/types/resena';
 import styles from './ResenaForm.module.css';
 
 /* ── Types ─────────────────────────────────────────────────────────────── */
@@ -23,6 +24,7 @@ export interface ResenaFormProps {
   yaReseno: boolean;
   miResenaPendiente: Resena | null;
   onRequestAuth: () => void;
+  entidadTipo: EntidadTipo;
 }
 
 /* ── Component ────────────────────────────────────────────────────────── */
@@ -32,10 +34,13 @@ export default function ResenaForm({
   yaReseno,
   miResenaPendiente,
   onRequestAuth,
+  entidadTipo,
 }: ResenaFormProps) {
   const { isAuthenticated } = useAuth();
 
-  const [calificacion, setCalificacion] = useState(0);
+  const aspectosDefs = getAspectos(entidadTipo);
+  const [aspectos, setAspectos] = useState<Record<string, number>>({});
+  const [general, setGeneral] = useState(0);
   const [titulo, setTitulo] = useState('');
   const [comentario, setComentario] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -101,8 +106,10 @@ export default function ResenaForm({
   function validate(): boolean {
     const newErrors: Record<string, string> = {};
 
-    if (calificacion < 1 || calificacion > 5) {
-      newErrors.calificacion = 'Seleccioná una calificación';
+    const prom = promedioAspectos(aspectos);
+    const overall = prom > 0 ? prom : general;
+    if (overall < 1) {
+      newErrors.calificacion = 'Poné al menos una calificación (un aspecto o la nota general)';
     }
     if (!isRequired(titulo)) {
       newErrors.titulo = 'El título es obligatorio';
@@ -129,7 +136,17 @@ export default function ResenaForm({
 
     setSubmitting(true);
     try {
-      await onSubmit({ calificacion, titulo: titulo.trim(), comentario: comentario.trim() });
+      const rated = Object.fromEntries(
+        Object.entries(aspectos).filter(([, v]) => v > 0),
+      );
+      const prom = promedioAspectos(aspectos);
+      const overall = prom > 0 ? prom : general;
+      await onSubmit({
+        calificacion: overall,
+        calificaciones: rated,
+        titulo: titulo.trim(),
+        comentario: comentario.trim(),
+      });
       setSuccess(true);
     } catch (err) {
       setErrors({
@@ -142,14 +159,42 @@ export default function ResenaForm({
 
   /* ── Render ─────────────────────────────────────────────────────────── */
 
+  const prom = promedioAspectos(aspectos);
+
   return (
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
       <h3 className={styles.formTitle}>Dejá tu experiencia</h3>
 
-      {/* Rating */}
+      {/* Rating by aspects */}
       <div className={styles.field}>
-        <label className={styles.label}>Tu calificación</label>
-        <StarRatingInput value={calificacion} onChange={setCalificacion} size="lg" />
+        <label className={styles.label}>Calificá cada aspecto</label>
+        <p className={styles.aspectsHint}>
+          Puntuá lo que puedas — la nota general se calcula sola con el promedio.
+        </p>
+        <div className={styles.aspectsList}>
+          {aspectosDefs.map((a) => (
+            <div key={a.key} className={styles.aspectRow}>
+              <span className={styles.aspectLabel}>{a.label}</span>
+              <StarRatingInput
+                value={aspectos[a.key] ?? 0}
+                onChange={(v) => setAspectos((prev) => ({ ...prev, [a.key]: v }))}
+                size="sm"
+              />
+            </div>
+          ))}
+        </div>
+
+        {prom > 0 ? (
+          <p className={styles.overallPreview}>
+            Nota general (promedio): <strong>{prom.toFixed(1)} ★</strong>
+          </p>
+        ) : (
+          <div className={styles.generalFallback}>
+            <span className={styles.aspectLabel}>O poné una nota general</span>
+            <StarRatingInput value={general} onChange={setGeneral} size="md" />
+          </div>
+        )}
+
         {errors.calificacion && (
           <span className={styles.error}>{errors.calificacion}</span>
         )}

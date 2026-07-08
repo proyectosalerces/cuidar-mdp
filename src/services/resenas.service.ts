@@ -44,6 +44,7 @@ function mapDoc(doc: { id: string; data: () => Record<string, unknown> }): Resen
     entidadId: (d.entidadId as string) ?? '',
     entidadTipo: (d.entidadTipo as EntidadTipo) ?? 'residencia',
     calificacion: (d.calificacion as number) ?? 5,
+    calificaciones: (d.calificaciones as Record<string, number>) ?? undefined,
     titulo: (d.titulo as string) ?? '',
     comentario: (d.comentario as string) ?? '',
     fecha: d.fecha instanceof Object && 'toDate' in d.fecha
@@ -121,6 +122,7 @@ export async function crearResena(
     entidadId,
     entidadTipo,
     calificacion: data.calificacion,
+    calificaciones: data.calificaciones ?? {},
     titulo: data.titulo.trim(),
     comentario: data.comentario.trim(),
     fecha: serverTimestamp(),
@@ -137,6 +139,7 @@ export async function crearResena(
     entidadId: docData.entidadId,
     entidadTipo: docData.entidadTipo,
     calificacion: docData.calificacion,
+    calificaciones: docData.calificaciones,
     titulo: docData.titulo,
     comentario: docData.comentario,
     fecha: new Date().toISOString(),
@@ -165,10 +168,10 @@ export async function setResenaAprobada(id: string, aprobada: boolean): Promise<
   await updateDoc(doc(db, COLLECTION, id), { aprobada });
 }
 
-/** Edit a review's title / comment / rating. Admin only. */
+/** Edit a review's title / comment / rating(s). Admin only. */
 export async function updateResena(
   id: string,
-  data: Partial<Pick<Resena, 'titulo' | 'comentario' | 'calificacion'>>,
+  data: Partial<Pick<Resena, 'titulo' | 'comentario' | 'calificacion' | 'calificaciones'>>,
 ): Promise<void> {
   await updateDoc(doc(db, COLLECTION, id), data);
 }

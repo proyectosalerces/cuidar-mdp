@@ -96,6 +96,7 @@ export default function ResenaSection({
         yaReseno={yaReseno}
         miResenaPendiente={miResenaPendiente}
         onRequestAuth={onRequestAuth}
+        entidadTipo={entidadTipo}
       />
     </section>
   );

@@ -12,8 +12,27 @@ import { useMemo, useState } from 'react';
 import { cn } from '@/utils/classnames';
 import { Badge, Rating } from '@/components/ui';
 import { formatFecha } from '@/utils/formatters';
+import { getAspectos } from '@/types/resena';
 import type { Resena } from '@/types/resena';
 import styles from './ResenaList.module.css';
+
+/** Compact per-aspect score breakdown for a review. */
+function Breakdown({ resena }: { resena: Resena }) {
+  if (!resena.calificaciones) return null;
+  const rows = getAspectos(resena.entidadTipo).filter(
+    (d) => (resena.calificaciones?.[d.key] ?? 0) > 0,
+  );
+  if (rows.length === 0) return null;
+  return (
+    <div className={styles.breakdown}>
+      {rows.map((d) => (
+        <span key={d.key} className={styles.breakdownItem}>
+          {d.label}: <strong>{Math.round(resena.calificaciones![d.key])}★</strong>
+        </span>
+      ))}
+    </div>
+  );
+}
 
 /* ── Types ─────────────────────────────────────────────────────────────── */
 
@@ -114,6 +133,7 @@ export default function ResenaList({ resenas, miResenaPendiente }: ResenaListPro
           </div>
           <h4 className={styles.cardTitle}>{miResenaPendiente.titulo}</h4>
           <p className={styles.cardComment}>{miResenaPendiente.comentario}</p>
+          <Breakdown resena={miResenaPendiente} />
         </div>
       )}
 
@@ -136,6 +156,7 @@ export default function ResenaList({ resenas, miResenaPendiente }: ResenaListPro
           </div>
           <h4 className={styles.cardTitle}>{resena.titulo}</h4>
           <p className={styles.cardComment}>{resena.comentario}</p>
+          <Breakdown resena={resena} />
         </div>
       ))}
 
