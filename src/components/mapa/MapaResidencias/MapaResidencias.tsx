@@ -61,11 +61,15 @@ function buildPopup(r: Residencia): string {
     ? `<p class="cmp-rating">${stars} ${r.calificacion.toFixed(1)}</p>`
     : '';
 
+  const ubicacion = r.barrio && r.barrio.trim()
+    ? `${escapeHtml(r.barrio)}, ${escapeHtml(r.ciudad)}`
+    : escapeHtml(r.ciudad);
+
   return (
     `${photo}` +
     `<div class="cmp-body">` +
     `<p class="cmp-name">${escapeHtml(r.nombre)}</p>` +
-    `<p class="cmp-barrio">📍 ${escapeHtml(r.barrio)}, ${escapeHtml(r.ciudad)}</p>` +
+    `<p class="cmp-barrio">📍 ${ubicacion}</p>` +
     `${rating}` +
     `<a class="cmp-btn" href="/residencias/${encodeURIComponent(r.slug)}">Ver ficha →</a>` +
     `</div>`

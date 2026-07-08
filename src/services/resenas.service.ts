@@ -9,6 +9,9 @@ import {
   collection,
   addDoc,
   getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
   query,
   where,
   orderBy,
@@ -139,6 +142,40 @@ export async function crearResena(
     fecha: new Date().toISOString(),
     aprobada: false,
   };
+}
+
+/* ── Admin API ─────────────────────────────────────────────────────────── */
+
+/**
+ * Returns ALL reviews (approved + pending), newest first. Admin only.
+ */
+export async function getAllResenas(): Promise<Resena[]> {
+  try {
+    const q = query(collection(db, COLLECTION), orderBy('fecha', 'desc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(mapDoc);
+  } catch (err) {
+    console.warn('[Resenas] Error fetching all reviews:', err);
+    return [];
+  }
+}
+
+/** Approve or hide a review (toggle its `aprobada` flag). Admin only. */
+export async function setResenaAprobada(id: string, aprobada: boolean): Promise<void> {
+  await updateDoc(doc(db, COLLECTION, id), { aprobada });
+}
+
+/** Edit a review's title / comment / rating. Admin only. */
+export async function updateResena(
+  id: string,
+  data: Partial<Pick<Resena, 'titulo' | 'comentario' | 'calificacion'>>,
+): Promise<void> {
+  await updateDoc(doc(db, COLLECTION, id), data);
+}
+
+/** Permanently delete a review. Admin only. */
+export async function deleteResena(id: string): Promise<void> {
+  await deleteDoc(doc(db, COLLECTION, id));
 }
 
 /**

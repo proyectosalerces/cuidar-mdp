@@ -1,0 +1,143 @@
+.page {
+  max-width: 860px;
+}
+
+.header {
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 var(--space-2);
+}
+
+.intro {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+}
+
+.badge {
+  font-size: var(--font-xs);
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+
+.badgePendiente {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.badgePublicada {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.entidad {
+  font-size: var(--font-sm);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.entidad:hover { text-decoration: underline; }
+
+.fecha {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  margin-left: auto;
+}
+
+.stars {
+  color: #D49520;
+  font-size: var(--font-md);
+  letter-spacing: 1px;
+}
+
+.reseñaTitulo {
+  font-weight: 700;
+  color: var(--color-text);
+  margin: var(--space-2) 0 var(--space-1);
+}
+
+.comentario {
+  color: var(--color-text);
+  line-height: 1.6;
+  margin: 0 0 var(--space-3);
+  white-space: pre-wrap;
+}
+
+.autor {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.btn:hover { opacity: 0.88; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+
+.btnApprove { background: var(--color-primary); color: #fff; }
+.btnHide { background: var(--color-neutral-200); color: var(--color-text); }
+.btnEdit { background: #fff; color: var(--color-text); border-color: var(--color-neutral-300); }
+.btnDelete { background: #fff; color: #B91C1C; border-color: #FCA5A5; margin-left: auto; }
+
+.editInput,
+.editTextarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  font-family: inherit;
+  margin-bottom: var(--space-2);
+}
+
+.editTextarea { min-height: 90px; resize: vertical; }
+
+.empty,
+.loading {
+  text-align: center;
+  padding: var(--space-12) var(--space-4);
+  color: var(--color-text-muted);
+}

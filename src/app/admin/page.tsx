@@ -69,13 +69,13 @@ export default function AdminDashboardPage() {
           <div className={styles.statLabel}>Profesionales</div>
         </div>
 
-        <div className={styles.statCard}>
+        <Link href="/admin/resenas" className={styles.statCard}>
           <div className={styles.statIcon}>⭐</div>
           <div className={styles.statValue}>
             {loading ? '—' : stats.totalResenas}
           </div>
           <div className={styles.statLabel}>Reseñas</div>
-        </div>
+        </Link>
       </div>
 
       {/* Quick Actions */}

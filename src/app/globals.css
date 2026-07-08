@@ -350,12 +350,17 @@ strong { font-weight: 600; }
 }
 
 .leaflet-popup-content {
-  margin: 0;
-  width: 190px !important;
+  margin: 0 !important;
+  width: 212px !important;
 }
 
+/* Override Leaflet's default <p> margins inside our card (specificity wins) */
+.leaflet-popup-content .cmp-name { margin: 0 0 4px; }
+.leaflet-popup-content .cmp-barrio { margin: 0 0 8px; }
+.leaflet-popup-content .cmp-rating { margin: 0 0 10px; }
+
 .cmp-photo {
-  height: 68px;
+  height: 122px;
   display: grid;
   place-items: center;
 }
