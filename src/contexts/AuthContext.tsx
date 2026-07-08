@@ -16,6 +16,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
 import type { AppUser } from '@/services/firebase/auth';
 import {
   signInWithEmail,
@@ -23,6 +24,7 @@ import {
   signOut as firebaseSignOut,
   onAuthStateChange,
 } from '@/services/firebase/auth';
+import { db } from '@/services/firebase/config';
 
 /* ── Types ─────────────────────────────────────────────────────────────── */
 
@@ -47,24 +49,22 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-/* ── Admin emails ─────────────────────────────────────────────────────── */
+/* ── Admin check ──────────────────────────────────────────────────────────
 
-const ADMIN_EMAILS: string[] = [
-  'proyectos@residencialosalerces.com',
-];
+   Admin status is data-driven: a user is admin iff a document with their
+   email as id exists in the Firestore `admins` collection. No admin email is
+   hardcoded in the client (it would ship in the public bundle). To add/remove
+   an admin, edit the `admins` collection in Firestore — not the code.
+   ------------------------------------------------------------------------- */
 
-function checkIsAdmin(email: string | null): boolean {
+async function checkIsAdmin(email: string | null): Promise<boolean> {
   if (!email) return false;
-  const normalizedEmail = email.toLowerCase().trim();
-
-  // Check hardcoded list
-  if (ADMIN_EMAILS.includes(normalizedEmail)) return true;
-
-  // Fallback: check env variable
-  const envAdmin = process.env.NEXT_PUBLIC_ADMIN_EMAIL?.toLowerCase().trim();
-  if (envAdmin && normalizedEmail === envAdmin) return true;
-
-  return false;
+  try {
+    const adminSnap = await getDoc(doc(db, 'admins', email));
+    return adminSnap.exists();
+  } catch {
+    return false;
+  }
 }
 
 /* ── Provider ──────────────────────────────────────────────────────────── */
@@ -76,9 +76,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   /* Listen to Firebase auth state changes */
   useEffect(() => {
-    const unsubscribe = onAuthStateChange((firebaseUser) => {
+    const unsubscribe = onAuthStateChange(async (firebaseUser) => {
       setUser(firebaseUser);
-      setIsAdmin(checkIsAdmin(firebaseUser?.email ?? null));
+      setIsAdmin(await checkIsAdmin(firebaseUser?.email ?? null));
       setLoading(false);
     });
     return unsubscribe;
