@@ -1,0 +1,114 @@
+.page {
+  max-width: 900px;
+}
+
+.header {
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 var(--space-2);
+}
+
+.intro {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: #fff;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+}
+
+.rowSuper {
+  border: 2px solid var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(232, 168, 56, 0.12);
+}
+
+.thumb {
+  width: 84px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  background: var(--color-neutral-200);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.nombre {
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barrio {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.editLink {
+  font-size: var(--font-xs);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.editLink:hover { text-decoration: underline; }
+
+.segment {
+  display: inline-flex;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.segBtn {
+  border: none;
+  background: #fff;
+  color: var(--color-text-muted);
+  padding: 7px 12px;
+  font-size: var(--font-xs);
+  font-weight: 600;
+  cursor: pointer;
+  border-left: 1px solid var(--color-neutral-300);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.segBtn:first-child { border-left: none; }
+.segBtn:hover { background: var(--color-neutral-100); }
+.segBtn:disabled { opacity: 0.5; cursor: default; }
+
+.segActiveNormal { background: var(--color-neutral-200); color: var(--color-text); }
+.segActiveDestacada { background: var(--color-primary); color: #fff; }
+.segActiveSuper { background: linear-gradient(135deg, #F0BD5E, var(--color-secondary-dark)); color: #3a2c00; }
+
+.loading,
+.empty {
+  text-align: center;
+  padding: var(--space-12) var(--space-4);
+  color: var(--color-text-muted);
+}

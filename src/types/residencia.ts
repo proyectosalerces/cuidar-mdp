@@ -51,6 +51,8 @@ export interface Residencia {
   capacidad?: number;
   anioFundacion?: number;
   destacada: boolean;
+  /** Premium tier: appears first (home + listing) with a distinctive frame */
+  superDestacada?: boolean;
   activa: boolean;
   createdAt: string;
   updatedAt: string;

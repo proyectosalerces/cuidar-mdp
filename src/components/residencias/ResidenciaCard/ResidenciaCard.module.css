@@ -258,3 +258,27 @@
 .card:hover .viewMoreIcon {
   transform: translateX(2px);
 }
+
+/* ── Súper destacada (premium) ───────────────────────────────────────── */
+
+.cardSuper {
+  border: 2px solid var(--color-secondary);
+  box-shadow: 0 0 0 4px rgba(232, 168, 56, 0.15), var(--shadow-lg);
+}
+
+.superBadge {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  background: linear-gradient(135deg, #F0BD5E, var(--color-secondary-dark));
+  border-radius: var(--radius-full);
+  font-size: var(--font-xs);
+  font-weight: 700;
+  color: #3a2c00;
+  box-shadow: 0 2px 10px rgba(232, 168, 56, 0.55);
+}

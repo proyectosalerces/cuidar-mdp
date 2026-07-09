@@ -28,12 +28,13 @@ export default function FeaturedResidencias() {
           const d = doc.data();
           return { id: doc.id, ...d } as Residencia;
         });
-        // Featured first, then by rating, cap at 6
+        // Super-featured first, then featured, then by rating, cap at 6
+        const rank = (r: Residencia) => (r.superDestacada ? 0 : r.destacada ? 1 : 2);
         const sorted = all
           .filter((r) => r.activa !== false)
           .sort((a, b) => {
-            if (a.destacada && !b.destacada) return -1;
-            if (!a.destacada && b.destacada) return 1;
+            const diff = rank(a) - rank(b);
+            if (diff !== 0) return diff;
             return (b.calificacion ?? 0) - (a.calificacion ?? 0);
           })
           .slice(0, 6);
@@ -65,7 +66,7 @@ export default function FeaturedResidencias() {
             <Link
               key={residencia.id}
               href={`/residencias/${residencia.slug}`}
-              className={styles.card}
+              className={`${styles.card} ${residencia.superDestacada ? styles.cardSuper : ''}`}
             >
               {/* Image */}
               <div className={styles.cardImage}>
@@ -80,6 +81,9 @@ export default function FeaturedResidencias() {
                     </div>
                   }
                 />
+                {residencia.superDestacada && (
+                  <span className={styles.superBadge}>⭐ Súper destacada</span>
+                )}
                 {residencia.verificada && (
                   <span className={styles.verifiedBadge}>✓ Verificada</span>
                 )}

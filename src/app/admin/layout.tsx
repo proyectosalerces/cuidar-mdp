@@ -13,6 +13,7 @@ import styles from './layout.module.css';
 const NAV_LINKS = [
   { href: '/admin', label: 'Dashboard', icon: '📊' },
   { href: '/admin/residencias', label: 'Residencias', icon: '🏠' },
+  { href: '/admin/destacados', label: 'Destacados', icon: '🌟' },
   { href: '/admin/profesionales', label: 'Profesionales', icon: '👨‍⚕️' },
   { href: '/admin/resenas', label: 'Reseñas', icon: '⭐' },
   { href: '/admin/blog', label: 'Blog', icon: '📝' },

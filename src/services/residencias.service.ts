@@ -75,6 +75,7 @@ function mapDoc(doc: { id: string; data: () => Record<string, unknown> }): Resid
     capacidad: d.capacidad as number | undefined,
     anioFundacion: d.anioFundacion as number | undefined,
     destacada: (d.destacada as boolean) ?? false,
+    superDestacada: (d.superDestacada as boolean) ?? false,
     activa: (d.activa as boolean) ?? true,
     createdAt: toISO(d.createdAt),
     updatedAt: toISO(d.updatedAt),
@@ -153,9 +154,11 @@ function sortResidencias(
       sorted.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
       break;
     default:
-      // Default: featured first, then by rating
+      // Default: super-featured first, then featured, then by rating
       sorted.sort((a, b) => {
-        if (a.destacada !== b.destacada) return a.destacada ? -1 : 1;
+        const rank = (r: Residencia) => (r.superDestacada ? 0 : r.destacada ? 1 : 2);
+        const diff = rank(a) - rank(b);
+        if (diff !== 0) return diff;
         return b.calificacion - a.calificacion;
       });
   }

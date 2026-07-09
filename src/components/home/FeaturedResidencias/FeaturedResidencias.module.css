@@ -256,3 +256,27 @@
   color: #fff;
   transform: translateY(-1px);
 }
+
+/* ── Súper destacada (premium) ───────────────────────────────────────── */
+
+.cardSuper {
+  border: 2px solid var(--color-secondary);
+  box-shadow: 0 0 0 4px rgba(232, 168, 56, 0.15), var(--shadow-lg);
+}
+
+.superBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, var(--color-secondary-dark), var(--color-secondary));
+  color: #3a2c00;
+  font-size: var(--font-xs);
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+}

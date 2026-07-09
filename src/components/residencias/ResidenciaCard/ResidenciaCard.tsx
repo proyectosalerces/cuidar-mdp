@@ -29,7 +29,7 @@ export default function ResidenciaCard({ residencia, className }: ResidenciaCard
   return (
     <Link
       href={`/residencias/${residencia.slug}`}
-      className={cn(styles.card, className)}
+      className={cn(styles.card, residencia.superDestacada && styles.cardSuper, className)}
       id={`residencia-card-${residencia.slug}`}
     >
       {/* ── Image ─────────────────────────────────────────────────── */}
@@ -60,15 +60,22 @@ export default function ResidenciaCard({ residencia, className }: ResidenciaCard
           </span>
         )}
 
-        {/* Featured badge */}
-        {residencia.destacada && (
+        {/* Featured / super-featured badge */}
+        {residencia.superDestacada ? (
+          <span className={styles.superBadge}>
+            <svg className={styles.featuredIcon} viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            Súper destacada
+          </span>
+        ) : residencia.destacada ? (
           <span className={styles.featuredBadge}>
             <svg className={styles.featuredIcon} viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
             </svg>
             Destacada
           </span>
-        )}
+        ) : null}
       </div>
 
       {/* ── Body ──────────────────────────────────────────────────── */}
