@@ -12,7 +12,7 @@ export const SITE_NAME = 'Cuidar MdP';
 export const SITE_TAGLINE = 'El cuidado que merecen, cerca de casa';
 export const SITE_DESCRIPTION =
   'Consultora de recomendación de residencias geriátricas y profesionales de salud en Mar del Plata. Te ayudamos a encontrar el mejor lugar para el cuidado de tu ser querido.';
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cuidarmdp.com.ar';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.cuidarmdp.com';
 
 // ─── Contact ─────────────────────────────────────────────────────────────────
 

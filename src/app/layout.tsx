@@ -34,7 +34,7 @@ export const viewport: Viewport = {
 
 /* ── Metadata ──────────────────────────────────────────────────────────── */
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.cuidarmdp.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
