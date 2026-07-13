@@ -173,7 +173,13 @@ export default function AdminSolicitudesPage() {
                 </div>
 
                 <div className={styles.consent}>
-                  ✓ {s.autoriza ? 'Autorizó' : 'NO autorizó'} la publicación · Completado por: <strong>{s.completadoPor || '—'}</strong>
+                  ✓ {s.autoriza ? 'Autorizó la publicación' : 'NO autorizó'} · Firmó:{' '}
+                  <strong>{`${s.autorizanteNombre ?? ''} ${s.autorizanteApellido ?? ''}`.trim() || '—'}</strong>
+                  {s.autorizanteCargo ? ` (${s.autorizanteCargo})` : ''}
+                  {s.autorizanteDni ? ` · DNI ${s.autorizanteDni}` : ''}
+                  {s.autorizanteTelefono ? ` · Tel ${s.autorizanteTelefono}` : ''}
+                  {s.autorizanteEmail ? ` · ${s.autorizanteEmail}` : ''}
+                  {s.textoVersion ? ` · texto: ${s.textoVersion}` : ''}
                 </div>
 
                 <div className={styles.actions}>

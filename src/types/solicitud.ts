@@ -50,9 +50,15 @@ export interface SolicitudResidencia {
   diferenciales?: string;
   reintegroObraSocial?: string;
 
-  /* Consentimiento */
+  /* Consentimiento / autorización */
   autoriza: boolean;
-  completadoPor: string;
+  autorizanteNombre: string;
+  autorizanteApellido: string;
+  autorizanteCargo: string;
+  autorizanteDni?: string;
+  autorizanteTelefono: string;
+  autorizanteEmail: string;
+  textoVersion: string;
 
   /* Meta */
   estado: EstadoSolicitud;
@@ -80,6 +86,17 @@ export const SERVICIOS_OPCIONES: { value: string; label: string }[] = [
   { value: 'dietas', label: 'Dietas especiales' },
   { value: 'lavanderia', label: 'Lavandería' },
   { value: 'psicologia', label: 'Atención psicológica' },
+];
+
+/* ── Texto de autorización (BORRADOR — a validar por abogado) ───────────── */
+
+export const TEXTO_AUTORIZACION_VERSION = 'borrador-2026-07';
+
+export const TEXTO_AUTORIZACION_PARRAFOS: string[] = [
+  'Quien suscribe, en el carácter indicado más abajo y en representación de la residencia consignada en este formulario, declara bajo declaración jurada que la información provista es veraz y que se encuentra facultado/a para autorizar su publicación.',
+  'Autoriza de forma libre y expresa a Cuidar MdP a publicar y difundir dicha información (datos de contacto, servicios, habilitaciones declaradas, tipos de habitación, valores orientativos expresados como rango y material gráfico aportado) en su portal web y canales de difusión, con la finalidad de orientar a las familias.',
+  'Comprende que la información será de acceso público, que puede solicitar su modificación o baja en cualquier momento contactando a Cuidar MdP, y que Cuidar MdP no resulta responsable por las decisiones que terceros adopten en base a esta información.',
+  'El tratamiento de los datos personales se rige por la Ley 25.326 de Protección de Datos Personales de la República Argentina.',
 ];
 
 export const TIPOS_CUIDADO_SOLICITUD: { value: TipoCuidado; label: string }[] = [
