@@ -37,11 +37,17 @@ export function generateMetadata({
   title,
   description = SITE_DESCRIPTION,
   path = '',
-  ogImage = '/images/og-default.png',
+  ogImage,
   noIndex = false,
 }: SeoParams): Metadata {
   const fullTitle = `${title} | ${SITE_NAME}`;
   const canonicalUrl = path;
+
+  // When no custom image is passed, inherit the site-wide generated
+  // Open Graph image (src/app/opengraph-image.tsx).
+  const ogImages = ogImage
+    ? [{ url: ogImage, width: 1200, height: 630, alt: title }]
+    : undefined;
 
   return {
     title,
@@ -56,20 +62,13 @@ export function generateMetadata({
       siteName: SITE_NAME,
       locale: 'es_AR',
       type: 'website',
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
+      ...(ogImages ? { images: ogImages } : {}),
     },
     twitter: {
       card: 'summary_large_image',
       title: fullTitle,
       description,
-      images: [ogImage],
+      ...(ogImage ? { images: [ogImage] } : {}),
     },
     robots: noIndex
       ? { index: false, follow: false }

@@ -59,21 +59,12 @@ export const metadata: Metadata = {
     description:
       "El cuidado que merecen, cerca de casa. Encontrá residencias, cuidadores y servicios para adultos mayores en Mar del Plata.",
     url: siteUrl,
-    images: [
-      {
-        url: '/images/og-default.png',
-        width: 1200,
-        height: 630,
-        alt: 'Cuidar MdP — Consultora Geriátrica en Mar del Plata',
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Cuidar MdP — Consultora Geriátrica",
     description:
       "El cuidado que merecen, cerca de casa. Consultora geriátrica en Mar del Plata.",
-    images: ['/images/og-default.png'],
   },
   robots: {
     index: true,
