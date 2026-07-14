@@ -54,6 +54,12 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    // ── Solicitudes de profesionales (formulario público de alta) ────
+    match /solicitudesProfesionales/{solicitudId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
     // ── Admins ───────────────────────────────────────────────────────
     match /admins/{email} {
       // A user may read only their own admin doc (cannot enumerate admins)

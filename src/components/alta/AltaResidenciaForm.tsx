@@ -13,11 +13,11 @@ import {
   TIPOS_HABITACION,
   SERVICIOS_OPCIONES,
   TIPOS_CUIDADO_SOLICITUD,
-  TEXTO_AUTORIZACION_PARRAFOS,
   TEXTO_AUTORIZACION_VERSION,
   type ValorHabitacion,
 } from '@/types/solicitud';
 import { crearSolicitud } from '@/services/solicitudes.service';
+import AutorizacionSeccion, { type AutorizanteData } from './AutorizacionSeccion';
 import styles from './AltaResidenciaForm.module.css';
 
 type Valores = Record<string, { desde: string; hasta: string }>;
@@ -56,15 +56,7 @@ export default function AltaResidenciaForm() {
   const [reintegroObraSocial, setReintegroObraSocial] = useState('');
 
   const [autoriza, setAutoriza] = useState(false);
-  const [autorNombre, setAutorNombre] = useState('');
-  const [autorApellido, setAutorApellido] = useState('');
-  const [autorCargo, setAutorCargo] = useState('');
-  const [autorDni, setAutorDni] = useState('');
-  const [autorTelefono, setAutorTelefono] = useState('');
-  const [autorEmail, setAutorEmail] = useState('');
-  const [modalOpen, setModalOpen] = useState(false);
-  const [aceptaModal, setAceptaModal] = useState(false);
-  const [mErrors, setMErrors] = useState<Record<string, string>>({});
+  const [autorData, setAutorData] = useState<AutorizanteData | null>(null);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -72,22 +64,6 @@ export default function AltaResidenciaForm() {
 
   const toggle = <T extends string>(list: T[], value: T): T[] =>
     list.includes(value) ? list.filter((x) => x !== value) : [...list, value];
-
-  function confirmarAutorizacion() {
-    const me: Record<string, string> = {};
-    if (!autorNombre.trim()) me.nombre = 'Requerido';
-    if (!autorApellido.trim()) me.apellido = 'Requerido';
-    if (!autorCargo.trim()) me.cargo = 'Requerido';
-    if (!autorTelefono.trim()) me.telefono = 'Requerido';
-    if (!autorEmail.trim()) me.email = 'Requerido';
-    else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(autorEmail.trim())) me.email = 'Email no válido';
-    if (!aceptaModal) me.acepta = 'Necesitás aceptar para poder autorizar';
-    setMErrors(me);
-    if (Object.keys(me).length > 0) return;
-    setAutoriza(true);
-    setModalOpen(false);
-    setErrors((prev) => ({ ...prev, autoriza: '' }));
-  }
 
   function validate(): boolean {
     const e: Record<string, string> = {};
@@ -146,12 +122,12 @@ export default function AltaResidenciaForm() {
         diferenciales: diferenciales.trim() || undefined,
         reintegroObraSocial: reintegroObraSocial.trim() || undefined,
         autoriza,
-        autorizanteNombre: autorNombre.trim(),
-        autorizanteApellido: autorApellido.trim(),
-        autorizanteCargo: autorCargo.trim(),
-        autorizanteDni: autorDni.trim() || undefined,
-        autorizanteTelefono: autorTelefono.trim(),
-        autorizanteEmail: autorEmail.trim(),
+        autorizanteNombre: autorData?.nombre ?? '',
+        autorizanteApellido: autorData?.apellido ?? '',
+        autorizanteCargo: autorData?.cargo ?? '',
+        autorizanteDni: autorData?.dni || undefined,
+        autorizanteTelefono: autorData?.telefono ?? '',
+        autorizanteEmail: autorData?.email ?? '',
         textoVersion: TEXTO_AUTORIZACION_VERSION,
       });
       setSuccess(true);
@@ -327,76 +303,22 @@ export default function AltaResidenciaForm() {
           Para publicar tu residencia, una persona responsable debe leer y firmar la autorización.
           Queda registrada con fecha, nombre y datos de contacto.
         </p>
-        {autoriza ? (
-          <div className={styles.firmado}>
-            <span>
-              ✓ Autorización firmada por <strong>{autorNombre} {autorApellido}</strong>
-              {autorCargo ? ` — ${autorCargo}` : ''}.
-            </span>
-            <button type="button" className={styles.linkBtn} onClick={() => setModalOpen(true)}>
-              Ver / editar
-            </button>
-          </div>
-        ) : (
-          <button
-            type="button"
-            className={styles.firmarBtn}
-            onClick={() => { setMErrors({}); setModalOpen(true); }}
-          >
-            Leer y firmar la autorización
-          </button>
-        )}
-        {errors.autoriza && <span className={styles.error}>{errors.autoriza}</span>}
+        <AutorizacionSeccion
+          autoriza={autoriza}
+          datos={autorData}
+          error={errors.autoriza}
+          cargoLabel="Carácter en que firma (dueño/a, director/a, apoderado/a…)"
+          onConfirm={(d) => {
+            setAutorData(d);
+            setAutoriza(true);
+            setErrors((prev) => ({ ...prev, autoriza: '' }));
+          }}
+        />
       </fieldset>
 
       <button type="submit" className={styles.submit} disabled={submitting}>
         {submitting ? 'Enviando…' : 'Enviar información'}
       </button>
-
-      {/* ── Modal de autorización ─────────────────────────────── */}
-      {modalOpen && (
-        <div className={styles.overlay} role="dialog" aria-modal="true" onClick={() => setModalOpen(false)}>
-          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <h3 className={styles.modalTitle}>Autorización para la publicación de información</h3>
-            <div className={styles.modalText}>
-              {TEXTO_AUTORIZACION_PARRAFOS.map((p, i) => <p key={i}>{p}</p>)}
-            </div>
-
-            <p className={styles.modalSubtitle}>Datos de quien autoriza</p>
-            <div className={styles.grid2}>
-              <Field label="Nombre" required error={mErrors.nombre}>
-                <input className={styles.input} value={autorNombre} onChange={(e) => setAutorNombre(e.target.value)} />
-              </Field>
-              <Field label="Apellido" required error={mErrors.apellido}>
-                <input className={styles.input} value={autorApellido} onChange={(e) => setAutorApellido(e.target.value)} />
-              </Field>
-              <Field label="Carácter en que firma" required error={mErrors.cargo}>
-                <input className={styles.input} value={autorCargo} onChange={(e) => setAutorCargo(e.target.value)} placeholder="Dueño/a, director/a, apoderado/a…" />
-              </Field>
-              <Field label="DNI">
-                <input className={styles.input} value={autorDni} onChange={(e) => setAutorDni(e.target.value)} />
-              </Field>
-              <Field label="Teléfono de contacto" required error={mErrors.telefono}>
-                <input className={styles.input} value={autorTelefono} onChange={(e) => setAutorTelefono(e.target.value)} />
-              </Field>
-              <Field label="Email" required error={mErrors.email}>
-                <input className={styles.input} type="email" value={autorEmail} onChange={(e) => setAutorEmail(e.target.value)} />
-              </Field>
-            </div>
-
-            <label className={`${styles.consent} ${mErrors.acepta ? styles.consentError : ''}`}>
-              <input type="checkbox" checked={aceptaModal} onChange={(e) => setAceptaModal(e.target.checked)} />
-              <span>He leído y acepto la autorización en representación de la residencia, y declaro que los datos son veraces.</span>
-            </label>
-            {mErrors.acepta && <span className={styles.error}>{mErrors.acepta}</span>}
-
-            <div className={styles.modalActions}>
-              <button type="button" className={styles.modalCancel} onClick={() => setModalOpen(false)}>Cancelar</button>
-              <button type="button" className={styles.modalConfirm} onClick={confirmarAutorizacion}>Confirmar autorización</button>
-            </div>
-          </div>
-        </div>
-      )}
     </form>
   );
 }
