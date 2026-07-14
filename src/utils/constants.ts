@@ -195,6 +195,7 @@ export const ESPECIALIDAD_LABELS: Record<Especialidad, string> = {
   'auxiliar-gerontologico': 'Auxiliar Gerontológico/a',
   'auxiliar-familia': 'Auxiliar de Familia',
   'cuidados-paliativos': 'Cuidados Paliativos',
+  abogado: 'Abogado/a (amparos y obras sociales)',
 };
 
 export const ESPECIALIDAD_OPTIONS: SelectOption[] = Object.entries(ESPECIALIDAD_LABELS).map(

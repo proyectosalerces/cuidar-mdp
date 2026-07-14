@@ -15,7 +15,8 @@ export type Especialidad =
   | 'cuidador-domiciliario'
   | 'auxiliar-gerontologico'
   | 'auxiliar-familia'
-  | 'cuidados-paliativos';
+  | 'cuidados-paliativos'
+  | 'abogado';
 
 export interface Profesional {
   id: string;
