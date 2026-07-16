@@ -9,7 +9,7 @@
 import { useState } from 'react';
 import type { Especialidad } from '@/types/profesional';
 import { ESPECIALIDAD_OPTIONS } from '@/utils/constants';
-import { TEXTO_AUTORIZACION_VERSION } from '@/types/solicitud';
+import { TEXTO_AUTORIZACION_VERSION, TEXTO_AUTORIZACION_PROFESIONAL_PARRAFOS } from '@/types/solicitud';
 import { MODALIDADES_ATENCION } from '@/types/solicitud-profesional';
 import { crearSolicitudProfesional } from '@/services/solicitudes-profesionales.service';
 import AutorizacionSeccion, { type AutorizanteData } from './AutorizacionSeccion';
@@ -218,6 +218,7 @@ export default function AltaProfesionalForm() {
           autoriza={autoriza}
           datos={autorData}
           error={errors.autoriza}
+          parrafos={TEXTO_AUTORIZACION_PROFESIONAL_PARRAFOS}
           cargoLabel="Carácter en que firma (el/la profesional, apoderado/a…)"
           onConfirm={(d) => {
             setAutorData(d);

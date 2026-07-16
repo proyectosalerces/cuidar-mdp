@@ -88,15 +88,34 @@ export const SERVICIOS_OPCIONES: { value: string; label: string }[] = [
   { value: 'psicologia', label: 'Atención psicológica' },
 ];
 
-/* ── Texto de autorización (BORRADOR — a validar por abogado) ───────────── */
+/* ── Texto de autorización (revisado con asesoramiento legal) ───────────── */
 
-export const TEXTO_AUTORIZACION_VERSION = 'borrador-2026-07';
+export const TEXTO_AUTORIZACION_VERSION = '2026-07-v2';
 
-export const TEXTO_AUTORIZACION_PARRAFOS: string[] = [
+const CUIDAR_MDP_TITULAR = 'Cuidar MdP (titular: Diego Catalano, CUIT 20-34058029-0)';
+const CANALES_DIFUSION =
+  'su portal web www.cuidarmdp.com y demás canales de difusión (redes sociales como Instagram y Facebook, portales asociados, Google Business, entre otros)';
+const CONTACTO_FEHACIENTE =
+  'Medios de contacto de Cuidar MdP: correo electrónico info@cuidarmdp.com · WhatsApp +54 9 223 694-8075.';
+
+export const TEXTO_AUTORIZACION_RESIDENCIA_PARRAFOS: string[] = [
   'Quien suscribe, en el carácter indicado más abajo y en representación de la residencia consignada en este formulario, declara bajo declaración jurada que la información provista es veraz y que se encuentra facultado/a para autorizar su publicación.',
-  'Autoriza de forma libre y expresa a Cuidar MdP a publicar y difundir dicha información (datos de contacto, servicios, habilitaciones declaradas, tipos de habitación, valores orientativos expresados como rango y material gráfico aportado) en su portal web y canales de difusión, con la finalidad de orientar a las familias.',
-  'Comprende que la información será de acceso público, que puede solicitar su modificación o baja en cualquier momento contactando a Cuidar MdP, y que Cuidar MdP no resulta responsable por las decisiones que terceros adopten en base a esta información.',
-  'El tratamiento de los datos personales se rige por la Ley 25.326 de Protección de Datos Personales de la República Argentina.',
+  `Quien suscribe autoriza de forma libre y expresa a ${CUIDAR_MDP_TITULAR} a publicar y difundir dicha información —datos de contacto, servicios, habilitaciones declaradas, tipos de habitación, valores orientativos expresados como rango y material gráfico aportado (fotografías, logotipo e imágenes)— en ${CANALES_DIFUSION}, con la finalidad de orientar a las familias.`,
+  'Respecto del material gráfico aportado, declara contar con los derechos necesarios sobre el mismo y autoriza expresamente su uso y difusión con la finalidad indicada.',
+  'La información se utilizará mientras la residencia mantenga el servicio activo en el portal, o hasta que solicite su baja.',
+  'El titular de los datos podrá ejercer en cualquier momento sus derechos de acceso, actualización, rectificación y supresión (baja) de la información, comunicándose por los medios de contacto indicados. El tratamiento se rige por la Ley 25.326 de Protección de Datos Personales de la República Argentina.',
+  'La revocación de esta autorización produce efectos hacia el futuro y no afecta la validez de las publicaciones o difusiones realizadas con anterioridad a la solicitud de baja.',
+  CONTACTO_FEHACIENTE,
+];
+
+export const TEXTO_AUTORIZACION_PROFESIONAL_PARRAFOS: string[] = [
+  'Quien suscribe, en el carácter indicado más abajo y en representación del/de la profesional consignado/a en este formulario, declara bajo declaración jurada que la información provista es veraz y que se encuentra facultado/a para autorizar su publicación.',
+  `Quien suscribe autoriza de forma libre y expresa a ${CUIDAR_MDP_TITULAR} a publicar y difundir dicha información —datos de contacto, especialidad, servicios, obras sociales y material gráfico aportado (fotografías, logotipo e imágenes)— en ${CANALES_DIFUSION}, con la finalidad de orientar a las familias.`,
+  'Respecto del material gráfico aportado, declara contar con los derechos necesarios sobre el mismo y autoriza expresamente su uso y difusión con la finalidad indicada.',
+  'La información se utilizará mientras el/la profesional mantenga su perfil activo en el portal, o hasta que solicite su baja.',
+  'El titular de los datos podrá ejercer en cualquier momento sus derechos de acceso, actualización, rectificación y supresión (baja) de la información, comunicándose por los medios de contacto indicados. El tratamiento se rige por la Ley 25.326 de Protección de Datos Personales de la República Argentina.',
+  'La revocación de esta autorización produce efectos hacia el futuro y no afecta la validez de las publicaciones o difusiones realizadas con anterioridad a la solicitud de baja.',
+  CONTACTO_FEHACIENTE,
 ];
 
 export const TIPOS_CUIDADO_SOLICITUD: { value: TipoCuidado; label: string }[] = [

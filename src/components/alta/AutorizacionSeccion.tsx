@@ -10,7 +10,6 @@
  */
 
 import { useState } from 'react';
-import { TEXTO_AUTORIZACION_PARRAFOS } from '@/types/solicitud';
 import styles from './AutorizacionSeccion.module.css';
 
 export interface AutorizanteData {
@@ -30,6 +29,8 @@ interface Props {
   autoriza: boolean;
   datos: AutorizanteData | null;
   error?: string;
+  /** Authorization text paragraphs to display (residencia / profesional). */
+  parrafos: string[];
   /** Label for the "carácter en que firma" field (e.g. tailored per form). */
   cargoLabel?: string;
   onConfirm: (data: AutorizanteData) => void;
@@ -39,6 +40,7 @@ export default function AutorizacionSeccion({
   autoriza,
   datos,
   error,
+  parrafos,
   cargoLabel = 'Carácter en que firma',
   onConfirm,
 }: Props) {
@@ -109,7 +111,7 @@ export default function AutorizacionSeccion({
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <h3 className={styles.modalTitle}>Autorización para la publicación de información</h3>
             <div className={styles.modalText}>
-              {TEXTO_AUTORIZACION_PARRAFOS.map((p, i) => <p key={i}>{p}</p>)}
+              {parrafos.map((p, i) => <p key={i}>{p}</p>)}
             </div>
 
             <p className={styles.modalSubtitle}>Datos de quien autoriza</p>

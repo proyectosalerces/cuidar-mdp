@@ -14,6 +14,7 @@ import {
   SERVICIOS_OPCIONES,
   TIPOS_CUIDADO_SOLICITUD,
   TEXTO_AUTORIZACION_VERSION,
+  TEXTO_AUTORIZACION_RESIDENCIA_PARRAFOS,
   type ValorHabitacion,
 } from '@/types/solicitud';
 import { crearSolicitud } from '@/services/solicitudes.service';
@@ -307,6 +308,7 @@ export default function AltaResidenciaForm() {
           autoriza={autoriza}
           datos={autorData}
           error={errors.autoriza}
+          parrafos={TEXTO_AUTORIZACION_RESIDENCIA_PARRAFOS}
           cargoLabel="Carácter en que firma (dueño/a, director/a, apoderado/a…)"
           onConfirm={(d) => {
             setAutorData(d);
