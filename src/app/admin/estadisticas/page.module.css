@@ -1,0 +1,28 @@
+.page { max-width: 900px; }
+
+.header { margin-bottom: var(--space-5); }
+.title { font-size: var(--font-2xl); font-weight: 700; color: var(--color-text); margin: 0 0 var(--space-2); }
+.intro { font-size: var(--font-sm); color: var(--color-text-muted); margin: 0; line-height: 1.5; }
+
+.periodo { display: inline-flex; border: 1px solid var(--color-neutral-300); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-6); }
+.periodoBtn { border: none; background: #fff; color: var(--color-text-muted); padding: 8px 16px; font-size: var(--font-sm); font-weight: 600; cursor: pointer; border-left: 1px solid var(--color-neutral-300); }
+.periodoBtn:first-child { border-left: none; }
+.periodoBtnActive { background: var(--color-primary); color: #fff; }
+
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--space-3); margin-bottom: var(--space-6); }
+.stat { background: #fff; border: 1px solid var(--color-neutral-300); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center; }
+.statValue { font-size: var(--font-2xl); font-weight: 800; color: var(--color-primary); }
+.statLabel { font-size: var(--font-xs); color: var(--color-text-muted); margin-top: 2px; }
+
+.sectionTitle { font-size: var(--font-lg); font-weight: 700; color: var(--color-text); margin: 0 0 var(--space-3); }
+
+.table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--color-neutral-300); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: var(--space-6); }
+.table th, .table td { text-align: left; padding: 10px 14px; font-size: var(--font-sm); border-bottom: 1px solid var(--color-neutral-200); }
+.table th { background: var(--color-neutral-100); font-weight: 600; color: var(--color-text-muted); font-size: var(--font-xs); text-transform: uppercase; letter-spacing: 0.5px; }
+.table tr:last-child td { border-bottom: none; }
+.tipoTag { font-size: var(--font-xs); color: var(--color-text-muted); }
+.totalCell { font-weight: 700; color: var(--color-primary); text-align: right; }
+.canales { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.canalChip { font-size: var(--font-xs); color: var(--color-text-muted); background: var(--color-neutral-100); padding: 2px 8px; border-radius: var(--radius-full); }
+
+.loading, .empty { text-align: center; padding: var(--space-12) var(--space-4); color: var(--color-text-muted); }

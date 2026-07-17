@@ -17,6 +17,8 @@ import { formatTelefono, buildWhatsAppLink } from '@/utils/formatters';
 import type { Profesional } from '@/types/profesional';
 import ResenaSection from '@/components/resenas/ResenaSection/ResenaSection';
 import AuthModal from '@/components/auth/AuthModal/AuthModal';
+import { registrarClick } from '@/services/clicks.service';
+import type { CanalClick } from '@/types/click';
 import styles from './ProfesionalDetail.module.css';
 
 /* ── Helpers ──────────────────────────────────────────────────────────── */
@@ -104,6 +106,14 @@ export default function ProfesionalDetail({ profesional }: ProfesionalDetailProp
     : `Hola, estoy buscando contactar a ${profesional.nombre}. ¿Podrían ayudarme?`;
   const whatsAppLink = buildWhatsAppLink(whatsAppPhone, whatsAppMsg);
 
+  const track = (canal: CanalClick) =>
+    registrarClick({
+      canal,
+      entidadTipo: 'profesional',
+      entidadId: profesional.slug,
+      entidadNombre: profesional.nombre,
+    });
+
   return (
     <>
       {/* Breadcrumbs */}
@@ -189,7 +199,7 @@ export default function ProfesionalDetail({ profesional }: ProfesionalDetailProp
             {showPhone && (
               <div className={styles.contactItem}>
                 <PhoneIcon />
-                <a href={`tel:${profesional.telefono.replace(/\D/g, '')}`}>
+                <a href={`tel:${profesional.telefono.replace(/\D/g, '')}`} onClick={() => track('telefono')}>
                   {formatTelefono(profesional.telefono)}
                 </a>
               </div>
@@ -198,7 +208,7 @@ export default function ProfesionalDetail({ profesional }: ProfesionalDetailProp
             {showEmail && profesional.email && (
               <div className={styles.contactItem}>
                 <EmailIcon />
-                <a href={`mailto:${profesional.email}`}>
+                <a href={`mailto:${profesional.email}`} onClick={() => track('email')}>
                   {profesional.email}
                 </a>
               </div>
@@ -210,6 +220,7 @@ export default function ProfesionalDetail({ profesional }: ProfesionalDetailProp
               href={whatsAppLink}
               icon={<WhatsAppIcon />}
               className={styles.whatsappButton}
+              onClick={() => track('whatsapp')}
             >
               Enviar WhatsApp
             </Button>

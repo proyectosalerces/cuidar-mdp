@@ -60,6 +60,12 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    // ── Clicks (seguimiento anónimo de links de contacto) ───────────
+    match /clicks/{clickId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
     // ── Admins ───────────────────────────────────────────────────────
     match /admins/{email} {
       // A user may read only their own admin doc (cannot enumerate admins)

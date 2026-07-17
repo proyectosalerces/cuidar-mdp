@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * ProfesionalCard — Card component for the profesionales directory grid.
  *
@@ -10,6 +12,7 @@ import { cn } from '@/utils/classnames';
 import { Badge, Rating } from '@/components/ui';
 import { ESPECIALIDAD_LABELS } from '@/utils/constants';
 import { formatTelefono } from '@/utils/formatters';
+import { registrarClick } from '@/services/clicks.service';
 import type { Profesional } from '@/types/profesional';
 import styles from './ProfesionalCard.module.css';
 
@@ -65,6 +68,14 @@ export default function ProfesionalCard({
     <Link
       href={`/profesionales/${profesional.slug}`}
       className={cn(styles.card, className)}
+      onClick={() =>
+        registrarClick({
+          canal: 'ver-ficha',
+          entidadTipo: 'profesional',
+          entidadId: profesional.slug,
+          entidadNombre: profesional.nombre,
+        })
+      }
     >
       {/* Header: avatar + info */}
       <div className={styles.header}>

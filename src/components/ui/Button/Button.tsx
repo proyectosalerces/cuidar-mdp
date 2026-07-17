@@ -81,6 +81,7 @@ export default function Button({
         aria-disabled={disabled || loading}
         tabIndex={disabled ? -1 : undefined}
         rel="noopener noreferrer"
+        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
       >
         {content}
       </a>

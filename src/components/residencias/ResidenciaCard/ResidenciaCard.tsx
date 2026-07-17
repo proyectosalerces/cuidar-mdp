@@ -11,6 +11,7 @@
 import Link from 'next/link';
 import type { Residencia } from '@/types/residencia';
 import { Rating, SmartImage } from '@/components/ui';
+import { registrarClick } from '@/services/clicks.service';
 import { formatPrecio, formatCalificacion } from '@/utils/formatters';
 import { cn } from '@/utils/classnames';
 import styles from './ResidenciaCard.module.css';
@@ -31,6 +32,14 @@ export default function ResidenciaCard({ residencia, className }: ResidenciaCard
       href={`/residencias/${residencia.slug}`}
       className={cn(styles.card, residencia.superDestacada && styles.cardSuper, className)}
       id={`residencia-card-${residencia.slug}`}
+      onClick={() =>
+        registrarClick({
+          canal: 'ver-ficha',
+          entidadTipo: 'residencia',
+          entidadId: residencia.slug,
+          entidadNombre: residencia.nombre,
+        })
+      }
     >
       {/* ── Image ─────────────────────────────────────────────────── */}
       <div className={styles.imageWrapper}>

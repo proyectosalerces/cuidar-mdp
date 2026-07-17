@@ -17,6 +17,7 @@ const NAV_LINKS = [
   { href: '/admin/profesionales', label: 'Profesionales', icon: '👨‍⚕️' },
   { href: '/admin/resenas', label: 'Reseñas', icon: '⭐' },
   { href: '/admin/solicitudes', label: 'Solicitudes', icon: '📥' },
+  { href: '/admin/estadisticas', label: 'Estadísticas', icon: '📈' },
   { href: '/admin/blog', label: 'Blog', icon: '📝' },
   { href: '/admin/contacto', label: 'Mensajes', icon: '📬' },
 ];
