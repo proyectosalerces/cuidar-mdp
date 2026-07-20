@@ -7,6 +7,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useScrollPosition } from '@/hooks/useScrollPosition';
 import { cn } from '@/utils/classnames';
 import { NAV_ITEMS, SITE_NAME, WHATSAPP_NUMBER } from '@/utils/constants';
@@ -50,7 +51,7 @@ export default function Header() {
         <div className={styles.inner}>
           {/* ── Logo ──────────────────────────────────────────── */}
           <Link href="/" className={styles.logo} aria-label={`${SITE_NAME} — Ir al inicio`}>
-            <span className={styles.logoIcon} aria-hidden="true">C</span>
+            <Image src="/logo-icono.png" alt="" width={40} height={40} className={styles.logoImg} aria-hidden="true" />
             <span className={styles.logoText}>{SITE_NAME}</span>
           </Link>
 
@@ -107,7 +108,7 @@ export default function Header() {
       >
         <div className={styles.drawerHeader}>
           <Link href="/" className={styles.logo} onClick={closeDrawer}>
-            <span className={styles.logoIcon} aria-hidden="true">C</span>
+            <Image src="/logo-icono.png" alt="" width={40} height={40} className={styles.logoImg} aria-hidden="true" />
             <span className={styles.logoText}>{SITE_NAME}</span>
           </Link>
           <button
