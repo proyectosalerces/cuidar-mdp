@@ -191,3 +191,44 @@
   font-size: var(--font-sm);
   padding: 4px 0;
 }
+
+/* ── Filtro (buscador + estado) ──────────────────────────────────────── */
+
+.filtros {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.filtroInput {
+  flex: 1;
+  min-width: 220px;
+  padding: 9px 12px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  font-family: inherit;
+}
+
+.filtroEstado {
+  display: inline-flex;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.filtroBtn {
+  border: none;
+  background: #fff;
+  color: var(--color-text-muted);
+  padding: 8px 14px;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  cursor: pointer;
+  border-left: 1px solid var(--color-neutral-300);
+}
+
+.filtroBtn:first-child { border-left: none; }
+.filtroBtnActive { background: var(--color-primary); color: #fff; }

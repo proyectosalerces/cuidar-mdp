@@ -43,6 +43,8 @@ export default function AdminResenasPage() {
   const [editTitulo, setEditTitulo] = useState('');
   const [editComentario, setEditComentario] = useState('');
   const [editAspectos, setEditAspectos] = useState<Record<string, number>>({});
+  const [filtro, setFiltro] = useState('');
+  const [estadoFiltro, setEstadoFiltro] = useState<'todas' | 'pendiente' | 'publicada'>('todas');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -121,6 +123,17 @@ export default function AdminResenasPage() {
 
   const pendientes = resenas.filter((r) => !r.aprobada).length;
 
+  const visibles = resenas.filter((r) => {
+    if (estadoFiltro === 'pendiente' && r.aprobada) return false;
+    if (estadoFiltro === 'publicada' && !r.aprobada) return false;
+    if (filtro.trim()) {
+      const q = filtro.toLowerCase();
+      const nombre = nombreEntidad(r).toLowerCase();
+      if (!nombre.includes(q) && !(r.autorNombre ?? '').toLowerCase().includes(q)) return false;
+    }
+    return true;
+  });
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
@@ -134,6 +147,29 @@ export default function AdminResenasPage() {
         </p>
       </header>
 
+      {!loading && resenas.length > 0 && (
+        <div className={styles.filtros}>
+          <input
+            className={styles.filtroInput}
+            placeholder="Buscar por residencia, profesional o autor…"
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+          />
+          <div className={styles.filtroEstado}>
+            {(['todas', 'pendiente', 'publicada'] as const).map((op) => (
+              <button
+                key={op}
+                type="button"
+                className={`${styles.filtroBtn} ${estadoFiltro === op ? styles.filtroBtnActive : ''}`}
+                onClick={() => setEstadoFiltro(op)}
+              >
+                {op === 'todas' ? 'Todas' : op === 'pendiente' ? 'Pendientes' : 'Publicadas'}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {loading && <div className={styles.loading}>Cargando reseñas…</div>}
 
       {!loading && resenas.length === 0 && (
@@ -142,9 +178,13 @@ export default function AdminResenasPage() {
         </div>
       )}
 
-      {!loading && resenas.length > 0 && (
+      {!loading && resenas.length > 0 && visibles.length === 0 && (
+        <div className={styles.empty}>No hay reseñas que coincidan con el filtro.</div>
+      )}
+
+      {!loading && visibles.length > 0 && (
         <div className={styles.list}>
-          {resenas.map((r) => {
+          {visibles.map((r) => {
             const editing = editId === r.id;
             const busy = busyId === r.id;
             const entidadHref =

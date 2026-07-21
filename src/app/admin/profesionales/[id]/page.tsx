@@ -31,6 +31,8 @@ export default function EditProfesionalPage({
   const [direccion, setDireccion] = useState('');
   const [barrio, setBarrio] = useState('');
   const [matricula, setMatricula] = useState('');
+  const [calificacion, setCalificacion] = useState('');
+  const [cantidadResenas, setCantidadResenas] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [website, setWebsite] = useState('');
   const [foto, setFoto] = useState('');
@@ -61,6 +63,8 @@ export default function EditProfesionalPage({
         setDireccion(data.direccionConsultorio ?? '');
         setBarrio(data.barrio ?? '');
         setMatricula(data.matricula ?? '');
+        setCalificacion(data.calificacion?.toString() ?? '');
+        setCantidadResenas(data.cantidadResenas?.toString() ?? '');
         setDescripcion(data.descripcion ?? '');
         setWebsite(data.website ?? '');
         setFoto(data.foto ?? '');
@@ -94,6 +98,8 @@ export default function EditProfesionalPage({
         direccionConsultorio: direccion.trim(),
         barrio,
         matricula: matricula.trim() || undefined,
+        calificacion: calificacion !== '' ? Number(calificacion) : undefined,
+        cantidadResenas: cantidadResenas !== '' ? Number(cantidadResenas) : undefined,
         descripcion: descripcion.trim(),
         website: website.trim() || undefined,
         foto: foto.trim(),
@@ -204,6 +210,32 @@ export default function EditProfesionalPage({
                 className={styles.input}
                 value={matricula}
                 onChange={(e) => setMatricula(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>Calificación (0 a 5)</label>
+              <input
+                className={styles.input}
+                type="number"
+                min="0"
+                max="5"
+                step="0.1"
+                value={calificacion}
+                onChange={(e) => setCalificacion(e.target.value)}
+                placeholder="Ej: 4.7"
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>Cantidad de reseñas</label>
+              <input
+                className={styles.input}
+                type="number"
+                min="0"
+                value={cantidadResenas}
+                onChange={(e) => setCantidadResenas(e.target.value)}
+                placeholder="Ej: 12"
               />
             </div>
 

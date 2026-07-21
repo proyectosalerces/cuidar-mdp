@@ -49,6 +49,8 @@ export default function EditResidenciaPage({
   const [destacada, setDestacada] = useState(false);
   const [activa, setActiva] = useState(true);
   const [capacidad, setCapacidad] = useState('');
+  const [calificacion, setCalificacion] = useState('');
+  const [cantidadResenas, setCantidadResenas] = useState('');
   const [habilitacionMunicipal, setHabilitacionMunicipal] = useState<EstadoHabilitacion | ''>('');
   const [habilitacionProvincial, setHabilitacionProvincial] = useState<EstadoHabilitacion | ''>('');
   const [mostrarHabilitaciones, setMostrarHabilitaciones] = useState(false);
@@ -97,6 +99,8 @@ export default function EditResidenciaPage({
         setDestacada(data.destacada ?? false);
         setActiva(data.activa ?? true);
         setCapacidad(data.capacidad?.toString() ?? '');
+        setCalificacion(data.calificacion?.toString() ?? '');
+        setCantidadResenas(data.cantidadResenas?.toString() ?? '');
         setHabilitacionMunicipal(data.habilitacionMunicipal ?? '');
         setHabilitacionProvincial(data.habilitacionProvincial ?? '');
         setMostrarHabilitaciones(data.mostrarHabilitaciones ?? false);
@@ -192,6 +196,8 @@ export default function EditResidenciaPage({
         destacada,
         activa,
         capacidad: capacidad ? Number(capacidad) : undefined,
+        calificacion: calificacion !== '' ? Number(calificacion) : undefined,
+        cantidadResenas: cantidadResenas !== '' ? Number(cantidadResenas) : undefined,
         habilitacionMunicipal: habilitacionMunicipal || undefined,
         habilitacionProvincial: habilitacionProvincial || undefined,
         mostrarHabilitaciones,
@@ -635,6 +641,37 @@ export default function EditResidenciaPage({
                 <span className={styles.toggleSlider} />
               </label>
               <span className={styles.toggleLabel}>Mostrar email al público</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Calificación */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Calificación (estrellas)</h2>
+          <div className={styles.grid}>
+            <div className={styles.field}>
+              <label className={styles.label}>Calificación (0 a 5)</label>
+              <input
+                className={styles.input}
+                type="number"
+                value={calificacion}
+                onChange={(e) => setCalificacion(e.target.value)}
+                min="0"
+                max="5"
+                step="0.1"
+                placeholder="Ej: 4.7"
+              />
+            </div>
+            <div className={styles.field}>
+              <label className={styles.label}>Cantidad de reseñas</label>
+              <input
+                className={styles.input}
+                type="number"
+                value={cantidadResenas}
+                onChange={(e) => setCantidadResenas(e.target.value)}
+                min="0"
+                placeholder="Ej: 12"
+              />
             </div>
           </div>
         </div>
