@@ -59,8 +59,39 @@ export default function AdminDestacadosPage() {
     }
   };
 
+  const toggleVerificada = async (r: Residencia) => {
+    setBusyId(r.id);
+    try {
+      await updateResidencia(r.id, { verificada: !r.verificada });
+      setResidencias((prev) =>
+        prev.map((x) => (x.id === r.id ? { ...x, verificada: !r.verificada } : x)),
+      );
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const resetVerificaciones = async () => {
+    const verificadas = residencias.filter((r) => r.verificada);
+    if (verificadas.length === 0) {
+      window.alert('No hay residencias verificadas.');
+      return;
+    }
+    if (!window.confirm(`¿Quitar la verificación a ${verificadas.length} residencia(s)? Después podés volver a marcarlas individualmente.`)) return;
+    setBusyId('__all__');
+    try {
+      for (const r of verificadas) {
+        await updateResidencia(r.id, { verificada: false });
+      }
+      setResidencias((prev) => prev.map((x) => ({ ...x, verificada: false })));
+    } finally {
+      setBusyId(null);
+    }
+  };
+
   const superCount = residencias.filter((r) => r.superDestacada).length;
   const destCount = residencias.filter((r) => r.destacada && !r.superDestacada).length;
+  const verifCount = residencias.filter((r) => r.verificada).length;
 
   return (
     <div className={styles.page}>
@@ -71,9 +102,19 @@ export default function AdminDestacadosPage() {
           el home y el listado. Las <strong>Súper destacadas</strong> (premium) aparecen primeras y
           con un marco dorado distintivo. La foto de cada una se cambia desde su ficha (Editar).
           {!loading && (
-            <> Actualmente: {superCount} súper · {destCount} destacadas.</>
+            <> Actualmente: {superCount} súper · {destCount} destacadas · {verifCount} verificadas.</>
           )}
         </p>
+        {!loading && verifCount > 0 && (
+          <button
+            type="button"
+            className={styles.resetBtn}
+            onClick={resetVerificaciones}
+            disabled={busyId === '__all__'}
+          >
+            {busyId === '__all__' ? 'Quitando…' : `Quitar verificación a todas (${verifCount})`}
+          </button>
+        )}
       </header>
 
       {loading && <div className={styles.loading}>Cargando residencias…</div>}
@@ -124,6 +165,15 @@ export default function AdminDestacadosPage() {
                     ⭐ Súper
                   </button>
                 </div>
+                <button
+                  type="button"
+                  className={`${styles.verifBtn} ${r.verificada ? styles.verifBtnOn : ''}`}
+                  onClick={() => toggleVerificada(r)}
+                  disabled={busy}
+                  title="Marcar/desmarcar como verificada"
+                >
+                  {r.verificada ? '✓ Verificada' : 'No verificada'}
+                </button>
               </div>
             );
           })}

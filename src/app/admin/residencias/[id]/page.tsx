@@ -48,6 +48,7 @@ export default function EditResidenciaPage({
   const [precioHasta, setPrecioHasta] = useState('');
   const [destacada, setDestacada] = useState(false);
   const [activa, setActiva] = useState(true);
+  const [verificada, setVerificada] = useState(false);
   const [capacidad, setCapacidad] = useState('');
   const [calificacion, setCalificacion] = useState('');
   const [cantidadResenas, setCantidadResenas] = useState('');
@@ -98,6 +99,7 @@ export default function EditResidenciaPage({
         setPrecioHasta(data.precioHasta?.toString() ?? '');
         setDestacada(data.destacada ?? false);
         setActiva(data.activa ?? true);
+        setVerificada(data.verificada ?? false);
         setCapacidad(data.capacidad?.toString() ?? '');
         setCalificacion(data.calificacion?.toString() ?? '');
         setCantidadResenas(data.cantidadResenas?.toString() ?? '');
@@ -195,6 +197,7 @@ export default function EditResidenciaPage({
         precioHasta: precioHasta ? Number(precioHasta) : undefined,
         destacada,
         activa,
+        verificada,
         capacidad: capacidad ? Number(capacidad) : undefined,
         calificacion: calificacion !== '' ? Number(calificacion) : undefined,
         cantidadResenas: cantidadResenas !== '' ? Number(cantidadResenas) : undefined,
@@ -597,6 +600,17 @@ export default function EditResidenciaPage({
                 <span className={styles.toggleSlider} />
               </label>
               <span className={styles.toggleLabel}>Activa</span>
+            </div>
+            <div className={styles.toggleRow}>
+              <label className={styles.toggle}>
+                <input
+                  type="checkbox"
+                  checked={verificada}
+                  onChange={(e) => setVerificada(e.target.checked)}
+                />
+                <span className={styles.toggleSlider} />
+              </label>
+              <span className={styles.toggleLabel}>Verificada</span>
             </div>
           </div>
         </div>

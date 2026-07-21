@@ -73,8 +73,6 @@ export default function AltaResidenciaForm() {
     if (!telefono.trim()) e.telefono = 'Requerido';
     if (!email.trim()) e.email = 'Requerido';
     else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) e.email = 'Email no válido';
-    if (!habMunicipal) e.habMunicipal = 'Requerido';
-    if (!habProvincial) e.habProvincial = 'Requerido';
     if (tiposCuidado.length === 0) e.tiposCuidado = 'Elegí al menos uno';
     if (tiposHabitacion.length === 0) e.tiposHabitacion = 'Elegí al menos uno';
     if (!autoriza) e.autoriza = 'Necesitás leer y firmar la autorización para poder enviar';
@@ -193,17 +191,17 @@ export default function AltaResidenciaForm() {
 
       {/* ── 2. Habilitación ───────────────────────────────────── */}
       <fieldset className={styles.section}>
-        <legend className={styles.legend}>2 · Habilitación</legend>
+        <legend className={styles.legend}>2 · Habilitación (opcional)</legend>
         <div className={styles.grid2}>
-          <Field label="Habilitación municipal" required error={errors.habMunicipal}>
+          <Field label="Habilitación municipal">
             <select className={styles.input} value={habMunicipal} onChange={(e) => setHabMunicipal(e.target.value as EstadoHabilitacion)}>
-              <option value="">Seleccionar…</option>
+              <option value="">Prefiero no responder</option>
               {HABILITACION_OPCIONES.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
             </select>
           </Field>
-          <Field label="Habilitación provincial" required error={errors.habProvincial}>
+          <Field label="Habilitación provincial">
             <select className={styles.input} value={habProvincial} onChange={(e) => setHabProvincial(e.target.value as EstadoHabilitacion)}>
-              <option value="">Seleccionar…</option>
+              <option value="">Prefiero no responder</option>
               {HABILITACION_OPCIONES.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
             </select>
           </Field>

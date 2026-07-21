@@ -112,3 +112,41 @@
   padding: var(--space-12) var(--space-4);
   color: var(--color-text-muted);
 }
+
+/* ── Verificada (toggle por fila + reset) ────────────────────────────── */
+
+.verifBtn {
+  flex-shrink: 0;
+  border: 1px solid var(--color-neutral-300);
+  background: #fff;
+  color: var(--color-text-muted);
+  padding: 7px 12px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.verifBtn:hover { background: var(--color-neutral-100); }
+.verifBtn:disabled { opacity: 0.5; cursor: default; }
+
+.verifBtnOn {
+  background: #D1FAE5;
+  color: #065F46;
+  border-color: #A7F3D0;
+}
+
+.resetBtn {
+  margin-top: var(--space-3);
+  border: 1px solid #FCA5A5;
+  background: #fff;
+  color: #B91C1C;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.resetBtn:hover { background: #FEF2F2; }
+.resetBtn:disabled { opacity: 0.5; cursor: default; }
